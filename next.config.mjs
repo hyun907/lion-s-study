@@ -4,16 +4,6 @@ import TerserPlugin from "terser-webpack-plugin";
 const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig = {
-  experimental: {
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js"
-        }
-      }
-    }
-  },
   webpack: config => {
     config.optimization = {
       ...config.optimization,

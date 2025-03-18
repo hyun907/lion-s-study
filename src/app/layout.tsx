@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./styles/globals.css";
+import "./styles/reset.css";
 
 export const metadata: Metadata = {
   title: "사자의 서재",
@@ -12,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={"추후 폰트 적용"}>{children}</body>
+    <html lang="ko" style={{ fontFamily: "Pretendard, sans-serif" }}>
+      <body>{children}</body>
     </html>
   );
 }
