@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./styles/globals.css";
+import "./styles/reset.css";
+import localFont from "next/font/local";
+
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  weight: "45 920",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "사자의 서재",
@@ -12,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={"추후 폰트 적용"}>{children}</body>
+    <html lang="ko" className={pretendard.className}>
+      <body className={pretendard.className}>{children}</body>
     </html>
   );
 }
