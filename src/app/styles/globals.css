@@ -20,10 +20,6 @@ body {
   color: #ffffff;
 }
 
-html {
-  font-family: pretendard, sans-serif;
-}
-
 body {
   /* color: var(--foreground); */
   background: var(--background);
