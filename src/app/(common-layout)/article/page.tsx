@@ -1,5 +1,10 @@
+import AddArticleModal from "@/app/_component/article/AddArticleModal";
 import React from "react";
 
 export default function Article() {
-  return <div>Article 페이지</div>;
+  return (
+    <div>
+      <AddArticleModal />
+    </div>
+  );
 }
