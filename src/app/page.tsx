@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>pretendard 확인</div>;
+  return <div>Main 페이지</div>;
 }
