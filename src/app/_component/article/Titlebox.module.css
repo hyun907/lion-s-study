@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputBox {
+  width: 59.5rem;
+  padding: 0.6rem 1.2rem;
+
+  border-radius: 4px;
+  border: 1px solid var(--10, #c6c6c6);
+  background: var(--Basic-White, #fff);
+
+  color: var(--Basic-Black, #000);
+
+  /* Web/Pretendard/Body7(Mobile) */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 166.667% */
+}
+
+.inputBoxLarge {
+  width: 59.5rem;
+  height: 36rem;
+  padding: 2rem 1.6rem;
+
+  border-radius: 4px;
+  border: 1px solid var(--10, #c6c6c6);
+  background: var(--Basic-White, #fff);
+
+  color: var(--Basic-Black, #000);
+
+  /* Web/Pretendard/Body7(Mobile) */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 166.667% */
+}
+
+.title {
+  color: var(--Basic-White, #fff);
+
+  /* Web/Pretendard/Body7(Mobile) */
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
