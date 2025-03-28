@@ -29,12 +29,12 @@
 
 .leftContainer {
   max-width: 46rem;
-  min-width: 25rem;
+  min-width: 30rem;
 
   position: relative;
 }
 
 .rightContainer {
   max-width: 92rem;
-  min-width: 50rem;
+  min-width: 60rem;
 }
