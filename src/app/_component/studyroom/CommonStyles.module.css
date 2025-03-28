@@ -1,0 +1,82 @@
+.contentContainer {
+  width: 100%;
+  padding: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.contentTitle {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+
+  /* 글씨 */
+  color: #fff;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.contentAddBtn {
+  height: 100%;
+  padding: 0.3rem 1.3rem;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 2.8235rem;
+  border: 0.941px solid var(--60, #585858);
+  background: #fff;
+
+  color: #1a1a1a;
+  font-size: 1.3176rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2.4471rem;
+}
+
+.contentItem {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contentSingleItem {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1a1a1a;
+}
+
+.contentInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+
+  color: #c6c6c6;
+  text-align: left;
+
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem;
+}
