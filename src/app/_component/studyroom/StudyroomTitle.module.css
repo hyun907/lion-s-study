@@ -1,0 +1,19 @@
+#mainTitle {
+  width: 100%;
+  text-align: left;
+}
+
+#mainBg {
+  background: linear-gradient(275deg, rgba(26, 26, 26, 0.4) 0%, rgba(0, 52, 148, 0.4) 100%);
+}
+
+.svgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.svgItemContainer {
+  cursor: pointer;
+}

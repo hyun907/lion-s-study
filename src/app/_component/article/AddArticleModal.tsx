@@ -3,7 +3,7 @@ import styles from "./AddArticleModal.module.css";
 import Titlebox from "./Titlebox";
 import ArticleEditor from "./ArticleEditor";
 import ShowArticle from "./ShowArticle";
-import ICDelete from "@/assets/icon/delete.svg";
+import ICDelete from "@/assets/icon/delete_white.svg";
 
 const AddArticleModal = () => {
   return (
