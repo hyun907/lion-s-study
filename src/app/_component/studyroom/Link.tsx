@@ -1,7 +1,7 @@
 import style from "./Link.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import Ic_Link from "../../../assets/icon/link.svg";
-import Ic_Delete from "../../../assets/icon/delete_gray.svg";
+import Ic_Delete from "../../../assets/icon/delete.svg";
 
 const LinkItem = () => {
   return (
@@ -11,7 +11,7 @@ const LinkItem = () => {
         <div>팀 노션 공간</div>
       </a>
       <div className={style.deleteBtn}>
-        <Ic_Delete />
+        <Ic_Delete className={style.deleteIcn} viewBox="0 0 12 12" width="8" height="8" />
       </div>
     </span>
   );
