@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useUserStore } from "@/store/useUserStore";
 import fireStore from "@/firebase/firestore";
@@ -53,6 +54,7 @@ export default function SignUpModal({
     });
 
     useUserStore.getState().setUser(uid, googleId);
+    useUserStore.getState().setUserInfo(name, Number(year));
     onSuccess();
   };
 
