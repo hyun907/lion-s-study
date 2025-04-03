@@ -6,25 +6,21 @@ import fireStore from "./firestore";
 
 const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (): Promise<"existing" | { uid: string; email: string }> => {
   try {
     const data = await signInWithPopup(fireAuth, provider);
     const user = data.user;
 
-    // Firestore 저장
     const userRef = doc(fireStore, "users", user.uid);
     const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        email: user.email
-      });
+
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      useUserStore.getState().setUser(user.uid, userData.googleId);
+      return "existing";
+    } else {
+      return { uid: user.uid, email: user.email! };
     }
-
-    // Zustand + localStorage 저장
-    const { setUser } = useUserStore.getState();
-    setUser(user.uid, user.email!);
-
-    return user;
   } catch (error) {
     console.error("Google 로그인 실패", error);
     throw error;
