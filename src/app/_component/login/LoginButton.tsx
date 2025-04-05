@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import LoginBtn from "./LoginBtn";
 import NameBtn from "./NameBtn";
+import LogoutModal from "./LogoutModal";
 
 export default function LoginButton() {
   const { uid, loadUserInfo, initializeFromStorage } = useUserStore();
@@ -20,9 +21,10 @@ export default function LoginButton() {
     }
   }, [uid, loadUserInfo]);
 
-  if (!uid) {
-    return <LoginBtn />;
-  }
-
-  return <NameBtn />;
+  return (
+    <>
+      <LogoutModal />
+      {!uid ? <LoginBtn /> : <NameBtn />}
+    </>
+  );
 }
