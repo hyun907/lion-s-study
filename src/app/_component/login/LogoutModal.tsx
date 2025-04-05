@@ -8,27 +8,27 @@ import { signOutWithGoogle } from "@/firebase/firebaseAuth";
 import ICDelete from "@/assets/icon/delete.svg";
 
 export default function LogoutModal() {
-  const { isLogoutModalOpen, closeLogoutModal } = useModalStore();
+  const { openedModal, closeModal } = useModalStore();
   const { clearUser } = useUserStore();
   const { name, year, part } = useUserStore();
 
   const handleLogout = async () => {
     await signOutWithGoogle();
     clearUser();
-    closeLogoutModal();
+    closeModal();
   };
 
-  if (!isLogoutModalOpen) return null;
+  if (openedModal !== "logout") return null;
 
   return (
-    <div className={styles.overlay} onClick={closeLogoutModal}>
+    <div className={styles.overlay} onClick={closeModal}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
         <div className={styles.title}>
           <div className={styles.titleText}>
             <p className={styles.name}>{name}</p>
             <p className={styles.year}>{year}기</p>
           </div>
-          <ICDelete onClick={closeLogoutModal} style={{ cursor: "pointer" }} />
+          <ICDelete onClick={closeModal} style={{ cursor: "pointer" }} />
         </div>
         <div className={styles.partContainer}>
           <p className={styles.part}>파트</p>

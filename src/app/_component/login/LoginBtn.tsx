@@ -5,10 +5,10 @@ import styles from "./LoginBtn.module.css";
 import { useModalStore } from "@/store/useModalStore";
 
 export default function LoginBtn() {
-  const { openLoginModal } = useModalStore();
+  const { openModal } = useModalStore();
 
   return (
-    <button type="button" className={styles.btn} onClick={openLoginModal}>
+    <button type="button" className={styles.btn} onClick={() => openModal("login")}>
       로그인
     </button>
   );

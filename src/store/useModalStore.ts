@@ -2,20 +2,16 @@
 
 import { create } from "zustand";
 
+type ModalType = "login" | "logout" | null;
+
 interface ModalState {
-  isLoginModalOpen: boolean;
-  isLogoutModalOpen: boolean;
-  openLoginModal: () => void;
-  closeLoginModal: () => void;
-  openLogoutModal: () => void;
-  closeLogoutModal: () => void;
+  openedModal: ModalType;
+  openModal: (modal: Exclude<ModalType, null>) => void;
+  closeModal: () => void;
 }
 
 export const useModalStore = create<ModalState>(set => ({
-  isLoginModalOpen: false,
-  isLogoutModalOpen: false,
-  openLoginModal: () => set({ isLoginModalOpen: true }),
-  closeLoginModal: () => set({ isLoginModalOpen: false }),
-  openLogoutModal: () => set({ isLogoutModalOpen: true }),
-  closeLogoutModal: () => set({ isLogoutModalOpen: false })
+  openedModal: null,
+  openModal: modal => set({ openedModal: modal }),
+  closeModal: () => set({ openedModal: null })
 }));

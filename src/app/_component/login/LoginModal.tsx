@@ -8,23 +8,23 @@ import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 
 export default function LoginModal() {
-  const { isLoginModalOpen, closeLoginModal } = useModalStore();
+  const { openedModal, closeModal } = useModalStore();
   const { uid } = useUserStore();
 
   useEffect(() => {
     if (uid) {
-      closeLoginModal();
+      closeModal();
     }
-  }, [uid, closeLoginModal]);
+  }, [uid, closeModal]);
 
-  if (!isLoginModalOpen) return null;
+  if (openedModal !== "login") return null;
 
   return (
-    <div className={styles.overlay} onClick={closeLoginModal}>
+    <div className={styles.overlay} onClick={closeModal}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
         <div className={styles.title}>
           <p>로그인</p>
-          <ICDelete onClick={closeLoginModal} style={{ cursor: "pointer" }} />
+          <ICDelete onClick={closeModal} style={{ cursor: "pointer" }} />
         </div>
         <GoogleLoginBtn />
       </div>
