@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 
-type ModalType = "login" | "logout" | null;
+type ModalType = "login" | "logout" | "register" | null;
 
 interface ModalState {
   openedModal: ModalType;

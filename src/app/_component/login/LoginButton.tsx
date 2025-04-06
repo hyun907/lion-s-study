@@ -2,12 +2,15 @@
 
 import React, { useEffect } from "react";
 import { useUserStore } from "@/store/useUserStore";
+import { useModalStore } from "@/store/useModalStore";
 import LoginBtn from "./LoginBtn";
 import NameBtn from "./NameBtn";
 import LogoutModal from "./LogoutModal";
+import SignUpModal from "./SignUpModal";
 
 export default function LoginButton() {
-  const { uid, loadUserInfo, initializeFromStorage } = useUserStore();
+  const { uid, name, year, part, loadUserInfo, initializeFromStorage } = useUserStore();
+  const { openedModal } = useModalStore();
 
   // 시작 시 localStorage에서 로그인 상태 불러오기
   useEffect(() => {
@@ -21,10 +24,18 @@ export default function LoginButton() {
     }
   }, [uid, loadUserInfo]);
 
+  // 회원가입이 필요한 경우 회원가입 모달 표시
+  useEffect(() => {
+    if (uid && (!name || !year || !part) && openedModal !== "register") {
+      useModalStore.getState().openModal("register");
+    }
+  }, [uid, name, year, part, openedModal]);
+
   return (
     <>
       <LogoutModal />
-      {!uid ? <LoginBtn /> : <NameBtn />}
+      <SignUpModal uid={uid || ""} googleId="" onSuccess={() => {}} />
+      {!uid || openedModal === "register" ? <LoginBtn /> : <NameBtn />}
     </>
   );
 }
