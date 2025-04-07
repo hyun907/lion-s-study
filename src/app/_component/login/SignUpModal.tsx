@@ -77,26 +77,35 @@ export default function SignUpModal({
           <ICDelete onClick={handleClose} style={{ cursor: "pointer" }} />
         </div>
         <div className={styles.form}>
-          <p className={styles.formLabel}>이름</p>
-          <input value={name} onChange={e => setName(e.target.value)} />
-          <p>기수</p>
-          <div className={styles.yearWrapper}>
-            <input
-              value={year}
-              onChange={e => setYear(e.target.value)}
-              placeholder="ex) 13"
-              className={styles.yearInput}
-            />
-            기
+          <div>
+            <p className={styles.formLabel}>이름</p>
+            <input value={name} onChange={e => setName(e.target.value)} />
           </div>
-          <select value={part} onChange={e => setPart(e.target.value)}>
-            <option value="">파트 선택</option>
-            <option value="기획">기획</option>
-            <option value="디자인">디자인</option>
-            <option value="프론트엔드">프론트엔드</option>
-            <option value="백엔드">백엔드</option>
-          </select>
-          <button onClick={handleSubmit}>완료하기</button>
+          <div>
+            <p className={styles.formLabel}>기수</p>
+            <div className={styles.yearWrapper}>
+              <input
+                value={year}
+                onChange={e => setYear(e.target.value)}
+                placeholder="ex) 13"
+                className={styles.yearInput}
+              />
+              <p className={styles.formLabel}>기</p>
+            </div>
+          </div>
+          <div>
+            <p className={styles.formLabel}>파트</p>
+            <select value={part} onChange={e => setPart(e.target.value)}>
+              <option value="">파트 선택</option>
+              <option value="기획">기획</option>
+              <option value="디자인">디자인</option>
+              <option value="프론트엔드">프론트엔드</option>
+              <option value="백엔드">백엔드</option>
+            </select>
+          </div>
+          <div className={styles.btnWrapper}>
+            <button onClick={handleSubmit}>완료하기</button>
+          </div>
         </div>
       </div>
     </div>
