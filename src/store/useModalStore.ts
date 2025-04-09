@@ -2,16 +2,21 @@
 
 import { create } from "zustand";
 
-type ModalType = "login" | "logout" | "register" | null;
+export type ModalType = "login" | "logout" | "signup" | null;
+
+interface ModalData {
+  type: Exclude<ModalType, null>;
+  props?: Record<string, any>;
+}
 
 interface ModalState {
-  openedModal: ModalType;
-  openModal: (modal: Exclude<ModalType, null>) => void;
+  modal: ModalData | null;
+  openModal: (type: Exclude<ModalType, null>, props?: Record<string, any>) => void;
   closeModal: () => void;
 }
 
 export const useModalStore = create<ModalState>(set => ({
-  openedModal: null,
-  openModal: modal => set({ openedModal: modal }),
-  closeModal: () => set({ openedModal: null })
+  modal: null,
+  openModal: (type, props) => set({ modal: { type, props } }),
+  closeModal: () => set({ modal: null })
 }));
