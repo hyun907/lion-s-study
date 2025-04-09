@@ -94,24 +94,28 @@
 
 .logoutBtn {
   display: flex;
-  padding: 1.2rem 2.6rem;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  border: none;
-  border-radius: 30px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%),
-    linear-gradient(96deg, #6df5ff -0.2%, #8079b4 96.8%);
+  gap: 0.491rem;
+  background-color: transparent;
+  border-radius: 24.551px;
+  border: 0.818px solid #585858;
+  width: 6.8rem;
+  height: 2.8rem;
 
-  width: 19.8rem;
-  height: 4.3rem;
-
-  color: #fff;
+  color: #c6c6c6;
   font-family: Pretendard;
-  font-size: 1.6rem;
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 600;
-  line-height: normal;
+  line-height: 1.4rem;
 
   cursor: pointer;
+}
+
+.btnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

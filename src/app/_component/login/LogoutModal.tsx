@@ -34,9 +34,11 @@ export default function LogoutModal() {
           <p className={styles.part}>파트</p>
           <div className={styles.partName}>{part}</div>
         </div>
-        <button onClick={handleLogout} className={styles.logoutBtn}>
-          로그아웃
-        </button>
+        <div className={styles.btnWrapper}>
+          <button onClick={handleLogout} className={styles.logoutBtn}>
+            로그아웃
+          </button>
+        </div>
       </div>
     </div>
   );
