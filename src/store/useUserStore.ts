@@ -47,17 +47,22 @@ export const useUserStore = create<UserState>(set => ({
       const userDoc = await getDoc(doc(fireStore, "users", uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        set({ name: userData.name, year: userData.year, part: userData.part });
+        set({
+          name: userData.name,
+          year: userData.year,
+          part: userData.part,
+          googleId: userData.googleId
+        });
 
         // localStorage에 저장된 사용자 정보 업데이트
         const storedUserData = localStorage.getItem("user");
         if (storedUserData) {
-          const { uid, googleId } = JSON.parse(storedUserData);
+          const { uid } = JSON.parse(storedUserData);
           localStorage.setItem(
             "user",
             JSON.stringify({
               uid,
-              googleId,
+              googleId: userData.googleId,
               name: userData.name,
               year: userData.year,
               part: userData.part
@@ -81,7 +86,12 @@ export const useUserStore = create<UserState>(set => ({
           const userDoc = await getDoc(doc(fireStore, "users", uid));
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            set({ name: userData.name, year: userData.year, part: userData.part });
+            set({
+              name: userData.name,
+              year: userData.year,
+              part: userData.part,
+              googleId: userData.googleId
+            });
           }
         }
       }
