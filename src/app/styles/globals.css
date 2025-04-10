@@ -50,7 +50,7 @@ a {
   text-decoration: none;
 }
 
-#modal-root {
+.modal-root {
   position: absolute;
 }
 

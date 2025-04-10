@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { fireAuth } from "./firebasedb";
 import { useUserStore } from "@/store/useUserStore";
 import fireStore from "./firestore";

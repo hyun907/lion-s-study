@@ -1,36 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useUserStore } from "@/store/useUserStore";
 import { useModalStore } from "@/store/useModalStore";
 import fireStore from "@/firebase/firestore";
-import { create } from "zustand";
 import styles from "./SignUpModal.module.css";
 import modalStyles from "./Modal.module.css";
 import ICDelete from "@/assets/icon/delete.svg";
-
-interface SignUpModalState {
-  name: string;
-  year: string;
-  part: string;
-  favorites: string[];
-  setName: (name: string) => void;
-  setYear: (year: string) => void;
-  setPart: (part: string) => void;
-  reset: () => void;
-}
-
-const useSignUpModalStore = create<SignUpModalState>(set => ({
-  name: "",
-  year: "",
-  part: "",
-  favorites: [],
-  setName: name => set({ name }),
-  setYear: year => set({ year }),
-  setPart: part => set({ part }),
-  reset: () => set({ name: "", year: "", part: "", favorites: [] })
-}));
+import { useState } from "react";
 
 const PART_OPTIONS = [
   { value: "기획", label: "기획" },
@@ -39,11 +16,22 @@ const PART_OPTIONS = [
   { value: "백엔드", label: "백엔드" }
 ];
 
-export default function SignUpModalContent({ uid, googleId }: { uid: string; googleId: string }) {
-  const { name, year, part, favorites, setName, setYear, setPart } = useSignUpModalStore();
-  const { closeModal } = useModalStore();
-  const { clearUser } = useUserStore();
-  const [isOpen, setIsOpen] = useState(false);
+export default function SignUpModalContent({
+  uid,
+  googleId
+}: {
+  uid: string | null;
+  googleId: string | null;
+}) {
+  if (!uid || !googleId) {
+    alert("로그인을 다시 해주세요.");
+    return null;
+  }
+
+  const [isPartOpen, setIsPartOpen] = useState(false);
+
+  const { name, year, part, setName, setYear, setPart, clearUser } = useUserStore();
+  const close = useModalStore(state => state.close);
 
   const isFormValid = name && year && part;
 
@@ -55,27 +43,26 @@ export default function SignUpModalContent({ uid, googleId }: { uid: string; goo
       name,
       year: Number(year),
       part,
-      createdAt: serverTimestamp(),
-      favorites
+      createdAt: serverTimestamp()
     });
 
     useUserStore.getState().setUser(uid, googleId);
     useUserStore.getState().setUserInfo(name, Number(year), part);
-    closeModal();
+    close();
   };
 
   const handleClose = () => {
     clearUser();
-    closeModal();
+    close();
   };
 
   const handleSelectClick = () => {
-    setIsOpen(!isOpen);
+    setIsPartOpen(!isPartOpen);
   };
 
   const handleOptionClick = (value: string) => {
     setPart(value);
-    setIsOpen(false);
+    setIsPartOpen(false);
   };
 
   return (
@@ -94,7 +81,7 @@ export default function SignUpModalContent({ uid, googleId }: { uid: string; goo
           <div className={styles.yearWrapper}>
             <input
               value={year}
-              onChange={e => setYear(e.target.value)}
+              onChange={e => setYear(Number(e.target.value))}
               placeholder="ex) 13"
               className={styles.yearInput}
             />
@@ -111,7 +98,7 @@ export default function SignUpModalContent({ uid, googleId }: { uid: string; goo
             >
               {part || "파트 선택"}
             </div>
-            {isOpen && (
+            {isPartOpen && (
               <div className={styles.optionList}>
                 {PART_OPTIONS.map(option => (
                   <div

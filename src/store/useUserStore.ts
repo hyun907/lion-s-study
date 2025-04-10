@@ -7,9 +7,14 @@ import fireStore from "@/firebase/firestore";
 interface UserState {
   uid: string | null;
   googleId: string | null;
-  name: string | null;
-  year: number | null;
-  part: string | null;
+  name: string | undefined;
+  year: number | undefined;
+  part: string | undefined;
+  favorites: [] | undefined;
+  setName: (name: string) => void;
+  setYear: (year: number) => void;
+  setPart: (part: string) => void;
+
   setUser: (uid: string, googleId: string) => void;
   setUserInfo: (name: string, year: number, part: string) => void;
   clearUser: () => void;
@@ -20,9 +25,14 @@ interface UserState {
 export const useUserStore = create<UserState>(set => ({
   uid: null,
   googleId: null,
-  name: null,
-  year: null,
-  part: null,
+  name: undefined,
+  year: undefined,
+  part: undefined,
+  favorites: [],
+  setName: name => set({ name }),
+  setYear: year => set({ year }),
+  setPart: part => set({ part }),
+
   setUser: (uid, googleId) => {
     set({ uid, googleId });
     // localStorage에 저장
@@ -38,7 +48,7 @@ export const useUserStore = create<UserState>(set => ({
     }
   },
   clearUser: () => {
-    set({ uid: null, googleId: null, name: null, year: null, part: null });
+    set({ uid: null, googleId: null, name: undefined, year: undefined, part: undefined });
     // localStorage에서 삭제
     localStorage.removeItem("user");
   },

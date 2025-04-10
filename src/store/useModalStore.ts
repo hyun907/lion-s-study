@@ -1,22 +1,13 @@
-"use client";
-
 import { create } from "zustand";
-
-export type ModalType = "login" | "logout" | "signup" | null;
-
-interface ModalData {
-  type: Exclude<ModalType, null>;
-  props?: Record<string, any>;
+interface ModalStore {
+  content: React.ReactNode | null;
+  isOpen: boolean;
+  open: (content: React.ReactNode) => void;
+  close: () => void;
 }
-
-interface ModalState {
-  modal: ModalData | null;
-  openModal: (type: Exclude<ModalType, null>, props?: Record<string, any>) => void;
-  closeModal: () => void;
-}
-
-export const useModalStore = create<ModalState>(set => ({
-  modal: null,
-  openModal: (type, props) => set({ modal: { type, props } }),
-  closeModal: () => set({ modal: null })
+export const useModalStore = create<ModalStore>(set => ({
+  content: null,
+  isOpen: false,
+  open: content => set({ isOpen: true, content }),
+  close: () => set({ isOpen: false })
 }));
