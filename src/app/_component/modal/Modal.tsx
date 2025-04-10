@@ -10,7 +10,7 @@ export default function Modal() {
   const isMounted = useIsMounted();
 
   // 전역 모달 상태를 가져옴
-  const { content, isOpen, close } = useModalStore();
+  const { content, isOpen, close, onBackdropClick } = useModalStore();
   // 모달의 backdrop을 가리키는 ref
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +31,11 @@ export default function Modal() {
   // 모달 backdrop 클릭 시 모달 닫음
   const handleClickOutside = (e: MouseEvent<HTMLDivElement>) => {
     if (modalRef.current === e.target) {
+      // 사용자 정의 backdrop 클릭 동작 실행
+      if (onBackdropClick) {
+        onBackdropClick();
+      }
+      // 기본 닫기 동작 실행
       close();
     }
   };

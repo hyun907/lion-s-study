@@ -43,10 +43,10 @@ export default function SignUpModalContent({
       name,
       year: Number(year),
       part,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+      favorites: []
     });
 
-    useUserStore.getState().setUser(uid, googleId);
     useUserStore.getState().setUserInfo(name, Number(year), part);
     close();
   };

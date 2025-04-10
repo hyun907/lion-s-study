@@ -1,4 +1,3 @@
-// useAuth.ts
 "use client";
 
 import { useEffect, useState } from "react";
@@ -7,21 +6,9 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
 export const useAuth = () => {
-  const { uid, googleId, loadUserInfo, initializeFromStorage } = useUserStore();
-
+  const { uid, googleId, loadUserInfo, isHydrated } = useUserStore();
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const isLoggedIn = !!uid;
-
-  const checkUserInDB = async () => {
-    const usersRef = collection(fireStore, "users");
-    const q = query(usersRef, where("googleId", "==", googleId));
-    const snapshot = await getDocs(q);
-    return !snapshot.empty;
-  };
-
-  useEffect(() => {
-    initializeFromStorage();
-  }, []);
 
   useEffect(() => {
     if (uid) {
@@ -30,21 +17,28 @@ export const useAuth = () => {
   }, [uid]);
 
   useEffect(() => {
-    if (!isLoggedIn || !googleId) return;
+    const checkUserInDB = async () => {
+      if (!googleId) return setIsRegistered(null);
 
-    const check = async () => {
-      const exists = await checkUserInDB();
-      setIsRegistered(exists);
+      const usersRef = collection(fireStore, "users");
+      const q = query(usersRef, where("googleId", "==", googleId));
+      const snapshot = await getDocs(q);
+      setIsRegistered(!snapshot.empty);
     };
 
-    check();
-  }, [isLoggedIn, googleId]);
+    if (googleId) {
+      checkUserInDB();
+    }
+  }, [googleId]);
+
+  const needsRegistration = isLoggedIn && isRegistered === false;
 
   return {
     uid,
     googleId,
     isLoggedIn,
     isRegistered,
-    needsRegistration: isLoggedIn && isRegistered === false
+    needsRegistration,
+    isHydrated 
   };
 };

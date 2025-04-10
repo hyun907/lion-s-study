@@ -1,6 +1,5 @@
-"use client";
-
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { doc, getDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
@@ -11,102 +10,61 @@ interface UserState {
   year: number | undefined;
   part: string | undefined;
   favorites: [] | undefined;
+  isSignUpCompleted: boolean;
+  isHydrated: boolean;
+
   setName: (name: string) => void;
   setYear: (year: number) => void;
   setPart: (part: string) => void;
-
   setUser: (uid: string, googleId: string) => void;
   setUserInfo: (name: string, year: number, part: string) => void;
   clearUser: () => void;
   loadUserInfo: (uid: string) => Promise<void>;
-  initializeFromStorage: () => Promise<void>;
 }
 
-export const useUserStore = create<UserState>(set => ({
-  uid: null,
-  googleId: null,
-  name: undefined,
-  year: undefined,
-  part: undefined,
-  favorites: [],
-  setName: name => set({ name }),
-  setYear: year => set({ year }),
-  setPart: part => set({ part }),
+export const useUserStore = create<UserState>()(
+  persist(
+    set => ({
+      uid: null,
+      googleId: null,
+      name: undefined,
+      year: undefined,
+      part: undefined,
+      favorites: [],
+      isSignUpCompleted: false,
+      isHydrated: false,
 
-  setUser: (uid, googleId) => {
-    set({ uid, googleId });
-    // localStorage에 저장
-    localStorage.setItem("user", JSON.stringify({ uid, googleId }));
-  },
-  setUserInfo: (name, year, part) => {
-    set({ name, year, part });
-    // localStorage에 저장된 사용자 정보 업데이트
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      const { uid, googleId } = JSON.parse(userData);
-      localStorage.setItem("user", JSON.stringify({ uid, googleId, name, year, part }));
-    }
-  },
-  clearUser: () => {
-    set({ uid: null, googleId: null, name: undefined, year: undefined, part: undefined });
-    // localStorage에서 삭제
-    localStorage.removeItem("user");
-  },
-  loadUserInfo: async uid => {
-    try {
-      const userDoc = await getDoc(doc(fireStore, "users", uid));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
+      setName: name => set({ name }),
+      setYear: year => set({ year }),
+      setPart: part => set({ part }),
+      setUser: (uid, googleId) => set({ uid, googleId, isSignUpCompleted: false }),
+      setUserInfo: (name, year, part) => set({ name, year, part, isSignUpCompleted: true }),
+      clearUser: () =>
         set({
-          name: userData.name,
-          year: userData.year,
-          part: userData.part,
-          googleId: userData.googleId
-        });
-
-        // localStorage에 저장된 사용자 정보 업데이트
-        const storedUserData = localStorage.getItem("user");
-        if (storedUserData) {
-          const { uid } = JSON.parse(storedUserData);
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              uid,
-              googleId: userData.googleId,
-              name: userData.name,
-              year: userData.year,
-              part: userData.part
-            })
-          );
+          uid: null,
+          googleId: null,
+          name: undefined,
+          year: undefined,
+          part: undefined,
+          isSignUpCompleted: false
+        }),
+      loadUserInfo: async uid => {
+        const userDoc = await getDoc(doc(fireStore, "users", uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          set({
+            name: userData.name,
+            year: userData.year,
+            part: userData.part,
+            googleId: userData.googleId,
+            isSignUpCompleted: true
+          });
         }
       }
-    } catch (error) {
-      console.error("Error loading user info:", error);
+    }),
+    {
+      name: "user"
+      // 전부 저장 (partialize 생략 가능)
     }
-  },
-  initializeFromStorage: async () => {
-    try {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const { uid, googleId, name, year, part } = JSON.parse(userData);
-        set({ uid, googleId, name, year, part });
-
-        // Firebase에서 최신 정보 불러오기
-        if (uid) {
-          const userDoc = await getDoc(doc(fireStore, "users", uid));
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            set({
-              name: userData.name,
-              year: userData.year,
-              part: userData.part,
-              googleId: userData.googleId
-            });
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Error initializing from storage:", error);
-    }
-  }
-}));
+  )
+);
