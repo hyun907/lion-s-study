@@ -3,7 +3,7 @@
 import React from "react";
 import { useModalStore } from "@/store/useModalStore";
 import styles from "./LoginBtn.module.css";
-import LoginModalContent from "../modal/LoginModalContent";
+import LoginModalContent from "./modal/LoginModalContent";
 
 export default function LoginBtn() {
   const open = useModalStore(state => state.open);

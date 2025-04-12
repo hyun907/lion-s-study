@@ -4,7 +4,7 @@ import React from "react";
 import { useUserStore } from "@/store/useUserStore";
 import { useModalStore } from "@/store/useModalStore";
 import styles from "./NameBtn.module.css";
-import LogoutModalContent from "../modal/LogoutModalContent";
+import LogoutModalContent from "./modal/LogoutModalContent";
 
 export default function NameBtn() {
   const { name, year } = useUserStore();

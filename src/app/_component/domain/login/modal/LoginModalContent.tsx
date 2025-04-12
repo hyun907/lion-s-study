@@ -1,7 +1,7 @@
 "use client";
 
 import { useModalStore } from "@/store/useModalStore";
-import GoogleLoginBtn from "../login/GoogleLoginBtn";
+import GoogleLoginBtn from "../GoogleLoginBtn";
 import ICDelete from "@/assets/icon/delete.svg";
 
 import modalStyles from "./Modal.module.css";

@@ -1,4 +1,4 @@
-import UserBtn from "@/app/_component/login/UserBtn";
+import UserBtn from "@/app/_component/domain/login/UserBtn";
 
 export default function Home() {
   return (

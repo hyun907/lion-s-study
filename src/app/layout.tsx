@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import "./styles/reset.css";
-import Modal from "./_component/modal/Modal";
+import Modal from "./_component/common/Modal";
 
 export const metadata: Metadata = {
   title: "사자의 서재",

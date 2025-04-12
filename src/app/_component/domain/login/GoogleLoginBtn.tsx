@@ -4,7 +4,7 @@ import { signInWithGoogle } from "@/firebase/firebaseAuth";
 import { useUserStore } from "@/store/useUserStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useModalStore } from "@/store/useModalStore";
-import SignUpModalContent from "../modal/SignUpModalContent";
+import SignUpModalContent from "./modal/SignUpModalContent";
 import styles from "./GoogleLogin.module.css";
 import ICGoogle from "@/assets/icon/google_logo.svg";
 import { useEffect } from "react";
