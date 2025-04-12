@@ -41,12 +41,3 @@
   font-weight: 600;
   line-height: 2.2rem;
 }
-
-.closeButton {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.5rem;
-}

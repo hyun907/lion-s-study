@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, MouseEvent } from "react";
-import modalStyles from "./Modal.module.css";
+import modalStyles from "@/app/_component/common/Modal.module.css";
 import { useModalStore } from "@/store/useModalStore";
 import { createPortal } from "react-dom";
 import { useIsMounted } from "@/hooks/useIsMounted";

@@ -3,8 +3,7 @@
 import { useModalStore } from "@/store/useModalStore";
 import GoogleLoginBtn from "../GoogleLoginBtn";
 import ICDelete from "@/assets/icon/delete.svg";
-
-import modalStyles from "./Modal.module.css";
+import modalStyles from "@/app/_component/common/Modal.module.css";
 
 export default function LoginModalContent() {
   const close = useModalStore(state => state.close);

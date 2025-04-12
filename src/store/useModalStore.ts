@@ -6,6 +6,7 @@ interface ModalStore {
   close: () => void;
   onBackdropClick?: (() => void) | null;
 }
+
 export const useModalStore = create<ModalStore>(set => ({
   content: null,
   isOpen: false,

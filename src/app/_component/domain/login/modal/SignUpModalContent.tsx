@@ -4,10 +4,10 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useUserStore } from "@/store/useUserStore";
 import { useModalStore } from "@/store/useModalStore";
 import fireStore from "@/firebase/firestore";
-import styles from "./SignUpModal.module.css";
-import modalStyles from "./Modal.module.css";
 import ICDelete from "@/assets/icon/delete.svg";
 import { useState } from "react";
+import modalStyles from "@/app/_component/common/Modal.module.css";
+import styles from "./SignUpModal.module.css";
 
 const PART_OPTIONS = [
   { value: "기획", label: "기획" },
