@@ -18,9 +18,9 @@ const AddArticleModal = () => {
             <ToastEditor />
           </div>
         </div>
-        <div className={styles.buttonSection}>
+        {/* <div className={styles.buttonSection}>
           <button type="button">생성하기</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

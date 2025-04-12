@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import styles from "./ToastEditor.module.css";
 
 const ToastEditor = () => {
   const editorRef = useRef<Editor>(null);
@@ -14,16 +15,17 @@ const ToastEditor = () => {
   };
 
   return (
-    <div>
+    <div className={styles.editorWrapper}>
       <Editor
         ref={editorRef}
         initialValue="내용을 작성하세요"
         previewStyle="vertical"
-        height="500px"
+        height="40rem"
         initialEditType="wysiwyg"
         useCommandShortcut={true}
+        className={styles.editorWrapper}
       />
-      <button onClick={handleGetContent}>내용 확인</button>
+      {/* <button onClick={handleGetContent}>내용 확인</button> */}
     </div>
   );
 };

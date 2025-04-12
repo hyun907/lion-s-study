@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 3rem;
   flex-shrink: 0;
 
@@ -31,7 +32,7 @@
   align-items: center;
   justify-content: space-between;
 
-  width: 100%;
+  width: 85%;
 }
 
 .topSection > p {
@@ -53,30 +54,6 @@
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
-}
-
-.buttonSection {
-  display: flex;
-  justify-content: end;
-
-  width: 100%;
-}
-
-.buttonSection > button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 7.8rem;
-  height: 2.8rem;
-  padding: 3.294px 11.529px;
-
-  border-radius: 25px;
-  border: 0.824px solid var(--60, #585858);
-
-  background: var(--Basic-White, #fff);
-
-  cursor: pointer;
 }
 
 .cursorPointer {
