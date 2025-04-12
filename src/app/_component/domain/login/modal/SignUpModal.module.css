@@ -128,33 +128,6 @@
 }
 
 .btnWrapper {
-  align-items: end;
-}
-
-.btnWrapper button {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.491rem;
-  background-color: transparent;
-  border-radius: 24.551px;
-  border: 0.818px solid #585858;
-  width: 6.8rem;
-  height: 2.8rem;
-
-  color: #c6c6c6;
-  font-family: Pretendard;
-  font-size: 1.1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.4rem;
-
-  transition: all 0.2s ease-in-out;
-}
-
-.btnWrapper button.active {
-  background-color: #fff;
-  border-color: #585858;
-  color: #1a1a1a;
-  cursor: pointer;
+  align-items: flex-end;
 }

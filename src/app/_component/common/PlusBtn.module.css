@@ -1,0 +1,30 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem 1.3rem;
+
+  border-radius: 2.8235rem;
+
+  font-family: Pretendard;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2.4471rem;
+
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  outline: none;
+}
+
+.default {
+  color: #c6c6c6;
+  border: 0.9px solid #585858;
+  background-color: transparent;
+}
+
+.active {
+  color: #1a1a1a;
+  border: 0.9px solid #585858;
+  background: #fff;
+}

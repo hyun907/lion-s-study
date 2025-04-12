@@ -8,6 +8,7 @@ import ICDelete from "@/assets/icon/delete.svg";
 import { useState } from "react";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./SignUpModal.module.css";
+import PlusBtn from "@/app/_component/common/PlusBtn";
 
 const PART_OPTIONS = [
   { value: "기획", label: "기획" },
@@ -116,9 +117,11 @@ export default function SignUpModalContent({
           </div>
         </div>
         <div className={styles.btnWrapper}>
-          <button onClick={handleSubmit} className={isFormValid ? styles.active : ""}>
-            완료하기
-          </button>
+          <PlusBtn
+            onClick={handleSubmit}
+            text="완료하기"
+            state={isFormValid ? "active" : "default"}
+          />
         </div>
       </div>
     </div>
