@@ -1,3 +1,9 @@
 .editorWrapper {
   width: 100rem;
 }
+
+/* 전체 배경 흰색 */
+.editorWrapper :global(.toastui-editor),
+.editorWrapper :global(.toastui-editor-defaultUI) {
+  background-color: white !important;
+}
