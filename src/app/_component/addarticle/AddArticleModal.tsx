@@ -1,10 +1,16 @@
+"use client";
+import dynamic from "next/dynamic";
+
 import React from "react";
 import styles from "./AddArticleModal.module.css";
 import Titlebox from "./Titlebox";
 import ICDelete from "@/assets/icon/delete.svg";
-import ToastEditor from "./ToastEditor";
 
 const AddArticleModal = () => {
+  const ToastEditor = dynamic(() => import("./ToastEditor"), {
+    ssr: false
+  });
+
   return (
     <div className={styles.overlay}>
       <div className={styles.modalBox}>
