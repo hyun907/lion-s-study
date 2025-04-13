@@ -1,3 +1,5 @@
+import TopBar from "@/app/_component/common/TopBar";
+
 export default function Layout({
   children
 }: Readonly<{
@@ -5,7 +7,7 @@ export default function Layout({
 }>) {
   return (
     <>
-      {/* 헤더 */}
+      <TopBar />
       {children}
       {/* 푸터 */}
     </>

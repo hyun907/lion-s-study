@@ -1,0 +1,23 @@
+.loading {
+  display: flex;
+  padding: 1.2rem 2.6rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  height: 4.3rem;
+
+  width: 12.877rem;
+
+  border-radius: 30px;
+  border: 1px solid #585858;
+  background: #1a1a1a;
+
+  color: #9a9a9a;
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  cursor: pointer;
+}
