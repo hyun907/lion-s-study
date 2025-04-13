@@ -15,6 +15,8 @@ export default function GoogleLoginBtn() {
   const auth = useAuth();
 
   useEffect(() => {
+    if (auth.isRegistered === null) return;
+
     if (auth.needsRegistration) {
       open(<SignUpModalContent uid={auth.uid} googleId={auth.googleId} />);
       useModalStore.getState().onBackdropClick = () => {
