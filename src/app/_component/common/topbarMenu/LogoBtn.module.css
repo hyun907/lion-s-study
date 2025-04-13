@@ -1,0 +1,22 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+
+  background: none;
+  border: none;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.text {
+  color: #fff;
+  font-family: "SUIT Variable";
+  font-size: 2.2rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.044rem;
+}

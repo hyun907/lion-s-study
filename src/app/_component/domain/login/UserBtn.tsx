@@ -5,13 +5,14 @@ import LoginBtn from "./LoginBtn";
 import NameBtn from "./NameBtn";
 import { useHydration } from "@/hooks/useHydration";
 import { useUserStore } from "@/store/useUserStore";
+import styles from "./UserBtn.module.css";
 
 export default function UserBtn() {
   useHydration();
 
   const { isHydrated, isSignUpCompleted } = useUserStore();
 
-  if (!isHydrated) return <p>로딩</p>;
+  if (!isHydrated) return <div className={styles.loading}>불러오는 중</div>;
 
   return <>{isSignUpCompleted ? <NameBtn /> : <LoginBtn />}</>;
 }
