@@ -20,14 +20,6 @@
   line-height: normal;
 }
 
-.studySection {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 2.947rem;
-  margin-top: 3.1rem;
-}
-
 .column {
   position: fixed;
   left: 33.1rem;
