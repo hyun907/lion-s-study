@@ -1,19 +1,31 @@
 "use client";
 
-import { useModalStore } from "@/store/useModalStore";
 import { useState, useRef } from "react";
+
+import { useModalStore } from "@/store/useModalStore";
+import { useStudyRoomStore } from "@/store/studyRoomStore";
+import { useUserStore } from "@/store/useUserStore";
+
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import fireStore from "@/firebase/firestore";
 
 import ICDelete from "@/assets/icon/delete.svg";
 import ICSmallDelete from "@/assets/icon/main/small_delete.svg";
 import ICLink from "@/assets/icon/link.svg";
-import modalStyles from "@/app/_component/common/Modal.module.css";
-import styles from "./AddStudyContent.module.css";
 import PlusBtn from "../../common/PlusBtn";
 
+import modalStyles from "@/app/_component/common/Modal.module.css";
+import styles from "./AddStudyContent.module.css";
+
+
 export default function LogoutModalContent() {
+  const { name, year } = useUserStore();
   const close = useModalStore(state => state.close);
+  const fetchStudyRooms = useStudyRoomStore(state => state.fetchStudyRooms);
+
   const [fileName, setFileName] = useState("내 PC");
   const [studyName, setStudyName] = useState("");
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const closeModal = () => {
@@ -36,8 +48,21 @@ export default function LogoutModalContent() {
     }
   };
 
-  const handleSubmit = () => {
-    // 서재 생성 요청
+  const handleSubmit = async () => {
+    try {
+      const docRef = await addDoc(collection(fireStore, "studyRooms"), {
+        title: studyName,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        creatorName: name,
+        creatorYear: year
+      });
+
+      await fetchStudyRooms();
+      close();
+    } catch (error) {
+      console.error("서재 생성 중 오류 발생:", error);
+    }
   };
 
   return (
