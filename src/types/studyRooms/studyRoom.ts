@@ -5,6 +5,7 @@ export interface StudyRoom {
   creatorYear: number;
   title: string;
   updatedAt: any;
+  imageUrl: string | null;
 }
 
 export interface StudyBtnProps {
@@ -12,4 +13,5 @@ export interface StudyBtnProps {
   creatorName: string;
   creatorYear: number;
   updatedAt: string;
+  imageUrl: string | null;
 }

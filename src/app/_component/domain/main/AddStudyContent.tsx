@@ -5,9 +5,12 @@ import { useState, useRef } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { useStudyRoomStore } from "@/store/studyRoomStore";
 import { useUserStore } from "@/store/useUserStore";
+import { useAuth } from "@/hooks/useAuth";
 
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import fireStore from "@/firebase/firestore";
+import storage from "@/firebase/firebaseStorage";
 
 import ICDelete from "@/assets/icon/delete.svg";
 import ICSmallDelete from "@/assets/icon/main/small_delete.svg";
@@ -17,14 +20,15 @@ import PlusBtn from "../../common/PlusBtn";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./AddStudyContent.module.css";
 
-
 export default function LogoutModalContent() {
   const { name, year } = useUserStore();
+  const { isLoggedIn } = useAuth();
   const close = useModalStore(state => state.close);
   const fetchStudyRooms = useStudyRoomStore(state => state.fetchStudyRooms);
 
   const [fileName, setFileName] = useState("내 PC");
   const [studyName, setStudyName] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,13 +40,16 @@ export default function LogoutModalContent() {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);
+      setSelectedFile(file);
     } else {
       setFileName("내 PC");
+      setSelectedFile(null);
     }
   };
 
   const handleResetFile = () => {
     setFileName("내 PC");
+    setSelectedFile(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -50,18 +57,41 @@ export default function LogoutModalContent() {
 
   const handleSubmit = async () => {
     try {
+      let imageUrl = null;
+
+      // 사용자 인증 확인
+      if (!isLoggedIn) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      // 이미지가 선택된 경우 스토리지에 업로드
+      if (selectedFile) {
+        try {
+          const storageRef = ref(storage, `studyRooms/${Date.now()}_${selectedFile.name}`);
+          await uploadBytes(storageRef, selectedFile);
+          imageUrl = await getDownloadURL(storageRef);
+        } catch (uploadError) {
+          console.error("이미지 업로드 중 오류 발생:", uploadError);
+          alert("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
+          return;
+        }
+      }
+
       const docRef = await addDoc(collection(fireStore, "studyRooms"), {
         title: studyName,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         creatorName: name,
-        creatorYear: year
+        creatorYear: year,
+        imageUrl: imageUrl || null
       });
 
       await fetchStudyRooms();
       close();
     } catch (error) {
       console.error("서재 생성 중 오류 발생:", error);
+      alert("서재 생성에 실패했습니다. 다시 시도해주세요.");
     }
   };
 

@@ -30,6 +30,7 @@ export default function StudySection() {
             creatorName={room.creatorName}
             creatorYear={room.creatorYear}
             updatedAt={formatDate(room.updatedAt)}
+            imageUrl={room.imageUrl}
           />
         ))
       )}
