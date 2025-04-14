@@ -1,49 +1,38 @@
 "use client";
 
-import fireStore from "@/firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
-
 import AddBtn from "./AddBtn";
 import StudyBtn from "./StudyBtn";
-
 import { formatDate } from "@/utils/formatDate";
-import { StudyRoom } from "@/types/studyRooms/studyRoom";
-
+import { useStudyRoomStore } from "@/store/studyRoomStore";
+import { useEffect } from "react";
 import styles from "./StudySection.module.css";
 
 export default function StudySection() {
-  const [studyRooms, setStudyRooms] = useState<StudyRoom[]>([]);
+  const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
 
   useEffect(() => {
-    const fetchStudyRooms = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(fireStore, "studyRooms"));
-        const rooms = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as StudyRoom[];
-        setStudyRooms(rooms);
-      } catch (error) {
-        console.error("Error fetching study rooms:", error);
-      }
-    };
-
     fetchStudyRooms();
-  }, []);
+  }, [fetchStudyRooms]);
 
   return (
     <div className={styles.studySection}>
       <AddBtn />
-      {studyRooms.map(room => (
-        <StudyBtn
-          key={room.id}
-          title={room.title}
-          creatorName={room.creatorName}
-          creatorYear={room.creatorYear}
-          updatedAt={formatDate(room.updatedAt)}
-        />
-      ))}
+
+      {isLoading ? (
+        <p>불러오는 중</p>
+      ) : studyRooms.length === 0 ? (
+        <p>생성된 스터디룸이 없습니다.</p>
+      ) : (
+        studyRooms.map(room => (
+          <StudyBtn
+            key={room.id}
+            title={room.title}
+            creatorName={room.creatorName}
+            creatorYear={room.creatorYear}
+            updatedAt={formatDate(room.updatedAt)}
+          />
+        ))
+      )}
     </div>
   );
 }
