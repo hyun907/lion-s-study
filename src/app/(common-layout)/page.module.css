@@ -1,0 +1,73 @@
+.pageContainer {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.pageContent {
+  padding: 0 18.8rem;
+}
+
+.pageText {
+  display: flex;
+  height: 16rem;
+  align-items: flex-end;
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.column {
+  position: fixed;
+  left: 33.1rem;
+  top: 0;
+  width: 0.1rem;
+  height: 100%;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.8) 52.5%,
+    rgba(255, 255, 255, 0.4) 76.99%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+
+  border: none;
+  z-index: -998;
+}
+
+.row {
+  position: fixed;
+  top: 34rem;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.1) 52.5%,
+    rgba(255, 255, 255, 0.4) 76.99%,
+    rgba(255, 255, 255, 0.25) 100%
+  );
+  border: 0;
+  width: 100%;
+  height: 0.1rem;
+  z-index: -998;
+}
+
+.imgWrapper {
+  position: absolute;
+  bottom: 82rem;
+  left: 70rem;
+  width: 100vw;
+  display: flex;
+  justify-content: flex-end;
+  z-index: -999;
+}
+
+.imgWrapper img {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

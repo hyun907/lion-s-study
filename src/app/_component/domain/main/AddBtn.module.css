@@ -1,0 +1,59 @@
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 28rem;
+  height: 24rem;
+
+  border-radius: 27.632px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  background: #0f0f0f;
+
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.plusBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+
+  border-radius: 300%;
+  border: 1px solid #585858;
+  background: none;
+}
+
+.plusBtn svg {
+  stroke: #c6c6c6;
+}
+
+.text {
+  color: #c6c6c6;
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2.6rem;
+}
+
+.btnContainer:hover .text {
+  color: white;
+}
+
+.btnContainer:hover .plusBtn {
+  border: 1px solid #585858;
+  background: #fff;
+}
+.btnContainer:hover .plusBtn svg {
+  stroke: black;
+}
