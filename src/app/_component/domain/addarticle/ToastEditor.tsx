@@ -8,8 +8,20 @@ const ToastEditor = () => {
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
+    const savedMarkdown = localStorage.getItem("draft-markdown");
     const instance = editorRef.current?.getInstance();
-    instance?.setMarkdown(""); // 본문 비우기
+    instance?.setMarkdown(savedMarkdown || "");
+
+    const handleChange = () => {
+      const md = instance?.getMarkdown() || "";
+      localStorage.setItem("draft-markdown", md);
+    };
+
+    instance?.on("change", handleChange);
+
+    return () => {
+      instance?.off("change", handleChange);
+    };
   }, []);
 
   return (

@@ -1,8 +1,13 @@
+"use client";
 import React from "react";
 import styles from "./ReadArticleModal.module.css";
 import ICDelete from "@/assets/icon/delete.svg";
 import ReactMarkdown from "react-markdown";
+import { useModalStore } from "@/store/useModalStore";
+
 const ReadArticleModal = () => {
+  const close = useModalStore(state => state.close);
+
   const markdownText = `
   # 테스트
   `;
@@ -16,11 +21,9 @@ const ReadArticleModal = () => {
               <h2>12기 박지효 | 25.02.11</h2>
             </div>
 
-            <ICDelete className={styles.deleteIc} />
+            <ICDelete className={styles.deleteIc} onClick={close} />
           </div>
           <div className={styles.bodySection}>
-            <h1>1주차 - 마크다운이란?</h1>
-
             <ReactMarkdown>{markdownText}</ReactMarkdown>
           </div>
         </div>

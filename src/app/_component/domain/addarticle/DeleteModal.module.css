@@ -1,0 +1,67 @@
+.modal {
+  position: relative;
+  display: flex;
+  padding: 2.4rem;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 20px;
+  border: 1.302px solid rgba(255, 255, 255, 0.1);
+  background: #1a1a1a;
+  gap: 1.8rem;
+}
+
+.modalHeader {
+  width: 38rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.titleText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.bodyContainer > p {
+  color: var(--Basic-White, #fff);
+
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+.keepBtn,
+.stopBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.491rem;
+  border-radius: 24.551px;
+  border: 0.818px solid #585858;
+  width: 9rem;
+  height: 2.8rem;
+  font-family: Pretendard;
+  font-size: 1.1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.4rem;
+  cursor: pointer;
+}
+.stopBtn {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.keepBtn {
+  background-color: transparent;
+  color: #c6c6c6;
+}
+.btnWrapper {
+  width: 100%;
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  align-items: center;
+}
