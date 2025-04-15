@@ -7,3 +7,14 @@
 .editorWrapper :global(.toastui-editor-defaultUI) {
   background-color: white !important;
 }
+
+/* 툴바 heading */
+.editorWrapper :global(.toastui-editor-popup-add-heading ul li) {
+  color: black !important;
+  background-color: white !important;
+  font-family: Pretendard !important ;
+}
+
+.editorWrapper :global(.toastui-editor-popup-add-heading ul li:hover) {
+  background-color: #f2f2f2 !important;
+}
