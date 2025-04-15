@@ -4,8 +4,13 @@
   gap: 1rem;
 }
 
+.topContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
 .inputBox {
-  width: 59.5rem;
+  width: 85rem;
   padding: 0.6rem 1.2rem;
 
   border-radius: 4px;
@@ -15,6 +20,7 @@
 
   color: var(--Basic-Black, #000);
 
+  font-family: Pretendard;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -46,4 +52,32 @@
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
+}
+
+.buttonSection {
+  display: flex;
+  justify-content: end;
+
+  width: 100%;
+}
+
+.buttonSection > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 10rem;
+  height: 3.5rem;
+  padding: 3.294px 11.529px;
+
+  border-radius: 4px;
+  border: 0.824px solid var(--60, #585858);
+
+  background: var(--Basic-White, #fff);
+
+  cursor: pointer;
+}
+
+.cursorPointer {
+  cursor: pointer;
 }

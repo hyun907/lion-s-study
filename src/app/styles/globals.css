@@ -60,3 +60,11 @@ a {
     color-scheme: dark;
   }
 } */
+
+.toastui-editor-defaultUI,
+.toastui-editor-contents,
+.toastui-editor-contents *,
+.toastui-editor-md-container,
+.toastui-editor-md-container * {
+  font-family: "Pretendard", sans-serif !important;
+}
