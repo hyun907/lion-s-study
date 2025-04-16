@@ -20,7 +20,7 @@ import PlusBtn from "../../common/PlusBtn";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./AddStudyContent.module.css";
 
-export default function LogoutModalContent() {
+export default function AddStudyContent() {
   const { name, year } = useUserStore();
   const { isLoggedIn } = useAuth();
   const close = useModalStore(state => state.close);
