@@ -26,6 +26,7 @@ export default function StudySection() {
         studyRooms.map(room => (
           <StudyBtn
             key={room.id}
+            id={room.id}
             title={room.title}
             creatorName={room.creatorName}
             creatorYear={room.creatorYear}

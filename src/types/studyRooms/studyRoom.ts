@@ -9,6 +9,7 @@ export interface StudyRoom {
 }
 
 export interface StudyBtnProps {
+  id: string;
   title: string;
   creatorName: string;
   creatorYear: number;

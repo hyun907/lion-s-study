@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { StudyBtnProps } from "@/types/studyRooms/studyRoom";
 
@@ -10,16 +11,30 @@ import defaultThumbnail from "@/assets/image/default_thumbnail.png";
 import styles from "./StudyBtn.module.css";
 
 export default function StudyBtn({
+  id,
   title,
   creatorName,
   creatorYear,
   updatedAt,
   imageUrl
 }: StudyBtnProps) {
+  const router = useRouter();
+
   const [like, setLike] = useState(false);
 
+  const handleStudyBtnClick = () => {
+    router.push(`/studyroom/${id}`);
+  };
+
   return (
-    <div className={styles.btnContainer}>
+    <div
+      className={styles.btnContainer}
+      onClick={(e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleStudyBtnClick();
+      }}
+    >
       <div className={styles.btnTop}>
         <Image
           src={imageUrl || defaultThumbnail}
