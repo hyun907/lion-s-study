@@ -6,8 +6,8 @@
   grid-template-columns: 1fr 2fr;
   column-gap: 2.4rem;
 
-  padding: 5% 6%;
-  /* 화면 크기에 padding 값 상대적으로 변경 */
+  padding: 10rem 6%;
+  /* 화면 크기에 가로 padding 값 상대적으로 변경 */
 }
 
 .absoluteBackBtnContainer {
