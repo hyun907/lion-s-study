@@ -8,12 +8,15 @@ import React from "react";
 
 export default function Article() {
   const open = useModalStore(state => state.open);
+
   const handleOpenAdd = () => {
-    open(<AddArticleModal />);
+    open(<AddArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" />);
   };
+
   const handleOpenRead = () => {
     open(<ReadArticleModal />);
   };
+
   console.log("Article 렌더링됨");
 
   return (

@@ -12,7 +12,7 @@ export default function LogoutModalContent() {
 
   const handleKeepWriting = () => {
     close();
-    open(<AddArticleModal />);
+    open(<AddArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" />);
   };
 
   const handleStopWriting = () => {

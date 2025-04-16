@@ -5,9 +5,10 @@ interface Props {
   title: string;
   setTitle: (val: string) => void;
   markdown: string;
+  onSubmit: () => void;
 }
 
-const Titlebox = ({ title, setTitle, markdown }: Props) => {
+const Titlebox = ({ title, setTitle, markdown, onSubmit }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = e.target.value;
     setTitle(newTitle);
@@ -33,6 +34,7 @@ const Titlebox = ({ title, setTitle, markdown }: Props) => {
           type="button"
           className={isReady ? styles.activatedBtn : styles.defaultBtn}
           disabled={!isReady}
+          onClick={onSubmit}
         >
           생성하기
         </button>
