@@ -1,5 +1,7 @@
 import style from "./Notice.module.css";
 import commonStyles from "./CommonStyles.module.css";
+import AddSubContentBtn from "./AddSubContentBtn";
+import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
 
 const NoticeItem = () => {
   return (
@@ -21,12 +23,9 @@ const Notice = () => {
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Notice</div>
-        <button className={commonStyles.contentAddBtn}>생성하기</button>
+        <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
       </div>
       <div className={commonStyles.contentItem} id={style.noticeContainer}>
-        <NoticeItem></NoticeItem>
-        <NoticeItem></NoticeItem>
-        <NoticeItem></NoticeItem>
         <NoticeItem></NoticeItem>
         <NoticeItem></NoticeItem>
       </div>

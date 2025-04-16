@@ -1,3 +1,5 @@
+import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
+import AddSubContentBtn from "./AddSubContentBtn";
 import style from "./Article.module.css";
 import commonStyles from "./CommonStyles.module.css";
 
@@ -25,13 +27,9 @@ const Article = () => {
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Article</div>
-        <button className={commonStyles.contentAddBtn}>생성하기</button>
+        <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
       </div>
       <div className={commonStyles.contentItem} id={style.articleContainer}>
-        <ArticleItem></ArticleItem>
-        <ArticleItem></ArticleItem>
-        <ArticleItem></ArticleItem>
-        <ArticleItem></ArticleItem>
         <ArticleItem></ArticleItem>
       </div>
     </div>

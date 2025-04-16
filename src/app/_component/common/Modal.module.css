@@ -41,3 +41,23 @@
   font-weight: 600;
   line-height: 2.2rem;
 }
+
+.contentAddBtn {
+  display: flex;
+  height: 2.8rem;
+  padding: 0.32rem 1.15rem;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--90, #1a1a1a);
+
+  font-family: Pretendard;
+  font-size: 1.1529rem;
+  font-weight: 600;
+
+  border-radius: 2.4706rem;
+  border: 0.824px solid var(--60, #585858);
+  background: var(--Basic-White, #fff);
+
+  cursor: pointer;
+}
