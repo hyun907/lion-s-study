@@ -1,22 +1,22 @@
 "use client";
 import dynamic from "next/dynamic";
-
-import React from "react";
+import React, { useState } from "react";
 import styles from "./AddArticleModal.module.css";
 import Titlebox from "./Titlebox";
 import ICDelete from "@/assets/icon/delete.svg";
 import { useModalStore } from "@/store/useModalStore";
 import DeleteModal from "./DeleteModal";
 
-const AddArticleModal = () => {
-  const ToastEditor = dynamic(() => import("./ToastEditor"), {
-    ssr: false
-  });
+const ToastEditor = dynamic(() => import("./ToastEditor"), { ssr: false });
 
+const AddArticleModal = () => {
   const open = useModalStore(state => state.open);
-  const handleOpenDelete = () => {
-    open(<DeleteModal />);
-  };
+  const handleOpenDelete = () => open(<DeleteModal />);
+
+  const [title, setTitle] = useState<string>(() => localStorage.getItem("draft-title") || "");
+  const [markdown, setMarkdown] = useState<string>(
+    () => localStorage.getItem("draft-markdown") || ""
+  );
 
   return (
     <div className={styles.overlay}>
@@ -27,8 +27,8 @@ const AddArticleModal = () => {
         </div>
         <div className={styles.bodySection}>
           <div className={styles.leftSection}>
-            <Titlebox />
-            <ToastEditor />
+            <Titlebox title={title} setTitle={setTitle} markdown={markdown} />
+            <ToastEditor setMarkdown={setMarkdown} />
           </div>
         </div>
       </div>
