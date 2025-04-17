@@ -14,7 +14,7 @@ export default function Article() {
   };
 
   const handleOpenRead = () => {
-    open(<ReadArticleModal />);
+    open(<ReadArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" articleId="zSIy9Hk3E0aOBIBbYiLf" />);
   };
 
   console.log("Article 렌더링됨");
