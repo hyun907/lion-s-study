@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "./ReadArticleModal.module.css";
-import ICDelete from "@/assets/icon/delete.svg";
-import ReactMarkdown from "react-markdown";
+import dynamic from "next/dynamic";
+
 import { useModalStore } from "@/store/useModalStore";
-import { doc, getDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+
+import ICDelete from "@/assets/icon/delete.svg";
+
+import styles from "./ReadArticleModal.module.css";
+
+const Viewer = dynamic(() => import("@toast-ui/react-editor").then(mod => mod.Viewer), {
+  ssr: false
+});
 
 interface Props {
   studyRoomId: string;
@@ -62,7 +69,7 @@ const ReadArticleModal = ({ studyRoomId, articleId }: Props) => {
           <ICDelete className={styles.deleteIc} onClick={close} />
         </div>
         <div className={styles.bodySection}>
-          <ReactMarkdown>{articleData.content}</ReactMarkdown>
+          <Viewer key={articleData?.content} initialValue={articleData?.content || ""} />
         </div>
       </div>
     </div>

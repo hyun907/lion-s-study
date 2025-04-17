@@ -1,10 +1,11 @@
 "use client";
 
-import AddArticleModal from "@/app/_component/domain/addarticle/AddArticleModal";
-import ReadArticleModal from "@/app/_component/domain/readArticle/ReadArticleModal";
+import React from "react";
+
 import { useModalStore } from "@/store/useModalStore";
 
-import React from "react";
+import AddArticleModal from "@/app/_component/domain/addarticle/AddArticleModal";
+import ReadArticleModal from "@/app/_component/domain/readArticle/ReadArticleModal";
 
 export default function Article() {
   const open = useModalStore(state => state.open);
@@ -14,7 +15,7 @@ export default function Article() {
   };
 
   const handleOpenRead = () => {
-    open(<ReadArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" articleId="zSIy9Hk3E0aOBIBbYiLf" />);
+    open(<ReadArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" articleId="Dwm85DUpikiivhhwpnMB" />);
   };
 
   console.log("Article 렌더링됨");

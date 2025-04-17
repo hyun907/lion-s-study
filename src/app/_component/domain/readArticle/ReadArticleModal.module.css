@@ -62,7 +62,8 @@
   justify-content: center;
 
   color: var(--Basic-Black, #000);
-
+  line-height: 22px;
+  font-size: 1.2rem;
   gap: 1rem;
   margin: 0 1rem;
 }
@@ -73,4 +74,8 @@
 
 .deleteIc > path {
   stroke: #000000;
+}
+
+.tui-editor-contents {
+  color: #000;
 }
