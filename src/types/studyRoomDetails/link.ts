@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export type LinkItemInput = {
   title: string;
   url: string;

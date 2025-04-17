@@ -6,7 +6,6 @@ import {
   onSnapshot,
   setDoc,
   updateDoc,
-  Timestamp,
   serverTimestamp
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
@@ -44,13 +43,6 @@ export function useLinks(studyroomId: string) {
     await setDoc(ref, link);
   };
 
-  const updateLink = async (id: string, title: string, url: string) => {
-    await updateDoc(doc(fireStore, `studyRooms/${studyroomId}/links/${id}`), {
-      title,
-      url
-    });
-  };
-
   const deleteLink = async (id: string) => {
     await deleteDoc(doc(fireStore, `studyRooms/${studyroomId}/links/${id}`));
   };
@@ -58,7 +50,6 @@ export function useLinks(studyroomId: string) {
   return {
     links,
     createLink,
-    updateLink,
     deleteLink
   };
 }
