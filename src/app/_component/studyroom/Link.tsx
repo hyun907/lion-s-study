@@ -2,6 +2,8 @@ import style from "./Link.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import Ic_Link from "../../../assets/icon/link.svg";
 import Ic_Delete from "../../../assets/icon/delete.svg";
+import AddSubContentBtn from "./AddSubContentBtn";
+import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
 
 const LinkItem = () => {
   return (
@@ -22,7 +24,7 @@ const Link = () => {
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Link</div>
-        <button className={commonStyles.contentAddBtn}>생성하기</button>
+        <AddSubContentBtn type={SUB_CONTENT_TYPE.LINK} />
       </div>
       <div id={style.linkContainer}>
         <LinkItem></LinkItem>

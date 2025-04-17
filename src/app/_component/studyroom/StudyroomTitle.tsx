@@ -4,12 +4,15 @@ import commonStyles from "./CommonStyles.module.css";
 import Ic_Heart_Abled from "../../../assets/icon/heart.svg";
 // Disable된 버전 import 예정
 import Ic_Share from "../../../assets/icon/share.svg";
+import { useStudyroomDetailStore } from "@/store/useStudyroomDetailStore";
 
 const StudyroomTitle = () => {
+  const id = useStudyroomDetailStore(state => state.studyroomId);
+
   return (
     <div className={commonStyles.contentContainer} id={styles.mainBg}>
       <div className={commonStyles.contentTitle}>
-        <div>13기 디자인 파트 세션</div>
+        <div>13기 디자인 파트 세션 {id}</div>
         <div className={styles.svgContainer}>
           <div className={styles.svgItemContainer}>
             <Ic_Heart_Abled />
