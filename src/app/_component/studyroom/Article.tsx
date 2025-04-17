@@ -91,7 +91,7 @@ const Article = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    open(<ReadArticleModal articleId={id})
+    open(<ReadArticleModal articleId={id} />);
   };
 
   return (
