@@ -7,7 +7,7 @@ import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./DeleteModal.module.css";
 import AddArticleModal from "./AddArticleModal";
 
-export default function LogoutModalContent() {
+export default function DeleteModal() {
   const { close, open } = useModalStore();
 
   const handleKeepWriting = () => {
