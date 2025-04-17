@@ -1,32 +1,48 @@
+"use client";
+
 import React from "react";
 import styles from "./StudyroomTitle.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import Ic_Heart_Abled from "../../../assets/icon/heart.svg";
 // Disable된 버전 import 예정
 import Ic_Share from "../../../assets/icon/share.svg";
-import { useStudyroomDetailStore } from "@/store/useStudyroomDetailStore";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useUserStore } from "@/store/useUserStore";
 
 const StudyroomTitle = () => {
-  const id = useStudyroomDetailStore(state => state.studyroomId);
+  const user = useUserStore();
+  const id = useStudyroomIdStore(state => state.studyroomId);
+  const { studyroom, loading, error } = useStudyroomDetail(id ?? "");
 
-  return (
-    <div className={commonStyles.contentContainer} id={styles.mainBg}>
-      <div className={commonStyles.contentTitle}>
-        <div>13기 디자인 파트 세션 {id}</div>
-        <div className={styles.svgContainer}>
-          <div className={styles.svgItemContainer}>
-            <Ic_Heart_Abled />
-          </div>
-          <div className={styles.svgItemContainer}>
-            <Ic_Share />
+  if (!id || !user) {
+    return <div>오류 발생</div>;
+  }
+
+  // 이후 loading, error 처리
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생: {error.message}</div>;
+
+  if (studyroom)
+    return (
+      <div className={commonStyles.contentContainer} id={styles.mainBg}>
+        <div className={commonStyles.contentTitle}>
+          <div>{studyroom.title}</div>
+          <div className={styles.svgContainer}>
+            <div className={styles.svgItemContainer}>
+              <Ic_Heart_Abled />
+            </div>
+            <div className={styles.svgItemContainer}>
+              <Ic_Share />
+            </div>
           </div>
         </div>
+        <div className={commonStyles.contentInfo} id={styles.mainTitle}>
+          주인장 | {studyroom.creatorYear}기 {studyroom.creatorName}
+        </div>
       </div>
-      <div className={commonStyles.contentInfo} id={styles.mainTitle}>
-        주인장 | 12기 박지효
-      </div>
-    </div>
-  );
+    );
+  else return <div>오류 발생</div>;
 };
 
 export default StudyroomTitle;

@@ -4,6 +4,8 @@ import Ic_Link from "../../../assets/icon/link.svg";
 import Ic_Delete from "../../../assets/icon/delete.svg";
 import AddSubContentBtn from "./AddSubContentBtn";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
+import { useLinks } from "@/hooks/useLinks";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 
 const LinkItem = () => {
   return (
@@ -20,6 +22,10 @@ const LinkItem = () => {
 };
 
 const Link = () => {
+  const id = useStudyroomIdStore(state => state.studyroomId);
+  const { links, createLink, updateLink, deleteLink } = useLinks(id ?? "");
+
+  if (!links) return <div>로딩 중..</div>;
   return (
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>
