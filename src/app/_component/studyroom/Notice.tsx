@@ -10,6 +10,9 @@ import { useUserStore } from "@/store/useUserStore";
 import { NoticeItem as NoticeItemProp } from "@/types/studyRoomDetails/notice";
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
+import { useState } from "react";
+import AddNoticeModalContent from "./modal/AddNoticeModalContent";
+import { useModalStore } from "@/store/useModalStore";
 
 interface NoticeItemInterface {
   noticeProps: NoticeItemProp;
@@ -45,7 +48,8 @@ const NoticeItem = ({
           </div>
         )}
         <div className={commonStyles.contentInfo} id={commonStyles.infoContent}>
-          12기 박지효 | 25.02.11
+          {noticeProps.creatorYear}기 {noticeProps.creatorName} |{" "}
+          {formatDate(noticeProps.createdAt)}
         </div>
       </div>
     </div>
@@ -53,8 +57,10 @@ const NoticeItem = ({
 };
 
 const Notice = () => {
+  const open = useModalStore(state => state.open);
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
+
   const { notices, createNotice, updateNotice, deleteNotice } = useNotices(id ?? "");
 
   if (!notices) return <div>로딩 중..</div>;
@@ -63,8 +69,10 @@ const Notice = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    // TODO: 모달 열기 로직 연결 예정
-    // updateNotice();
+    const target = notices.find(n => n.id === id);
+    if (!target) return;
+
+    open(<AddNoticeModalContent noticeId={target.id} initialContent={target.content} />);
   };
 
   const handleDelete: StudyroomItemButtonHandler = (e, id) => {

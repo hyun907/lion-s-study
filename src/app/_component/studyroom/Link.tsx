@@ -52,7 +52,7 @@ const Link = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    window.open(url, "_blank");
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   if (!links) return <div>로딩 중..</div>;

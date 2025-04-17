@@ -5,7 +5,6 @@ import {
   doc,
   onSnapshot,
   setDoc,
-  updateDoc,
   serverTimestamp
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
