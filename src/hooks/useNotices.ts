@@ -6,7 +6,6 @@ import {
   onSnapshot,
   setDoc,
   updateDoc,
-  Timestamp,
   serverTimestamp
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
@@ -22,9 +21,10 @@ export function useNotices(studyroomId: string) {
         const data = docSnap.data();
         return {
           id: docSnap.id,
-          title: data.title,
           content: data.content,
           creatorId: data.creatorId,
+          creatorName: data.creatorName,
+          creatorYear: data.creatorYear,
           createdAt: data.createdAt
         };
       });
@@ -34,21 +34,26 @@ export function useNotices(studyroomId: string) {
     return () => unsub();
   }, [studyroomId]);
 
-  const createNotice = async (title: string, content: string, creatorId: string) => {
+  const createNotice = async (
+    content: string,
+    creatorId: string,
+    creatorName: string,
+    creatorYear: number
+  ) => {
     const ref = doc(NoticesRef);
     const Notice: NoticeItem = {
       id: ref.id,
-      title,
       content,
       creatorId,
+      creatorName,
+      creatorYear,
       createdAt: serverTimestamp()
     };
     await setDoc(ref, Notice);
   };
 
-  const updateNotice = async (id: string, title: string, content: string) => {
+  const updateNotice = async (id: string, content: string) => {
     await updateDoc(doc(fireStore, `studyRooms/${studyroomId}/notices/${id}`), {
-      title,
       content
     });
   };
