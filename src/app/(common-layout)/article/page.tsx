@@ -21,7 +21,7 @@ export default function Article() {
   console.log("Article 렌더링됨");
 
   return (
-    <div style={{ paddingTop: "150px" }}>
+    <div style={{ paddingTop: "15rem" }}>
       <button onClick={handleOpenAdd} style={{ cursor: "pointer" }}>
         추가하기
       </button>
