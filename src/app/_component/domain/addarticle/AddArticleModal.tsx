@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
 
@@ -25,9 +26,11 @@ interface Props {
   studyRoomId: string;
 }
 
-const AddArticleModal = ({ studyRoomId }: Props) => {
-  console.log(studyRoomId);
+const AddArticleModal = () => {
   const { name, year, uid } = useUserStore();
+  const { studyroomId } = useStudyroomIdStore();
+  const studyRoomId = studyroomId;
+  console.log("studyRoomId", studyRoomId);
 
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
@@ -42,6 +45,11 @@ const AddArticleModal = ({ studyRoomId }: Props) => {
         alert("로그인이 필요합니다.");
         return;
       }
+      if (!studyRoomId) {
+        alert("스터디룸 ID가 유효하지 않습니다.");
+        return;
+      }
+      console.log(studyRoomId);
 
       const articleRef = collection(fireStore, "studyRooms", studyRoomId, "articles");
 

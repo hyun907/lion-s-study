@@ -11,11 +11,11 @@ export default function Article() {
   const open = useModalStore(state => state.open);
 
   const handleOpenAdd = () => {
-    open(<AddArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" />);
+    open(<AddArticleModal />);
   };
 
   const handleOpenRead = () => {
-    open(<ReadArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" articleId="Dwm85DUpikiivhhwpnMB" />);
+    open(<ReadArticleModal articleId="Dwm85DUpikiivhhwpnMB" />);
   };
 
   console.log("Article 렌더링됨");
