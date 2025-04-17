@@ -81,15 +81,21 @@ const Notice = () => {
         <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
       </div>
       <div className={commonStyles.contentItem} id={style.noticeContainer}>
-        {notices.map((item, key) => (
-          <NoticeItem
-            key={key}
-            noticeProps={item}
-            handleDelete={handleDelete}
-            handleUpdate={handleUpdate}
-            isMyNotice={item.creatorId == user.uid}
-          />
-        ))}
+        {notices.length != 0 ? (
+          notices.map((item, key) => (
+            <NoticeItem
+              key={key}
+              noticeProps={item}
+              handleDelete={handleDelete}
+              handleUpdate={handleUpdate}
+              isMyNotice={item.creatorId == user.uid}
+            />
+          ))
+        ) : (
+          <div className={commonStyles.noItemContainer}>
+            <div className={commonStyles.noItemText}>Notice를 생성해주세요.</div>
+          </div>
+        )}
       </div>
     </div>
   );

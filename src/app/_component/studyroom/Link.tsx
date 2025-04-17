@@ -63,16 +63,22 @@ const Link = () => {
         <AddSubContentBtn type={SUB_CONTENT_TYPE.LINK} />
       </div>
       <div id={style.linkContainer}>
-        {links.map((item, key) => (
-          <LinkItem
-            key={key}
-            handleDelete={handleDelete}
-            handleClickLink={handleClickLink}
-            id={item.id}
-            title={item.title}
-            url={item.url}
-          />
-        ))}
+        {links.length != 0 ? (
+          links.map((item, key) => (
+            <LinkItem
+              key={key}
+              handleDelete={handleDelete}
+              handleClickLink={handleClickLink}
+              id={item.id}
+              title={item.title}
+              url={item.url}
+            />
+          ))
+        ) : (
+          <div className={commonStyles.noItemContainer}>
+            <div className={commonStyles.noItemText}>Link를 생성해주세요.</div>
+          </div>
+        )}
       </div>
     </div>
   );
