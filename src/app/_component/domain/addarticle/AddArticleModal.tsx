@@ -16,7 +16,10 @@ import ICDelete from "@/assets/icon/delete.svg";
 
 import styles from "./AddArticleModal.module.css";
 
-const ToastEditor = dynamic(() => import("./ToastEditor"), { ssr: false });
+const ToastEditor = dynamic(() => import("./ToastEditor"), {
+  ssr: false,
+  loading: () => <p>잠시만 기다려주세요...</p>
+});
 
 interface Props {
   studyRoomId: string;
