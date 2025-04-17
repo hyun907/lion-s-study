@@ -11,6 +11,7 @@ import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
+import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -89,6 +90,8 @@ const Article = () => {
   const handleRead: StudyroomItemGenericHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
+
+    open(<ReadArticleModal articleId={id})
   };
 
   return (
