@@ -1,15 +1,46 @@
-import React from "react";
-import styles from "./StudyroomMain.module.css";
+"use client";
+import React, { useEffect } from "react";
+
+import { usePathname, useRouter } from "next/navigation";
+
 import StudyroomTitle from "./StudyroomTitle";
 import Notice from "./Notice";
 import Link from "./Link";
 import Article from "./Article";
+
+import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
-import { useRouter } from "next/navigation";
+import { useStudyroomDetailStore } from "@/store/useStudyroomDetailStore";
+
+interface StudyRoomProps {
+  id: string;
+}
 
 // studyroom 메인 페이지
-const StudyroomMain = () => {
+const StudyroomMain = ({ id }: StudyRoomProps) => {
   const router = useRouter();
+
+  const pathname = usePathname();
+
+  // 클릭한 스터디룸 id값 관리
+  const setId = useStudyroomDetailStore(state => state.setStudyroomId);
+  const clearId = useStudyroomDetailStore(state => state.clearStudyroomId);
+
+  useEffect(() => {
+    setId(id);
+
+    return () => {
+      clearId();
+    };
+  }, [id]);
+
+  useEffect(() => {
+    const isInStudyroom = pathname?.startsWith(`/studyroom/${id}`);
+
+    if (!isInStudyroom) {
+      clearId();
+    }
+  }, [pathname, id]);
 
   const handleGoBack = () => {
     router.push("/");
