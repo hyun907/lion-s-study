@@ -78,7 +78,6 @@ const Article = () => {
     e.stopPropagation();
 
     deleteArticle(id);
-    console.log("확인3");
   };
 
   const handleUpdate: ArticleButtonHandler = (e, id) => {
@@ -86,14 +85,11 @@ const Article = () => {
     e.stopPropagation();
 
     // TODO: 모달 열기 로직 연결 예정
-    console.log("확인2");
   };
 
   const handleRead: ArticleGenericHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
-
-    console.log("확인1");
   };
 
   return (
