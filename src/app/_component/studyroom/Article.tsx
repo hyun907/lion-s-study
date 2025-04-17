@@ -2,6 +2,8 @@ import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
 import AddSubContentBtn from "./AddSubContentBtn";
 import style from "./Article.module.css";
 import commonStyles from "./CommonStyles.module.css";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useArticles } from "@/hooks/useArticles";
 
 const ArticleItem = () => {
   return (
@@ -23,6 +25,10 @@ const ArticleItem = () => {
 };
 
 const Article = () => {
+  const id = useStudyroomIdStore(state => state.studyroomId);
+  const { articles, createArticle, updateArticle, deleteArticle } = useArticles(id ?? "");
+
+  if (!articles) return <div>로딩 중..</div>;
   return (
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>

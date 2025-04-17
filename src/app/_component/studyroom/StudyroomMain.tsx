@@ -10,7 +10,8 @@ import Article from "./Article";
 
 import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
-import { useStudyroomDetailStore } from "@/store/useStudyroomDetailStore";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useUserStore } from "@/store/useUserStore";
 
 interface StudyRoomProps {
   id: string;
@@ -23,8 +24,9 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
   const pathname = usePathname();
 
   // 클릭한 스터디룸 id값 관리
-  const setId = useStudyroomDetailStore(state => state.setStudyroomId);
-  const clearId = useStudyroomDetailStore(state => state.clearStudyroomId);
+  const setId = useStudyroomIdStore(state => state.setStudyroomId);
+  const clearId = useStudyroomIdStore(state => state.clearStudyroomId);
+  const studyroomId = useStudyroomIdStore(state => state.studyroomId);
 
   useEffect(() => {
     setId(id);
@@ -45,6 +47,8 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
   const handleGoBack = () => {
     router.push("/");
   };
+
+  if (!studyroomId) return null;
 
   return (
     <>

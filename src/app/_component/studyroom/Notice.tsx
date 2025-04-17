@@ -2,6 +2,10 @@ import style from "./Notice.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import AddSubContentBtn from "./AddSubContentBtn";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
+import { useStudyRoomStore } from "@/store/studyRoomStore";
+import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useNotices } from "@/hooks/useNotices";
 
 const NoticeItem = () => {
   return (
@@ -19,6 +23,10 @@ const NoticeItem = () => {
 };
 
 const Notice = () => {
+  const id = useStudyroomIdStore(state => state.studyroomId);
+  const { notices, createNotice, updateNotice, deleteNotice } = useNotices(id ?? "");
+
+  if (!notices) return <div>로딩 중..</div>;
   return (
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>
