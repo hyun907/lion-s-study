@@ -4,6 +4,8 @@ export type ArticleItemInput = {
   title: string;
   content: string;
   creatorId: string;
+  creatorName: string;
+  creatorYear: number;
 };
 
 export type ArticleItem = {
@@ -11,5 +13,7 @@ export type ArticleItem = {
   title: string;
   content: string;
   creatorId: string;
-  createdAt: Timestamp;
+  createdAt: any;
+  creatorName: string;
+  creatorYear: number;
 };

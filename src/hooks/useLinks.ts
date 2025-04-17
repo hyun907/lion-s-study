@@ -6,7 +6,8 @@ import {
   onSnapshot,
   setDoc,
   updateDoc,
-  Timestamp
+  Timestamp,
+  serverTimestamp
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { LinkItem } from "@/types/studyRoomDetails/link";
@@ -38,7 +39,7 @@ export function useLinks(studyroomId: string) {
       id: ref.id,
       title,
       url,
-      createdAt: Timestamp.now()
+      createdAt: serverTimestamp()
     };
     await setDoc(ref, link);
   };

@@ -4,20 +4,61 @@ import style from "./Article.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useArticles } from "@/hooks/useArticles";
+import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
+import { formatDate } from "@/utils/formatDate";
+import { useUserStore } from "@/store/useUserStore";
 
-const ArticleItem = () => {
+type ArticleClickHandler<T extends HTMLElement> = (e: React.MouseEvent<T>, id: string) => void;
+
+type ArticleButtonHandler = ArticleClickHandler<HTMLButtonElement>;
+type ArticleGenericHandler = ArticleClickHandler<HTMLElement>;
+
+interface ArticeItemInterface {
+  articleProps: ArticleItemProp;
+  handleDelete: ArticleButtonHandler;
+  handleUpdate: ArticleButtonHandler;
+  handleRead: ArticleGenericHandler;
+  isMyArticle: boolean;
+}
+
+const ArticleItem = ({
+  articleProps,
+  handleDelete,
+  handleUpdate,
+  handleRead,
+  isMyArticle
+}: ArticeItemInterface) => {
   return (
-    <div className={commonStyles.contentSingleItem} id={style.articleSingleContainer}>
-      <div className={style.articleTitle}>디자인 시스템, 왜 필요할까?</div>
+    <div
+      className={commonStyles.contentSingleItem}
+      id={style.articleSingleContainer}
+      onClick={e => handleRead(e, articleProps.id)}
+    >
+      <div className={style.articleTitle}>{articleProps.title}</div>
       <div className={style.contentContainer}>
-        <div className={style.content}>
-          'Design System'이라는 책에 따르면 디자인 시스템은 '서비스의 목적에 맞도록 일관되게 구성한
-          일련의 패턴과 공유된 규칙 언어'라고 합니다. 사람들이 디자인을 시작할 때 공통으로 사용하는
-          컬러, 폰트, 레이아웃, UI 구성 요소 등 일관된 집합을 두고 이를 어떻게 구성하는지 체계가
-          이루어져야 디자인 시스템이라고 할 수 있습니다. 왜 회사들은 디자인 시스템을 만들까요?
-        </div>
-        <div className={commonStyles.contentInfo} id={style.articleContent}>
-          12기 박지효 | 25.02.11
+        <div className={style.content}>{articleProps.content}</div>
+      </div>
+      <div className={commonStyles.flexSpaceBetContainer}>
+        {isMyArticle && (
+          <div className={commonStyles.btnContainer}>
+            <button
+              className={commonStyles.noticeBtn}
+              onClick={e => handleUpdate(e, articleProps.id)}
+            >
+              수정
+            </button>
+            <button
+              className={commonStyles.noticeBtn}
+              onClick={e => handleDelete(e, articleProps.id)}
+            >
+              삭제
+            </button>
+          </div>
+        )}
+
+        <div className={commonStyles.contentInfo} id={commonStyles.infoContent}>
+          {articleProps.creatorYear}기 {articleProps.creatorName} |{" "}
+          {formatDate(articleProps.createdAt)}
         </div>
       </div>
     </div>
@@ -25,10 +66,36 @@ const ArticleItem = () => {
 };
 
 const Article = () => {
+  const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
-  const { articles, createArticle, updateArticle, deleteArticle } = useArticles(id ?? "");
+  const { articles, deleteArticle } = useArticles(id ?? "");
 
   if (!articles) return <div>로딩 중..</div>;
+
+  // 추후 리팩토링 ㅠㅠ 일단.
+  const handleDelete: ArticleButtonHandler = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    deleteArticle(id);
+    console.log("확인3");
+  };
+
+  const handleUpdate: ArticleButtonHandler = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // TODO: 모달 열기 로직 연결 예정
+    console.log("확인2");
+  };
+
+  const handleRead: ArticleGenericHandler = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log("확인1");
+  };
+
   return (
     <div className={commonStyles.contentContainer}>
       <div className={commonStyles.contentTitle}>
@@ -36,7 +103,22 @@ const Article = () => {
         <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
       </div>
       <div className={commonStyles.contentItem} id={style.articleContainer}>
-        <ArticleItem></ArticleItem>
+        {articles.length != 0 ? (
+          articles.map((item, key) => (
+            <ArticleItem
+              key={key}
+              articleProps={item}
+              handleDelete={handleDelete}
+              handleUpdate={handleUpdate}
+              handleRead={handleRead}
+              isMyArticle={item.creatorId == user.uid}
+            ></ArticleItem>
+          ))
+        ) : (
+          <div className={commonStyles.noItemContainer}>
+            <div className={commonStyles.noItemText}>Article을 생성해주세요.</div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { Timestamp } from "firebase/firestore";
 export type NoticeInputItem = {
   title: string;
   content: string;
-  creatorId: string;
+  creatorId: any;
 };
 
 export type NoticeItem = {
@@ -11,5 +11,5 @@ export type NoticeItem = {
   title: string;
   content: string;
   creatorId: string;
-  createdAt: Timestamp;
+  createdAt: any;
 };

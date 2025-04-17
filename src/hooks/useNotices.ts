@@ -6,7 +6,8 @@ import {
   onSnapshot,
   setDoc,
   updateDoc,
-  Timestamp
+  Timestamp,
+  serverTimestamp
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { NoticeItem } from "@/types/studyRoomDetails/notice";
@@ -40,7 +41,7 @@ export function useNotices(studyroomId: string) {
       title,
       content,
       creatorId,
-      createdAt: Timestamp.now()
+      createdAt: serverTimestamp()
     };
     await setDoc(ref, Notice);
   };
