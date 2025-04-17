@@ -27,7 +27,8 @@ interface Props {
 
 const AddArticleModal = ({ studyRoomId }: Props) => {
   console.log(studyRoomId);
-  const { name, year } = useUserStore();
+  const { name, year, uid } = useUserStore();
+
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
   const handleOpenDelete = () => open(<DeleteModal />);
@@ -49,6 +50,7 @@ const AddArticleModal = ({ studyRoomId }: Props) => {
         content: markdown,
         creatorName: name,
         creatorYear: year,
+        creatorId: uid,
         createdAt: serverTimestamp()
       });
 
