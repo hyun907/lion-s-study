@@ -1,31 +1,78 @@
-import React from "react";
-import styles from "./ReadArticleModal.module.css";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+import { useModalStore } from "@/store/useModalStore";
+import fireStore from "@/firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+
 import ICDelete from "@/assets/icon/delete.svg";
-import ReactMarkdown from "react-markdown";
-const ReadArticleModal = () => {
-  const markdownText = `
-  # 테스트
-  `;
+
+import styles from "./ReadArticleModal.module.css";
+
+const Viewer = dynamic(() => import("@toast-ui/react-editor").then(mod => mod.Viewer), {
+  ssr: false
+});
+
+interface Props {
+  studyRoomId: string;
+  articleId: string;
+}
+
+const ReadArticleModal = ({ studyRoomId, articleId }: Props) => {
+  const close = useModalStore(state => state.close);
+
+  const [articleData, setArticleData] = useState<{
+    title: string;
+    creatorName: string;
+    creatorYear: string;
+    content: string;
+    createdAt?: any;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const articleRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
+        const articleSnap = await getDoc(articleRef);
+
+        if (articleSnap.exists()) {
+          setArticleData(articleSnap.data() as any);
+        } else {
+          console.error("해당 아티클을 찾을 수 없습니다.");
+        }
+      } catch (error) {
+        console.error("아티클 불러오기 실패:", error);
+      }
+    };
+
+    fetchArticle();
+  }, [studyRoomId, articleId]);
+
+  if (!articleData) return <div className={styles.overlay}>로딩 중...</div>;
+
   return (
-    <>
-      <div className={styles.overlay}>
-        <div className={styles.modalBox}>
-          <div className={styles.topSection}>
-            <div>
-              <h1>Article 읽기</h1>
-              <h2>12기 박지효 | 25.02.11</h2>
-            </div>
-
-            <ICDelete className={styles.deleteIc} />
+    <div className={styles.overlay}>
+      <div className={styles.modalBox}>
+        <div className={styles.topSection}>
+          <div>
+            <h1>{articleData.title}</h1>
+            <h2>
+              {articleData.creatorYear}기 {articleData.creatorName} |{" "}
+              {articleData.createdAt
+                ? new Date(articleData.createdAt.seconds * 1000).toLocaleDateString("ko-KR")
+                : " "}
+            </h2>
           </div>
-          <div className={styles.bodySection}>
-            <h1>1주차 - 마크다운이란?</h1>
 
-            <ReactMarkdown>{markdownText}</ReactMarkdown>
-          </div>
+          <ICDelete className={styles.deleteIc} onClick={close} />
+        </div>
+        <div className={styles.bodySection}>
+          <Viewer key={articleData?.content} initialValue={articleData?.content || ""} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

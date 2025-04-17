@@ -72,12 +72,15 @@
 
   border-radius: 4px;
   border: 0.824px solid var(--60, #585858);
+}
 
-  background: var(--Basic-White, #fff);
-
+.activatedBtn {
+  background-color: #fff;
+  color: #1a1a1a;
   cursor: pointer;
 }
 
-.cursorPointer {
-  cursor: pointer;
+.defaultBtn {
+  background-color: transparent;
+  color: #c6c6c6;
 }
