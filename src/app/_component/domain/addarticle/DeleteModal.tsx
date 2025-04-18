@@ -12,7 +12,7 @@ export default function DeleteModal() {
 
   const handleKeepWriting = () => {
     close();
-    open(<AddArticleModal studyRoomId="2Gyk5YwplLm61vnxHsyE" />);
+    open(<AddArticleModal />);
   };
 
   const handleStopWriting = () => {

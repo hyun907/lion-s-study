@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 import { useModalStore } from "@/store/useModalStore";
+import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import fireStore from "@/firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -16,12 +17,13 @@ const Viewer = dynamic(() => import("@toast-ui/react-editor").then(mod => mod.Vi
 });
 
 interface Props {
-  studyRoomId: string;
   articleId: string;
 }
 
-const ReadArticleModal = ({ studyRoomId, articleId }: Props) => {
+const ReadArticleModal = ({ articleId }: Props) => {
   const close = useModalStore(state => state.close);
+  const { studyroomId } = useStudyroomIdStore();
+  const studyRoomId = studyroomId;
 
   const [articleData, setArticleData] = useState<{
     title: string;
@@ -33,6 +35,7 @@ const ReadArticleModal = ({ studyRoomId, articleId }: Props) => {
 
   useEffect(() => {
     const fetchArticle = async () => {
+      if (!studyRoomId) return;
       try {
         const articleRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
         const articleSnap = await getDoc(articleRef);
