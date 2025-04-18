@@ -12,6 +12,7 @@ import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
+import AddArticleModal from "../domain/addarticle/AddArticleModal";
 import { useModalStore } from "@/store/useModalStore";
 
 interface ArticeItemInterface {
@@ -86,7 +87,7 @@ const Article = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    // TODO: 모달 열기 로직 연결 예정
+    open(<AddArticleModal articleId={id} />);
   };
 
   const handleRead: StudyroomItemGenericHandler = (e, id) => {
