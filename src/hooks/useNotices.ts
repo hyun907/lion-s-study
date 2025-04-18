@@ -28,6 +28,14 @@ export function useNotices(studyroomId: string) {
           createdAt: data.createdAt
         };
       });
+
+      // 최신순 정렬
+      result.sort((a, b) => {
+        const aTime = a.createdAt?.toMillis?.() ?? 0;
+        const bTime = b.createdAt?.toMillis?.() ?? 0;
+        return bTime - aTime;
+      });
+
       setNotices(result);
     });
 

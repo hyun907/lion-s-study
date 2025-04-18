@@ -25,6 +25,12 @@ export function useLinks(studyroomId: string) {
           createdAt: data.createdAt
         };
       });
+
+      result.sort((a, b) => {
+        const aTime = a.createdAt?.toMillis?.() ?? 0;
+        const bTime = b.createdAt?.toMillis?.() ?? 0;
+        return aTime - bTime;
+      });
       setLinks(result);
     });
 
