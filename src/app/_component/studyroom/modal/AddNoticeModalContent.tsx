@@ -10,7 +10,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useNotices } from "@/hooks/useNotices";
 import { useUserStore } from "@/store/useUserStore";
 
-// 🧩 수정할 공지를 prop으로 넘겨받을 수 있도록 확장
 interface AddNoticeModalContentProps {
   initialContent?: string;
   noticeId?: string;
