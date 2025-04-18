@@ -1,6 +1,6 @@
 export interface ToastItem {
   type: string;
-  title: (name?: string) => string;
+  title: string | ((name?: string) => string);
   subtitle?: string;
   color: "green" | "yellow";
 }
@@ -15,13 +15,13 @@ export const ToastTypeList: ToastItem[] = [
   },
   {
     type: "login",
-    title: () => "서재는 사자만 이용할 수 있습니다.",
+    title: "서재는 사자만 이용할 수 있습니다.",
     subtitle: "로그인 후 입장해주세요.",
     color: "yellow"
   },
   {
     type: "logout",
-    title: () => "로그아웃이 완료되었습니다.",
+    title: "로그아웃이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
@@ -29,13 +29,13 @@ export const ToastTypeList: ToastItem[] = [
   // studyroom
   {
     type: "addStudyroom",
-    title: () => "서재 생성이 완료되었습니다.",
+    title: "서재 생성이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
   {
     type: "copyLink",
-    title: () => "링크가 클립보드에 복사되었습니다.",
+    title: "링크가 클립보드에 복사되었습니다.",
     subtitle: "",
     color: "green"
   },
@@ -43,19 +43,19 @@ export const ToastTypeList: ToastItem[] = [
   // notice
   {
     type: "addNotice",
-    title: () => "Notice 생성이 완료되었습니다.",
+    title: "Notice 생성이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
   {
     type: "editNotice",
-    title: () => "Notice 수정이 완료되었습니다.",
+    title: "Notice 수정이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
   {
     type: "deleteNotice",
-    title: () => "Notice 삭제가 완료되었습니다.",
+    title: "Notice 삭제가 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
@@ -63,13 +63,13 @@ export const ToastTypeList: ToastItem[] = [
   // link
   {
     type: "addLink",
-    title: () => "Link 생성이 완료되었습니다.",
+    title: "Link 생성이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
   {
     type: "deleteLink",
-    title: () => "Link 삭제가 완료되었습니다.",
+    title: "Link 삭제가 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
@@ -77,19 +77,19 @@ export const ToastTypeList: ToastItem[] = [
   // article
   {
     type: "addArticle",
-    title: () => "Article 생성이 완료되었습니다.",
+    title: "Article 생성이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
   {
     type: "editArticle",
-    title: () => "Article 수정이 완료되었습니다.",
+    title: "Article 수정이 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
   {
     type: "deleteArticle",
-    title: () => "Article 삭제가 완료되었습니다.",
+    title: "Article 삭제가 완료되었습니다.",
     subtitle: "",
     color: "green"
   },
@@ -97,13 +97,13 @@ export const ToastTypeList: ToastItem[] = [
   // empty
   {
     type: "emptyTitle",
-    title: () => "앗, 제목이 비어있어요!",
+    title: "앗, 제목이 비어있어요!",
     subtitle: "생성하기 전에 제목을 입력해주세요.",
     color: "yellow"
   },
   {
     type: "emptyContent",
-    title: () => "어흥! 내용이 비어있어요!",
+    title: "어흥! 내용이 비어있어요!",
     subtitle: "생성하기 전에 내용을 입력해주세요.",
     color: "yellow"
   }

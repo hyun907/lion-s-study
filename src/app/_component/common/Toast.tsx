@@ -19,7 +19,7 @@ const Toast = ({ toastType }: Props) => {
   if (!toastInfo || !name) return null;
 
   const { subtitle, color } = toastInfo;
-  const title = toastInfo.title(name);
+  const title = typeof toastInfo.title === "function" ? toastInfo.title(name) : toastInfo.title;
   const IconComponent = color === "green" ? ToastIcGreen : ToastIcYellow;
 
   return (
