@@ -23,6 +23,19 @@ const StudyroomTitle = () => {
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error.message}</div>;
 
+  const handleShare = async () => {
+    if (!id) return;
+
+    const shareUrl = `${window.location.origin}/studyroom/${id}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      alert("링크가 복사되었습니다!");
+    } catch (err) {
+      console.error("클립보드 복사 실패:", err);
+      alert("링크 복사에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
   if (studyroom)
     return (
       <div className={commonStyles.contentContainer} id={styles.mainBg}>
@@ -32,7 +45,11 @@ const StudyroomTitle = () => {
             <div className={styles.svgItemContainer}>
               <Ic_Heart_Abled />
             </div>
-            <div className={styles.svgItemContainer}>
+            <div
+              className={styles.svgItemContainer}
+              onClick={handleShare}
+              style={{ cursor: "pointer" }}
+            >
               <Ic_Share />
             </div>
           </div>
