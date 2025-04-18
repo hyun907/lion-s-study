@@ -13,6 +13,7 @@ import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHa
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
 import { useModalStore } from "@/store/useModalStore";
+import DeleteContentModal from "./modal/DeleteContentModal";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -74,12 +75,11 @@ const Article = () => {
 
   if (!articles) return <div>로딩 중..</div>;
 
-  // 추후 리팩토링 ㅠㅠ 일단.
-  const handleDelete: StudyroomItemButtonHandler = (e, id) => {
+  const handleDelete: StudyroomItemButtonHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
 
-    deleteArticle(id);
+    open(<DeleteContentModal type={SUB_CONTENT_TYPE.ARTICLE} contentId={contentId} />);
   };
 
   const handleUpdate: StudyroomItemButtonHandler = (e, id) => {

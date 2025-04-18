@@ -10,6 +10,8 @@ import {
   StudyroomItemButtonHandler,
   StudyroomItemGenericHandler
 } from "@/types/studyRoomDetails/itemClickHandler";
+import { useModalStore } from "@/store/useModalStore";
+import DeleteContentModal from "./modal/DeleteContentModal";
 
 interface LinkItemInterface {
   id: string;
@@ -39,13 +41,15 @@ const LinkItem = ({ id, title, url, handleDelete, handleClickLink }: LinkItemInt
 
 const Link = () => {
   const id = useStudyroomIdStore(state => state.studyroomId);
-  const { links, createLink, deleteLink } = useLinks(id ?? "");
 
-  const handleDelete: StudyroomItemButtonHandler = (e, id) => {
+  const { open } = useModalStore();
+  const { links } = useLinks(id ?? "");
+
+  const handleDelete: StudyroomItemButtonHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
 
-    deleteLink(id);
+    open(<DeleteContentModal type={SUB_CONTENT_TYPE.LINK} contentId={contentId} />);
   };
 
   const handleClickLink: StudyroomItemGenericHandler = (e, url) => {

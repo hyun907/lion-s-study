@@ -49,6 +49,7 @@ export function useLinks(studyroomId: string) {
   };
 
   const deleteLink = async (id: string) => {
+    console.log("실행");
     await deleteDoc(doc(fireStore, `studyRooms/${studyroomId}/links/${id}`));
   };
 

@@ -4,8 +4,8 @@ import React from "react";
 import { useModalStore } from "@/store/useModalStore";
 import commonStyles from "./CommonStyles.module.css";
 
-import AddNoticeModalContent from "./modal/AddNoticeModalContent";
-import AddLinkModalContent from "./modal/AddLinkModalContent";
+import AddNoticeModalContent from "./modal/AddNoticeContentModal";
+import AddLinkModalContent from "./modal/AddLinkContentModal";
 import AddArticleModal from "@/app/_component/domain/addarticle/AddArticleModal";
 
 import { SubContentType } from "@/types/studyRoomDetails/content";
