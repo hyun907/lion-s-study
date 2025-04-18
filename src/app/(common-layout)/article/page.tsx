@@ -6,6 +6,7 @@ import { useModalStore } from "@/store/useModalStore";
 
 import AddArticleModal from "@/app/_component/domain/addarticle/AddArticleModal";
 import ReadArticleModal from "@/app/_component/domain/readArticle/ReadArticleModal";
+import Toast from "@/app/_component/common/Toast";
 
 export default function Article() {
   const open = useModalStore(state => state.open);
@@ -22,6 +23,7 @@ export default function Article() {
 
   return (
     <div style={{ paddingTop: "15rem" }}>
+      <Toast toastType="welcome" />
       <button onClick={handleOpenAdd} style={{ cursor: "pointer" }}>
         추가하기
       </button>
