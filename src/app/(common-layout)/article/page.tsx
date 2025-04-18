@@ -23,7 +23,7 @@ export default function Article() {
 
   return (
     <div style={{ paddingTop: "15rem" }}>
-      <Toast toastType="copyLink" />
+      <Toast toastType="welcome" />
       <button onClick={handleOpenAdd} style={{ cursor: "pointer" }}>
         추가하기
       </button>

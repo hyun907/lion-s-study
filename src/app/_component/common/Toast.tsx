@@ -16,7 +16,7 @@ const Toast = ({ toastType }: Props) => {
 
   const toastInfo = ToastTypeList.find(item => item.type === toastType) as ToastItem | undefined;
 
-  if (!toastInfo) return null;
+  if (!toastInfo || !name) return null;
 
   const { subtitle, color } = toastInfo;
   const title = toastInfo.title(name);
