@@ -37,6 +37,12 @@
   width: 100%;
 }
 
+.topSection > div {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
 .topSection h1 {
   color: var(--60, #585858);
 

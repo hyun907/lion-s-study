@@ -6,29 +6,30 @@ import styles from "./ToastEditor.module.css";
 
 interface Props {
   setMarkdown: (val: string) => void;
+  markdown: string;
 }
-
-const ToastEditor = ({ setMarkdown }: Props) => {
+const ToastEditor = ({ setMarkdown, markdown }: Props) => {
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
-    const savedMarkdown = localStorage.getItem("draft-markdown");
     const instance = editorRef.current?.getInstance();
-    instance?.setMarkdown(savedMarkdown || "");
-    setMarkdown(savedMarkdown || "");
+    if (!instance) return;
+
+    instance.setMarkdown(markdown || "");
+    setMarkdown(markdown || "");
 
     const handleChange = () => {
-      const md = instance?.getMarkdown() || "";
+      const md = instance.getMarkdown() || "";
       localStorage.setItem("draft-markdown", md);
       setMarkdown(md);
     };
 
-    instance?.on("change", handleChange);
+    instance.on("change", handleChange);
 
     return () => {
-      instance?.off("change", handleChange);
+      instance.off("change", handleChange);
     };
-  }, [setMarkdown]);
+  }, [markdown, setMarkdown]);
 
   return (
     <div className={styles.editorWrapper}>

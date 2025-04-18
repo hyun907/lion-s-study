@@ -39,6 +39,18 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "green"
   },
+  {
+    type: "fail",
+    title: "작업에 실패했습니다.",
+    subtitle: "",
+    color: "yellow"
+  },
+  {
+    type: "wrongStudyroomId",
+    title: "스터디룸 ID가 유효하지 않습니다.",
+    subtitle: "",
+    color: "yellow"
+  },
 
   // notice
   {

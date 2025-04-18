@@ -25,7 +25,7 @@ export default function DeleteModal() {
     <div className={modalStyles.modal}>
       <div className={styles.modalHeader}>
         <p className={modalStyles.modalTitle}>Article 작성을 그만두시겠습니까?</p>
-        <ICDelete onClick={close} style={{ cursor: "pointer" }} />
+        <ICDelete onClick={handleKeepWriting} style={{ cursor: "pointer" }} />
       </div>
       <div className={styles.bodyContainer}>
         <p>지금 중단하면 저장이 되지 않습니다.</p>
