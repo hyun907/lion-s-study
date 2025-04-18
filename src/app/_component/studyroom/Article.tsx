@@ -12,6 +12,7 @@ import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
+import { useModalStore } from "@/store/useModalStore";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -69,6 +70,7 @@ const Article = () => {
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
   const { articles, deleteArticle } = useArticles(id ?? "");
+  const open = useModalStore(state => state.open);
 
   if (!articles) return <div>로딩 중..</div>;
 
