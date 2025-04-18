@@ -6,8 +6,11 @@ import React, { useState, useEffect } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useToastStore } from "@/store/useToastStore";
+
 import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
+import Toast from "../../common/Toast";
 
 import {
   collection,
@@ -62,14 +65,18 @@ const AddArticleModal = ({ articleId }: Props) => {
   const [title, setTitle] = useState(() => localStorage.getItem("draft-title") || "");
   const [markdown, setMarkdown] = useState(() => localStorage.getItem("draft-markdown") || "");
 
+  const [toastType, setToastType] = useState<string | null>(null);
+
+  const { showToast } = useToastStore();
+
   const handleSubmit = async () => {
     try {
       if (!isLoggedIn) {
-        alert("로그인이 필요합니다.");
+        setToastType("login");
         return;
       }
       if (!studyRoomId) {
-        alert("스터디룸 ID가 유효하지 않습니다.");
+        setToastType("wrongStudyroomId");
         return;
       }
 
@@ -81,7 +88,7 @@ const AddArticleModal = ({ articleId }: Props) => {
           content: markdown,
           updatedAt: serverTimestamp()
         });
-        alert("성공적으로 수정되었습니다!");
+        showToast("editArticle");
       } else {
         // 생성
         const articleRef = collection(fireStore, "studyRooms", studyRoomId, "articles");
@@ -93,15 +100,16 @@ const AddArticleModal = ({ articleId }: Props) => {
           creatorId: uid,
           createdAt: serverTimestamp()
         });
-        alert("성공적으로 생성되었습니다!");
+        showToast("addArticle");
       }
 
       localStorage.removeItem("draft-title");
       localStorage.removeItem("draft-markdown");
+
       useModalStore.getState().close();
     } catch (error) {
       console.error("처리 중 오류:", error);
-      alert("작업에 실패했습니다.");
+      setToastType("fail");
     }
   };
 
@@ -125,6 +133,7 @@ const AddArticleModal = ({ articleId }: Props) => {
           </div>
         </div>
       </div>
+      {toastType && <Toast toastType={toastType} />}
     </div>
   );
 };
