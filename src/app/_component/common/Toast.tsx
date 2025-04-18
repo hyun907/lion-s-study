@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { ToastTypeList, ToastItem } from "@/constants/ToastTypeList";
 import { useUserStore } from "@/store/useUserStore";
+import { useToastStore } from "@/store/useToastStore";
 
 import styles from "@/app/_component/common/Toast.module.css";
 import ToastIcGreen from "@/assets/icon/toast_green.svg";
@@ -13,8 +15,17 @@ interface Props {
 
 const Toast = ({ toastType }: Props) => {
   const { name } = useUserStore();
+  const { clearToast } = useToastStore();
 
   const toastInfo = ToastTypeList.find(item => item.type === toastType) as ToastItem | undefined;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      clearToast();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [toastType]);
 
   if (!toastInfo || !name) return null;
 

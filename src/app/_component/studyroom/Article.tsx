@@ -12,7 +12,9 @@ import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
+import AddArticleModal from "../domain/addarticle/AddArticleModal";
 import { useModalStore } from "@/store/useModalStore";
+import { useToastStore } from "@/store/useToastStore";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -74,19 +76,22 @@ const Article = () => {
 
   if (!articles) return <div>로딩 중..</div>;
 
+  const { showToast } = useToastStore();
+
   // 추후 리팩토링 ㅠㅠ 일단.
   const handleDelete: StudyroomItemButtonHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
 
     deleteArticle(id);
+    showToast("deleteArticle");
   };
 
   const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // TODO: 모달 열기 로직 연결 예정
+    open(<AddArticleModal articleId={id} />);
   };
 
   const handleRead: StudyroomItemGenericHandler = (e, id) => {

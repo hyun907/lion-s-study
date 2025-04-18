@@ -1,15 +1,26 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useToastStore } from "@/store/useToastStore";
+
 import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
+import Toast from "../../common/Toast";
 
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  addDoc,
+  serverTimestamp,
+  onSnapshot
+} from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
 import Titlebox from "./Titlebox";
@@ -23,14 +34,29 @@ const ToastEditor = dynamic(() => import("./ToastEditor"), {
 });
 
 interface Props {
-  studyRoomId: string;
+  articleId?: string;
 }
 
-const AddArticleModal = () => {
+const AddArticleModal = ({ articleId }: Props) => {
   const { name, year, uid } = useUserStore();
   const { studyroomId } = useStudyroomIdStore();
   const studyRoomId = studyroomId;
   console.log("studyRoomId", studyRoomId);
+
+  useEffect(() => {
+    if (!articleId || !studyRoomId) return;
+
+    const docRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
+    const unsub = onSnapshot(docRef, snapshot => {
+      const data = snapshot.data();
+      if (data) {
+        setTitle(data.title);
+        setMarkdown(data.content);
+      }
+    });
+
+    return () => unsub();
+  }, [articleId, studyRoomId]);
 
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
@@ -39,37 +65,51 @@ const AddArticleModal = () => {
   const [title, setTitle] = useState(() => localStorage.getItem("draft-title") || "");
   const [markdown, setMarkdown] = useState(() => localStorage.getItem("draft-markdown") || "");
 
+  const [toastType, setToastType] = useState<string | null>(null);
+
+  const { showToast } = useToastStore();
+
   const handleSubmit = async () => {
     try {
       if (!isLoggedIn) {
-        alert("로그인이 필요합니다.");
+        setToastType("login");
         return;
       }
       if (!studyRoomId) {
-        alert("스터디룸 ID가 유효하지 않습니다.");
+        setToastType("wrongStudyroomId");
         return;
       }
-      console.log(studyRoomId);
 
-      const articleRef = collection(fireStore, "studyRooms", studyRoomId, "articles");
-
-      await addDoc(articleRef, {
-        title,
-        content: markdown,
-        creatorName: name,
-        creatorYear: year,
-        creatorId: uid,
-        createdAt: serverTimestamp()
-      });
+      if (articleId) {
+        // 수정
+        const docRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
+        await updateDoc(docRef, {
+          title,
+          content: markdown,
+          updatedAt: serverTimestamp()
+        });
+        showToast("editArticle");
+      } else {
+        // 생성
+        const articleRef = collection(fireStore, "studyRooms", studyRoomId, "articles");
+        await addDoc(articleRef, {
+          title,
+          content: markdown,
+          creatorName: name,
+          creatorYear: year,
+          creatorId: uid,
+          createdAt: serverTimestamp()
+        });
+        showToast("addArticle");
+      }
 
       localStorage.removeItem("draft-title");
       localStorage.removeItem("draft-markdown");
 
       useModalStore.getState().close();
-      alert("성공적으로 생성되었습니다!");
     } catch (error) {
-      console.error("생성 중 오류:", error);
-      alert("생성에 실패했습니다.");
+      console.error("처리 중 오류:", error);
+      setToastType("fail");
     }
   };
 
@@ -77,7 +117,7 @@ const AddArticleModal = () => {
     <div className={styles.overlay}>
       <div className={styles.modalBox}>
         <div className={styles.topSection}>
-          <p>Article 생성하기</p>
+          <p>{articleId ? "Article 수정하기" : "Article 생성하기"}</p>
           <ICDelete onClick={handleOpenDelete} style={{ cursor: "pointer" }} />
         </div>
         <div className={styles.bodySection}>
@@ -87,11 +127,13 @@ const AddArticleModal = () => {
               setTitle={setTitle}
               markdown={markdown}
               onSubmit={handleSubmit}
+              articleId={articleId}
             />
-            <ToastEditor setMarkdown={setMarkdown} />
+            <ToastEditor setMarkdown={setMarkdown} markdown={markdown} />
           </div>
         </div>
       </div>
+      {toastType && <Toast toastType={toastType} />}
     </div>
   );
 };
