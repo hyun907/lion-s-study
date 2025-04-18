@@ -6,6 +6,7 @@ import commonStyles from "./CommonStyles.module.css";
 
 import AddNoticeModalContent from "./modal/AddNoticeModalContent";
 import AddLinkModalContent from "./modal/AddLinkModalContent";
+import AddArticleModal from "@/app/_component/domain/addarticle/AddArticleModal";
 
 import { SubContentType } from "@/types/studyRoomDetails/content";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
@@ -26,8 +27,7 @@ export default function AddSubContentBtn({ type }: SubContentProps) {
         open(<AddLinkModalContent />);
         break;
       case SUB_CONTENT_TYPE.ARTICLE:
-        // open(<AddArticleModal />);
-        // 여기는 씨옹이가 연결해주기
+        open(<AddArticleModal />);
         break;
       default:
         console.warn(`Unknown content type: ${type}`);

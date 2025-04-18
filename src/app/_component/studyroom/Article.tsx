@@ -2,22 +2,22 @@ import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
 import AddSubContentBtn from "./AddSubContentBtn";
 import style from "./Article.module.css";
 import commonStyles from "./CommonStyles.module.css";
+
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useArticles } from "@/hooks/useArticles";
-import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
-import { formatDate } from "@/utils/formatDate";
 import { useUserStore } from "@/store/useUserStore";
 
-type ArticleClickHandler<T extends HTMLElement> = (e: React.MouseEvent<T>, id: string) => void;
-
-type ArticleButtonHandler = ArticleClickHandler<HTMLButtonElement>;
-type ArticleGenericHandler = ArticleClickHandler<HTMLElement>;
+import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
+import { formatDate } from "@/utils/formatDate";
+import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
+import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
+import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
-  handleDelete: ArticleButtonHandler;
-  handleUpdate: ArticleButtonHandler;
-  handleRead: ArticleGenericHandler;
+  handleDelete: StudyroomItemButtonHandler;
+  handleUpdate: StudyroomItemButtonHandler;
+  handleRead: StudyroomItemGenericHandler;
   isMyArticle: boolean;
 }
 
@@ -73,23 +73,25 @@ const Article = () => {
   if (!articles) return <div>로딩 중..</div>;
 
   // 추후 리팩토링 ㅠㅠ 일단.
-  const handleDelete: ArticleButtonHandler = (e, id) => {
+  const handleDelete: StudyroomItemButtonHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
 
     deleteArticle(id);
   };
 
-  const handleUpdate: ArticleButtonHandler = (e, id) => {
+  const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
 
     // TODO: 모달 열기 로직 연결 예정
   };
 
-  const handleRead: ArticleGenericHandler = (e, id) => {
+  const handleRead: StudyroomItemGenericHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
+
+    open(<ReadArticleModal articleId={id} />);
   };
 
   return (
