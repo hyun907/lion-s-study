@@ -4,16 +4,18 @@ import React from "react";
 import styles from "./StudyroomTitle.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import Ic_Heart_Abled from "../../../assets/icon/heart.svg";
-// Disable된 버전 import 예정
+import Ic_Heart_Disabled from "../../../assets/icon/heart_empty.svg";
 import Ic_Share from "../../../assets/icon/share.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
 import { useUserStore } from "@/store/useUserStore";
+import { useFavorite } from "@/hooks/useFavorite";
 
 const StudyroomTitle = () => {
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
   const { studyroom, loading, error } = useStudyroomDetail(id ?? "");
+  const { isFavorite, handleToggleFavorite } = useFavorite(id ?? "");
 
   if (!id || !user) {
     return <div>오류 발생</div>;
@@ -41,8 +43,12 @@ const StudyroomTitle = () => {
         <div className={commonStyles.contentTitle}>
           <div>{studyroom.title}</div>
           <div className={styles.svgContainer}>
-            <div className={styles.svgItemContainer}>
-              <Ic_Heart_Abled />
+            <div
+              className={styles.svgItemContainer}
+              onClick={handleToggleFavorite}
+              style={{ cursor: "pointer" }}
+            >
+              {isFavorite ? <Ic_Heart_Abled /> : <Ic_Heart_Disabled />}
             </div>
             <div
               className={styles.svgItemContainer}
