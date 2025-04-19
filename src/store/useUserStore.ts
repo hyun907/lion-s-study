@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
+import Cookies from "js-cookie";
 
 interface UserState {
   uid: string | null;
@@ -39,9 +40,17 @@ export const useUserStore = create<UserState>()(
       setName: name => set({ name }),
       setYear: year => set({ year }),
       setPart: part => set({ part }),
-      setUser: (uid, googleId) => set({ uid, googleId, isSignUpCompleted: false }),
+      setUser: (uid, googleId) => {
+        set({ uid, googleId, isSignUpCompleted: false });
+        // 인증 토큰을 쿠키에 저장
+        Cookies.set("auth_token", uid, {
+          expires: 7, 
+          secure: true, 
+          sameSite: "strict" 
+        });
+      },
       setUserInfo: (name, year, part) => set({ name, year, part, isSignUpCompleted: true }),
-      clearUser: () =>
+      clearUser: () => {
         set({
           uid: null,
           googleId: null,
@@ -50,7 +59,10 @@ export const useUserStore = create<UserState>()(
           part: undefined,
           favorites: [],
           isSignUpCompleted: false
-        }),
+        });
+        // 인증 토큰 쿠키 삭제
+        Cookies.remove("auth_token");
+      },
       loadUserInfo: async uid => {
         const userDoc = await getDoc(doc(fireStore, "users", uid));
         if (userDoc.exists()) {
@@ -65,12 +77,12 @@ export const useUserStore = create<UserState>()(
           });
         }
       },
-      toggleFavorite: async (studyId) => {
+      toggleFavorite: async studyId => {
         const currentFavorites = useUserStore.getState().favorites || [];
         const newFavorites = currentFavorites.includes(studyId)
           ? currentFavorites.filter(id => id !== studyId)
           : [...currentFavorites, studyId];
-        
+
         // Zustand 상태 업데이트
         set({ favorites: newFavorites });
 
@@ -95,7 +107,6 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: "user"
-      // 전부 저장 (partialize 생략 가능)
     }
   )
 );
