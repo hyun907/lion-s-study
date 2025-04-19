@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { NoticeItem } from "@/types/studyRoomDetails/notice";
+import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
 
 export function useNotices(studyroomId: string) {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
@@ -29,12 +30,7 @@ export function useNotices(studyroomId: string) {
         };
       });
 
-      // 최신순 정렬
-      result.sort((a, b) => {
-        const aTime = a.createdAt?.toMillis?.() ?? 0;
-        const bTime = b.createdAt?.toMillis?.() ?? 0;
-        return bTime - aTime;
-      });
+      sortByCreatedAt(result, false);
 
       setNotices(result);
     });

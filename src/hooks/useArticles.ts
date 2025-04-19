@@ -3,6 +3,7 @@ import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import removeMarkdown from "remove-markdown";
+import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
 
 export function useArticles(studyroomId: string) {
   const [articles, setArticles] = useState<ArticleItem[]>([]);
@@ -35,11 +36,7 @@ export function useArticles(studyroomId: string) {
         };
       });
 
-      result.sort((a, b) => {
-        const aTime = a.createdAt?.toMillis?.() ?? 0;
-        const bTime = b.createdAt?.toMillis?.() ?? 0;
-        return bTime - aTime;
-      });
+      sortByCreatedAt(result, false);
 
       setArticles(result);
     });
