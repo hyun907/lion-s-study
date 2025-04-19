@@ -44,9 +44,9 @@ export const useUserStore = create<UserState>()(
         set({ uid, googleId, isSignUpCompleted: false });
         // 인증 토큰을 쿠키에 저장
         Cookies.set("auth_token", uid, {
-          expires: 7, 
-          secure: true, 
-          sameSite: "strict" 
+          expires: 7,
+          secure: true,
+          sameSite: "strict"
         });
       },
       setUserInfo: (name, year, part) => set({ name, year, part, isSignUpCompleted: true }),

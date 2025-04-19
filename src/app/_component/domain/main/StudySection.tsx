@@ -3,15 +3,18 @@
 import AddBtn from "./AddBtn";
 import StudyBtn from "./StudyBtn";
 import { formatDate } from "@/utils/formatDate";
+import { useToastStore } from "@/store/useToastStore";
 import { useStudyRoomStore } from "@/store/studyRoomStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useEffect } from "react";
 import styles from "./StudySection.module.css";
 import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
+import Toast from "../../common/Toast";
 
 export default function StudySection() {
   const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
   const { isFavorite } = useUserStore();
+  const { toastType } = useToastStore();
 
   useEffect(() => {
     fetchStudyRooms();
@@ -29,26 +32,28 @@ export default function StudySection() {
   const sortedStudyRooms = [...sortedFavoriteRooms, ...sortedNonFavoriteRooms];
 
   return (
-    <div className={styles.studySection}>
-      <AddBtn />
-
-      {isLoading ? (
-        <p>불러오는 중</p>
-      ) : studyRooms.length === 0 ? (
-        <p>생성된 스터디룸이 없습니다.</p>
-      ) : (
-        sortedStudyRooms.map(room => (
-          <StudyBtn
-            key={room.id}
-            id={room.id}
-            title={room.title}
-            creatorName={room.creatorName}
-            creatorYear={room.creatorYear}
-            updatedAt={formatDate(room.updatedAt)}
-            imageUrl={room.imageUrl}
-          />
-        ))
-      )}
-    </div>
+    <>
+      {toastType && <Toast toastType={toastType} />}
+      <div className={styles.studySection}>
+        <AddBtn />
+        {isLoading ? (
+          <p>불러오는 중</p>
+        ) : studyRooms.length === 0 ? (
+          <p>생성된 스터디룸이 없습니다.</p>
+        ) : (
+          sortedStudyRooms.map(room => (
+            <StudyBtn
+              key={room.id}
+              id={room.id}
+              title={room.title}
+              creatorName={room.creatorName}
+              creatorYear={room.creatorYear}
+              updatedAt={formatDate(room.updatedAt)}
+              imageUrl={room.imageUrl}
+            />
+          ))
+        )}
+      </div>
+    </>
   );
 }
