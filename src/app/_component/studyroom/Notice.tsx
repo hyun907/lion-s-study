@@ -11,8 +11,9 @@ import { NoticeItem as NoticeItemProp } from "@/types/studyRoomDetails/notice";
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { useState } from "react";
-import AddNoticeModalContent from "./modal/AddNoticeModalContent";
+import AddNoticeModalContent from "./modal/AddNoticeContentModal";
 import { useModalStore } from "@/store/useModalStore";
+import DeleteContentModal from "./modal/DeleteContentModal";
 
 interface NoticeItemInterface {
   noticeProps: NoticeItemProp;
@@ -75,11 +76,11 @@ const Notice = () => {
     open(<AddNoticeModalContent noticeId={target.id} initialContent={target.content} />);
   };
 
-  const handleDelete: StudyroomItemButtonHandler = (e, id) => {
+  const handleDelete: StudyroomItemButtonHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
 
-    deleteNotice(id);
+    open(<DeleteContentModal type={SUB_CONTENT_TYPE.NOTICE} contentId={contentId} />);
   };
 
   return (

@@ -1,6 +1,4 @@
 import StudyroomMain from "@/app/_component/studyroom/StudyroomMain";
-import { useStudyroomDetailStore } from "@/store/useStudyroomIdStore";
-import { usePathname } from "next/navigation";
 import React from "react";
 
 type Params = {

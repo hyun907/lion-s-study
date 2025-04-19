@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { LinkItem } from "@/types/studyRoomDetails/link";
+import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
 
 export function useLinks(studyroomId: string) {
   const [links, setLinks] = useState<LinkItem[]>([]);
@@ -25,6 +26,8 @@ export function useLinks(studyroomId: string) {
           createdAt: data.createdAt
         };
       });
+
+      sortByCreatedAt(result, true);
       setLinks(result);
     });
 
@@ -43,6 +46,7 @@ export function useLinks(studyroomId: string) {
   };
 
   const deleteLink = async (id: string) => {
+    console.log("실행");
     await deleteDoc(doc(fireStore, `studyRooms/${studyroomId}/links/${id}`));
   };
 

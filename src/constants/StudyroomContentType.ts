@@ -1,5 +1,5 @@
 export const SUB_CONTENT_TYPE = {
-  LINK: "link",
-  NOTICE: "notice",
-  ARTICLE: "article"
+  LINK: "Link",
+  NOTICE: "Notice",
+  ARTICLE: "Article"
 } as const;

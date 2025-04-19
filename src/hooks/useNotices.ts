@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { NoticeItem } from "@/types/studyRoomDetails/notice";
+import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
 
 export function useNotices(studyroomId: string) {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
@@ -28,6 +29,9 @@ export function useNotices(studyroomId: string) {
           createdAt: data.createdAt
         };
       });
+
+      sortByCreatedAt(result, false);
+
       setNotices(result);
     });
 
