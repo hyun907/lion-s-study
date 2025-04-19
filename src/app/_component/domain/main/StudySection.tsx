@@ -4,15 +4,29 @@ import AddBtn from "./AddBtn";
 import StudyBtn from "./StudyBtn";
 import { formatDate } from "@/utils/formatDate";
 import { useStudyRoomStore } from "@/store/studyRoomStore";
+import { useUserStore } from "@/store/useUserStore";
 import { useEffect } from "react";
 import styles from "./StudySection.module.css";
+import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
 
 export default function StudySection() {
   const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
+  const { isFavorite } = useUserStore();
 
   useEffect(() => {
     fetchStudyRooms();
   }, [fetchStudyRooms]);
+
+  // favorite 스터디룸과 일반 스터디룸을 분리
+  const favoriteRooms = studyRooms.filter(room => isFavorite(room.id));
+  const nonFavoriteRooms = studyRooms.filter(room => !isFavorite(room.id));
+
+  // 각각을 updatedAt 기준으로 내림차순 정렬
+  const sortedFavoriteRooms = sortByCreatedAt(favoriteRooms, false);
+  const sortedNonFavoriteRooms = sortByCreatedAt(nonFavoriteRooms, false);
+
+  // favorite 스터디룸을 먼저 배치
+  const sortedStudyRooms = [...sortedFavoriteRooms, ...sortedNonFavoriteRooms];
 
   return (
     <div className={styles.studySection}>
@@ -23,7 +37,7 @@ export default function StudySection() {
       ) : studyRooms.length === 0 ? (
         <p>생성된 스터디룸이 없습니다.</p>
       ) : (
-        studyRooms.map(room => (
+        sortedStudyRooms.map(room => (
           <StudyBtn
             key={room.id}
             id={room.id}
