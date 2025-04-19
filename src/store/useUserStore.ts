@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
 interface UserState {
@@ -9,7 +9,7 @@ interface UserState {
   name: string | undefined;
   year: number | undefined;
   part: string | undefined;
-  favorites: [] | undefined;
+  favorites: string[] | undefined;
   isSignUpCompleted: boolean;
   isHydrated: boolean;
 
@@ -20,6 +20,8 @@ interface UserState {
   setUserInfo: (name: string, year: number, part: string) => void;
   clearUser: () => void;
   loadUserInfo: (uid: string) => Promise<void>;
+  toggleFavorite: (studyId: string) => void;
+  isFavorite: (studyId: string) => boolean;
 }
 
 export const useUserStore = create<UserState>()(
@@ -46,6 +48,7 @@ export const useUserStore = create<UserState>()(
           name: undefined,
           year: undefined,
           part: undefined,
+          favorites: [],
           isSignUpCompleted: false
         }),
       loadUserInfo: async uid => {
@@ -57,9 +60,37 @@ export const useUserStore = create<UserState>()(
             year: userData.year,
             part: userData.part,
             googleId: userData.googleId,
+            favorites: userData.favorites || [],
             isSignUpCompleted: true
           });
         }
+      },
+      toggleFavorite: async (studyId) => {
+        const currentFavorites = useUserStore.getState().favorites || [];
+        const newFavorites = currentFavorites.includes(studyId)
+          ? currentFavorites.filter(id => id !== studyId)
+          : [...currentFavorites, studyId];
+        
+        // Zustand 상태 업데이트
+        set({ favorites: newFavorites });
+
+        // 파이어베이스에 저장
+        const uid = useUserStore.getState().uid;
+        if (uid) {
+          try {
+            await updateDoc(doc(fireStore, "users", uid), {
+              favorites: newFavorites
+            });
+          } catch (error) {
+            console.error("Error updating favorites in Firebase:", error);
+            // 에러 발생 시 Zustand 상태 롤백
+            set({ favorites: currentFavorites });
+          }
+        }
+      },
+      isFavorite: studyId => {
+        const favorites = useUserStore.getState().favorites || [];
+        return favorites.includes(studyId);
       }
     }),
     {

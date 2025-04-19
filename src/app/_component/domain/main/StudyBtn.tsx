@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { StudyBtnProps } from "@/types/studyRooms/studyRoom";
+import { useFavorite } from "@/hooks/useFavorite";
 
 import ICEmptyHeart from "@/assets/icon/main/empty_heart.svg";
 import ICFillHeart from "@/assets/icon/main/fill_heart.svg";
@@ -19,8 +19,7 @@ export default function StudyBtn({
   imageUrl
 }: StudyBtnProps) {
   const router = useRouter();
-
-  const [like, setLike] = useState(false);
+  const { isFavorite, handleToggleFavorite } = useFavorite(id);
 
   const handleStudyBtnClick = () => {
     router.push(`/studyroom/${id}`);
@@ -47,8 +46,8 @@ export default function StudyBtn({
       <div className={styles.btnBottom}>
         <div className={styles.titleSection}>
           <p className={styles.title}>{title}</p>
-          <div className={styles.heartWrapper} onClick={() => setLike(!like)}>
-            {like ? <ICEmptyHeart /> : <ICFillHeart />}
+          <div className={styles.heartWrapper} onClick={handleToggleFavorite}>
+            {isFavorite ? <ICFillHeart /> : <ICEmptyHeart />}
           </div>
         </div>
         <div className={styles.authorSection}>
