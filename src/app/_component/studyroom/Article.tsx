@@ -15,7 +15,6 @@ import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
 import AddArticleModal from "../domain/addarticle/AddArticleModal";
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
-import { useToastStore } from "@/store/useToastStore";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -72,19 +71,16 @@ const ArticleItem = ({
 const Article = () => {
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
-  const { articles, deleteArticle } = useArticles(id ?? "");
+  const { articles } = useArticles(id ?? "");
   const open = useModalStore(state => state.open);
 
   if (!articles) return <div>로딩 중..</div>;
-
-  const { showToast } = useToastStore();
 
   const handleDelete: StudyroomItemButtonHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
 
     open(<DeleteContentModal type={SUB_CONTENT_TYPE.ARTICLE} contentId={contentId} />);
-    showToast("deleteArticle");
   };
 
   const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
