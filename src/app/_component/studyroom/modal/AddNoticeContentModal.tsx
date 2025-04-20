@@ -9,6 +9,7 @@ import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useNotices } from "@/hooks/useNotices";
 import { useUserStore } from "@/store/useUserStore";
+import { useToastStore } from "@/store/useToastStore";
 
 interface AddNoticeModalContentProps {
   initialContent?: string;
@@ -25,6 +26,7 @@ export default function AddNoticeModalContent({
   const { isLoggedIn } = useAuth();
 
   const { createNotice, updateNotice } = useNotices(studyroomId ?? "");
+  const { showToast } = useToastStore();
 
   const [content, setContent] = useState(initialContent);
   const isValid = content.trim() !== "";
@@ -39,8 +41,10 @@ export default function AddNoticeModalContent({
     try {
       if (noticeId) {
         await updateNotice(noticeId, content);
+        showToast("editNotice");
       } else {
         await createNotice(content, user.uid, user.name, user.year);
+        showToast("addNotice");
       }
 
       close();

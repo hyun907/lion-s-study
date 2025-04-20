@@ -1,5 +1,5 @@
 // createdAt 속성을 기준으로 sort하는 함수
-export function sortByCreatedAt<T extends { createdAt?: { toMillis: () => number } }>(
+export function sortArrByTime<T extends { createdAt?: { toMillis: () => number } }>(
   arr: T[],
   asc: boolean = true
 ): T[] {

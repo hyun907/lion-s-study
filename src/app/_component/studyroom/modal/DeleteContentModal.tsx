@@ -9,6 +9,7 @@ import { useLinks } from "@/hooks/useLinks";
 import { useNotices } from "@/hooks/useNotices";
 import { useModalStore } from "@/store/useModalStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
+import { useToastStore } from "@/store/useToastStore";
 
 type DeleteContentModalProps = {
   type: SubContentType;
@@ -24,6 +25,7 @@ export default function DeleteContentModal({ type, contentId }: DeleteContentMod
   const { deleteLink } = useLinks(studyroomId ?? "");
 
   const { close } = useModalStore();
+  const { showToast } = useToastStore();
 
   // 정의해둔 SubContentType을 통해 알맞은 delete 함수로 매핑해줌.
   const deleteMap: Record<SubContentType, (id: string) => void> = {
@@ -35,7 +37,7 @@ export default function DeleteContentModal({ type, contentId }: DeleteContentMod
   // 한번에 받아서 삭제 처리하는 공통 핸들러 함수
   const handleDelete = () => {
     deleteMap[type](contentId);
-    alert("성공적으로 삭제되었습니다!");
+    showToast(`delete${type}`);
     close(); // 모달 닫기
   };
 

@@ -8,7 +8,7 @@ import { useStudyRoomStore } from "@/store/studyRoomStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useEffect } from "react";
 import styles from "./StudySection.module.css";
-import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
+import { sortArrByTime } from "@/utils/sortArrByTime";
 import Toast from "../../common/Toast";
 
 export default function StudySection() {
@@ -25,8 +25,8 @@ export default function StudySection() {
   const nonFavoriteRooms = studyRooms.filter(room => !isFavorite(room.id));
 
   // 각각을 updatedAt 기준으로 내림차순 정렬
-  const sortedFavoriteRooms = sortByCreatedAt(favoriteRooms, false);
-  const sortedNonFavoriteRooms = sortByCreatedAt(nonFavoriteRooms, false);
+  const sortedFavoriteRooms = sortArrByTime(favoriteRooms, false);
+  const sortedNonFavoriteRooms = sortArrByTime(nonFavoriteRooms, false);
 
   // favorite 스터디룸을 먼저 배치
   const sortedStudyRooms = [...sortedFavoriteRooms, ...sortedNonFavoriteRooms];

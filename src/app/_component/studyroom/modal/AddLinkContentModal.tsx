@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useLinks } from "@/hooks/useLinks";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useAuth } from "@/hooks/useAuth";
+import { useToastStore } from "@/store/useToastStore";
 
 export default function AddLinkModalContent() {
   const close = useModalStore(state => state.close);
@@ -15,6 +16,7 @@ export default function AddLinkModalContent() {
   const { isLoggedIn } = useAuth();
 
   const { createLink } = useLinks(studyroomId || "");
+  const { showToast } = useToastStore();
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
@@ -31,6 +33,7 @@ export default function AddLinkModalContent() {
       }
 
       await createLink(title, url);
+      showToast("addLink");
       close();
     } catch (error) {
       alert("링크 생성에 실패하였습니다.");

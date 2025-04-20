@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { NoticeItem } from "@/types/studyRoomDetails/notice";
-import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
+import { sortArrByTime } from "@/utils/sortArrByTime";
 
 export function useNotices(studyroomId: string) {
   const [notices, setNotices] = useState<NoticeItem[]>([]);
@@ -30,7 +30,7 @@ export function useNotices(studyroomId: string) {
         };
       });
 
-      sortByCreatedAt(result, false);
+      sortArrByTime(result, false);
 
       setNotices(result);
     });

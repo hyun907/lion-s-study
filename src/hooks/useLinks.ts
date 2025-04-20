@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 import { LinkItem } from "@/types/studyRoomDetails/link";
-import { sortByCreatedAt } from "@/utils/sortByCreatedAt";
+import { sortArrByTime } from "@/utils/sortArrByTime";
 
 export function useLinks(studyroomId: string) {
   const [links, setLinks] = useState<LinkItem[]>([]);
@@ -27,7 +27,7 @@ export function useLinks(studyroomId: string) {
         };
       });
 
-      sortByCreatedAt(result, true);
+      sortArrByTime(result, true);
       setLinks(result);
     });
 
