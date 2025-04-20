@@ -1,17 +1,24 @@
 "use client";
 
 import ICPlus from "@/assets/icon/plus.svg";
-
 import { useModalStore } from "@/store/useModalStore";
-
 import styles from "./AddBtn.module.css";
 import AddStudyContent from "./AddStudyContent";
+import { useToastStore } from "@/store/useToastStore";
+import { checkAuth } from "@/utils/checkAuth";
 
 export default function AddBtn() {
+  const { showToast } = useToastStore();
   const open = useModalStore(state => state.open);
+
   const handleOpenAdd = () => {
+    if (!checkAuth()) {
+      showToast("login");
+      return;
+    }
     open(<AddStudyContent />);
   };
+
   return (
     <div className={styles.btnContainer} onClick={handleOpenAdd}>
       <div className={styles.content}>

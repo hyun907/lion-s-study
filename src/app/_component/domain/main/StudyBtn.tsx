@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { StudyBtnProps } from "@/types/studyRooms/studyRoom";
+import { useFavorite } from "@/hooks/useFavorite";
+import { useToastStore } from "@/store/useToastStore";
+import { checkAuth } from "@/utils/checkAuth";
 
 import ICEmptyHeart from "@/assets/icon/main/empty_heart.svg";
 import ICFillHeart from "@/assets/icon/main/fill_heart.svg";
@@ -19,11 +21,24 @@ export default function StudyBtn({
   imageUrl
 }: StudyBtnProps) {
   const router = useRouter();
-
-  const [like, setLike] = useState(false);
+  const { isFavorite, handleToggleFavorite } = useFavorite(id);
+  const { showToast } = useToastStore();
 
   const handleStudyBtnClick = () => {
+    if (!checkAuth()) {
+      showToast("login");
+      return;
+    }
     router.push(`/studyroom/${id}`);
+  };
+
+  const handleHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!checkAuth()) {
+      showToast("login_common");
+      return;
+    }
+    handleToggleFavorite(e);
   };
 
   return (
@@ -47,8 +62,8 @@ export default function StudyBtn({
       <div className={styles.btnBottom}>
         <div className={styles.titleSection}>
           <p className={styles.title}>{title}</p>
-          <div className={styles.heartWrapper} onClick={() => setLike(!like)}>
-            {like ? <ICEmptyHeart /> : <ICFillHeart />}
+          <div className={styles.heartWrapper} onClick={handleHeartClick}>
+            {isFavorite ? <ICFillHeart /> : <ICEmptyHeart />}
           </div>
         </div>
         <div className={styles.authorSection}>

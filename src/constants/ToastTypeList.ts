@@ -20,6 +20,12 @@ export const ToastTypeList: ToastItem[] = [
     color: "yellow"
   },
   {
+    type: "login_common",
+    title: "로그인이 필요한 서비스입니다.",
+    subtitle: "",
+    color: "yellow"
+  },
+  {
     type: "logout",
     title: "로그아웃이 완료되었습니다.",
     subtitle: "",

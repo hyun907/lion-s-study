@@ -27,7 +27,8 @@ const Toast = ({ toastType }: Props) => {
     return () => clearTimeout(timer);
   }, [toastType]);
 
-  if (!toastInfo || !name) return null;
+  if (!toastInfo) return null;
+  if (typeof toastInfo.title === "function" && !name) return null;
 
   const { subtitle, color } = toastInfo;
   const title = typeof toastInfo.title === "function" ? toastInfo.title(name) : toastInfo.title;

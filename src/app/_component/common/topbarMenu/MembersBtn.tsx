@@ -3,10 +3,18 @@
 import React from "react";
 import styles from "./MembersBtn.module.css";
 import { useRouter } from "next/navigation";
+import { useToastStore } from "@/store/useToastStore";
+import { checkAuth } from "@/utils/checkAuth";
 
 export default function MembersBtn() {
   const router = useRouter();
+  const { showToast } = useToastStore();
+
   const handleGoToMembers = () => {
+    if (!checkAuth()) {
+      showToast("login_common");
+      return;
+    }
     router.push("/members");
   };
 
