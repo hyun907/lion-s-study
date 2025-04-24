@@ -34,25 +34,27 @@ export default function StudySection() {
   return (
     <>
       {toastType && <Toast toastType={toastType} />}
-      <div className={styles.studySection}>
-        <AddBtn />
-        {isLoading ? (
-          <p>불러오는 중</p>
-        ) : studyRooms.length === 0 ? (
-          <p>생성된 스터디룸이 없습니다.</p>
-        ) : (
-          sortedStudyRooms.map(room => (
-            <StudyBtn
-              key={room.id}
-              id={room.id}
-              title={room.title}
-              creatorName={room.creatorName}
-              creatorYear={room.creatorYear}
-              updatedAt={formatDate(room.updatedAt)}
-              imageUrl={room.imageUrl}
-            />
-          ))
-        )}
+      <div className={styles.wrapper}>
+        <div className={styles.studySection}>
+          <AddBtn />
+          {isLoading ? (
+            <p>불러오는 중</p>
+          ) : studyRooms.length === 0 ? (
+            <p>생성된 스터디룸이 없습니다.</p>
+          ) : (
+            sortedStudyRooms.map(room => (
+              <StudyBtn
+                key={room.id}
+                id={room.id}
+                title={room.title}
+                creatorName={room.creatorName}
+                creatorYear={room.creatorYear}
+                updatedAt={formatDate(room.updatedAt)}
+                imageUrl={room.imageUrl}
+              />
+            ))
+          )}
+        </div>
       </div>
     </>
   );
