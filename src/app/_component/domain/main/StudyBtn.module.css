@@ -72,6 +72,12 @@
   font-style: normal;
   font-weight: 600;
   line-height: 2.2rem;
+
+  display: block;
+  width: 28rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .authorSection {

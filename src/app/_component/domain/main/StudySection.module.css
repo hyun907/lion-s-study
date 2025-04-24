@@ -2,6 +2,26 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 2.947rem;
+  gap: 3rem;
   margin-top: 3.1rem;
+  max-width: 90rem;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1275px) {
+  .studySection {
+    max-width: 59rem;
+  }
+}
+
+@media (max-width: 965px) {
+  .studySection {
+    max-width: 28rem;
+  }
 }
