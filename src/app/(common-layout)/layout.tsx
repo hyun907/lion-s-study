@@ -1,4 +1,5 @@
 import TopBar from "@/app/_component/common/TopBar";
+import Footer from "../_component/common/Footer";
 
 export default function Layout({
   children
@@ -9,7 +10,7 @@ export default function Layout({
     <>
       <TopBar />
       {children}
-      {/* 푸터 */}
+      <Footer />
     </>
   );
 }
