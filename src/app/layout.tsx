@@ -41,12 +41,11 @@ export default function RootLayout({
   return (
     <html lang="ko" style={{ fontFamily: "Pretendard, sans-serif" }}>
       <head>
-        <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
         <meta property="og:title" content="사자의 서재" />
-        <meta property="og:description" content="사자의 서재" />
+        <meta property="og:description" content="숭실대 멋쟁이사자처럼 사자의 서재 사이트입니다." />
         <meta property="og:image" content="/og-image.png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="400" />
         <meta property="og:url" content="https://lion-s-study.vercel.app/" />
         <meta property="og:type" content="website" />
       </head>
