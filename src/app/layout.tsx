@@ -6,7 +6,31 @@ import Modal from "./_component/common/Modal";
 
 export const metadata: Metadata = {
   title: "사자의 서재",
-  description: "[멋쟁이사자처럼] 사자의 서재"
+  description: "[멋쟁이사자처럼] 사자의 서재",
+  icons: {
+    icon: [{ url: "/favicon.ico" }, { url: "/favicon.ico", type: "/favicon.ico" }]
+  },
+  openGraph: {
+    type: "website",
+    url: "https://lion-s-study.vercel.app/",
+    title: "사자의 서재",
+    description: "숭실대 멋쟁이사자처럼 사자의 서재 사이트입니다.",
+    siteName: "사자의 서재",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 800,
+        height: 400,
+        alt: "사자의 서재"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "사자의 서재",
+    description: "숭실대 멋쟁이사자처럼 사자의 서재 사이트입니다.",
+    images: ["/og-image.png"]
+  }
 };
 
 export default function RootLayout({
@@ -16,6 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" style={{ fontFamily: "Pretendard, sans-serif" }}>
+      <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>" />
       <body>
         <div id="modal-root" />
         <Modal />
