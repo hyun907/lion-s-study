@@ -19,7 +19,6 @@ type DeleteContentModalProps = {
 export default function DeleteContentModal({ type, contentId }: DeleteContentModalProps) {
   const studyroomId = useStudyroomIdStore(state => state.studyroomId);
 
-  console.log(type);
   const { deleteArticle } = useArticles(studyroomId ?? "");
   const { deleteNotice } = useNotices(studyroomId ?? "");
   const { deleteLink } = useLinks(studyroomId ?? "");

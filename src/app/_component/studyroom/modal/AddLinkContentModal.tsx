@@ -25,7 +25,10 @@ export default function AddLinkModalContent() {
 
   const handleCreate = async () => {
     try {
-      if (!isValid) return;
+      if (!isValid) {
+        showToast("emptyContent");
+        return;
+      }
 
       if (!isLoggedIn) {
         alert("로그인이 필요합니다.");
@@ -58,7 +61,6 @@ export default function AddLinkModalContent() {
         <button
           className={modalStyles.contentAddBtn}
           id={isValid ? modalStyles.active : modalStyles.deactive}
-          disabled={!isValid}
           onClick={handleCreate}
         >
           생성하기

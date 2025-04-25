@@ -32,24 +32,29 @@ export default function AddNoticeModalContent({
   const isValid = content.trim() !== "";
 
   const handleSubmit = async () => {
-    if (!isValid) return;
+    if (!isValid) {
+      showToast("emptyContent");
+      return;
+    }
     if (!isLoggedIn || !user.uid || !user.name || !user.year) {
-      alert("로그인이 필요합니다.");
+      showToast("login_common");
       return;
     }
 
     try {
       if (noticeId) {
+        console.log("content", JSON.stringify(content));
         await updateNotice(noticeId, content);
         showToast("editNotice");
       } else {
+        console.log("content", JSON.stringify(content));
         await createNotice(content, user.uid, user.name, user.year);
         showToast("addNotice");
       }
 
       close();
     } catch (err) {
-      alert("공지 저장에 실패했습니다.");
+      showToast("fail");
     }
   };
 
@@ -75,7 +80,6 @@ export default function AddNoticeModalContent({
         <button
           className={modalStyles.contentAddBtn}
           id={isValid ? modalStyles.active : modalStyles.deactive}
-          disabled={!isValid}
           onClick={handleSubmit}
         >
           {noticeId ? "수정하기" : "생성하기"}
