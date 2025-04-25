@@ -10,12 +10,14 @@ import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
 import { useUserStore } from "@/store/useUserStore";
 import { useFavorite } from "@/hooks/useFavorite";
+import { useToastStore } from "@/store/useToastStore";
 
 const StudyroomTitle = () => {
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
   const { studyroom, loading, error } = useStudyroomDetail(id ?? "");
   const { isFavorite, handleToggleFavorite } = useFavorite(id ?? "");
+  const { showToast } = useToastStore();
 
   if (!id || !user) {
     return <div>오류 발생</div>;
@@ -31,9 +33,9 @@ const StudyroomTitle = () => {
     const shareUrl = `${window.location.origin}/studyroom/${id}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
-      alert("링크가 복사되었습니다!");
+      showToast("copyLink");
     } catch (err) {
-      alert("링크 복사에 실패했습니다. 다시 시도해주세요.");
+      showToast("fail");
     }
   };
 
