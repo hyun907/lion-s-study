@@ -59,7 +59,10 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
     router.push("/");
   };
 
-  if (!studyroomId) return null;
+  if (!studyroomId) {
+    showToast("wrongStudyroomId");
+    return null;
+  }
 
   return (
     <>
