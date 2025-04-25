@@ -12,7 +12,6 @@ import Toast from "../common/Toast";
 import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
-import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
 
 interface StudyRoomProps {
@@ -67,7 +66,7 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
       <div className={styles.mainContainer}>
         <div className={`${styles.subContainer} ${styles.leftContainer}`}>
           <div className={styles.absoluteBackBtnContainer} onClick={handleGoBack}>
-            <Ic_ArrowRight />
+            <Ic_ArrowRight viewBox="0 0 28 28" height="26" width="26" />
           </div>
           <StudyroomTitle />
           <Notice />
