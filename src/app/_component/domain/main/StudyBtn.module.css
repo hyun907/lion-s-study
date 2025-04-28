@@ -48,7 +48,7 @@
   flex-direction: column;
 
   gap: 0.7rem;
-  padding: 0.8rem 1.592rem 0rem 1.592rem;
+  padding: 1rem 1.592rem 0rem 1rem;
   width: 100%;
   height: 6.8rem;
 
@@ -98,6 +98,12 @@
 }
 
 .heartWrapper {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   z-index: 1;
 }
 
