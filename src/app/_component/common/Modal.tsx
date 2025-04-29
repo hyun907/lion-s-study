@@ -6,8 +6,11 @@ import { useModalStore } from "@/store/useModalStore";
 import { createPortal } from "react-dom";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { useToastStore } from "@/store/useToastStore";
+import { useConfirmBeforeRefresh } from "@/hooks/useConfirmBeforeRefresh";
 
 export default function Modal() {
+  useConfirmBeforeRefresh(); // 새로고침 방지
+
   const { showToast } = useToastStore();
   const isMounted = useIsMounted();
 
