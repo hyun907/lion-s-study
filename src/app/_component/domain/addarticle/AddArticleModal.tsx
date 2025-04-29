@@ -12,6 +12,9 @@ import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
 import Toast from "../../common/Toast";
 
+import Lottie from "react-lottie";
+import { lottieLion } from "@/lib/lottieLion";
+
 import {
   collection,
   doc,
@@ -30,7 +33,7 @@ import styles from "./AddArticleModal.module.css";
 
 const ToastEditor = dynamic(() => import("./ToastEditor"), {
   ssr: false,
-  loading: () => <p>잠시만 기다려주세요...</p>
+  loading: () => <Lottie options={lottieLion} height={200} width={200} />
 });
 
 interface Props {
