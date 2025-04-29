@@ -114,8 +114,8 @@ const AddArticleModal = ({ articleId }: Props) => {
   };
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modalBox}>
+    <div className={styles.overlay} onClick={handleOpenDelete}>
+      <div className={styles.modalBox} onClick={e => e.stopPropagation()}>
         <div className={styles.topSection}>
           <p>{articleId ? "Article 수정하기" : "Article 생성하기"}</p>
           <ICDelete onClick={handleOpenDelete} style={{ cursor: "pointer" }} />
