@@ -9,6 +9,7 @@ import { useState } from "react";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./SignUpModal.module.css";
 import PlusBtn from "@/app/_component/common/PlusBtn";
+import { useToastStore } from "@/store/useToastStore";
 
 const PART_OPTIONS = [
   { value: "기획", label: "기획" },
@@ -24,8 +25,10 @@ export default function SignUpModalContent({
   uid: string | null;
   googleId: string | null;
 }) {
+  const showToast = useToastStore(state => state.showToast);
+
   if (!uid || !googleId) {
-    alert("로그인을 다시 해주세요.");
+    showToast("signup_error");
     return null;
   }
 
@@ -37,7 +40,7 @@ export default function SignUpModalContent({
   const isFormValid = name && year && part;
 
   const handleSubmit = async () => {
-    if (!isFormValid) return alert("모든 값을 입력하세요");
+    if (!isFormValid) return showToast("signup_empty");
 
     await setDoc(doc(fireStore, "users", uid), {
       googleId,
