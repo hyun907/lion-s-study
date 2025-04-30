@@ -32,9 +32,10 @@ export default function StudySection() {
   const sortedStudyRooms = [...sortedFavoriteRooms, ...sortedNonFavoriteRooms];
 
   return (
-    <>
+    <div className={styles.rootWrapper}>
       {toastType && <Toast toastType={toastType} />}
       <div className={styles.wrapper}>
+        <p className={styles.pageText}>숭실대학교 사자들을 위한 스터디 공간입니다.</p>
         <div className={styles.studySection}>
           <AddBtn />
           {isLoading ? (
@@ -56,6 +57,6 @@ export default function StudySection() {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

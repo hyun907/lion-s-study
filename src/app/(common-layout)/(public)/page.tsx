@@ -7,7 +7,6 @@ export default function Main() {
   return (
     <div className={styles.pageContainer}>
       <section className={styles.pageContent}>
-        <p className={styles.pageText}>숭실대학교 사자들을 위한 스터디 공간입니다.</p>
         <StudySection />
       </section>
       <div className={styles.column} />
