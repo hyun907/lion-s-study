@@ -21,8 +21,6 @@ export default function Modal() {
 
   // 모달 열리면 스크롤 비활성화
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -37,7 +35,7 @@ export default function Modal() {
 
   // 모달 열릴 때 뒤로가기 방지
   useEffect(() => {
-    if (!isOpen || typeof window === "undefined") return;
+    if (!isOpen) return;
 
     const pushState = () => {
       window.history.pushState(null, "", window.location.href);
