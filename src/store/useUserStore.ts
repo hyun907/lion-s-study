@@ -156,7 +156,7 @@ const createUserStore = () => {
       {
         name: "user",
         onRehydrateStorage: () => state => {
-          // 토큰 없으면 상태 초기화
+          if (typeof document === "undefined") return;
           const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
           if (!authToken) {
             state?.clearUser();

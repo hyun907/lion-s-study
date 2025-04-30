@@ -12,6 +12,7 @@ export const useAuth = () => {
 
   // 초기 마운트 시 토큰 검증
   useEffect(() => {
+    if (typeof document === "undefined") return;
     const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
     if (!authToken) {
       clearUser();
