@@ -143,7 +143,14 @@ export default function AddStudyContent() {
           <PlusBtn
             text="생성하기"
             state={studyName.trim() ? "active" : "default"}
-            onClick={handleSubmit}
+            onClick={() => {
+              if (!studyName.trim()) {
+                showToast("emptyTitle");
+                return;
+              }
+              handleSubmit();
+              showToast("addStudyroom");
+            }}
           />
         </div>
       </div>
