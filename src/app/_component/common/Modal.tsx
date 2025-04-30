@@ -5,8 +5,13 @@ import modalStyles from "@/app/_component/common/Modal.module.css";
 import { useModalStore } from "@/store/useModalStore";
 import { createPortal } from "react-dom";
 import { useIsMounted } from "@/hooks/useIsMounted";
+import { useToastStore } from "@/store/useToastStore";
+import { useConfirmBeforeRefresh } from "@/hooks/useConfirmBeforeRefresh";
 
 export default function Modal() {
+  useConfirmBeforeRefresh(); // 새로고침 방지
+
+  const { showToast } = useToastStore();
   const isMounted = useIsMounted();
 
   // 전역 모달 상태를 가져옴
@@ -26,7 +31,29 @@ export default function Modal() {
     };
   }, [isOpen]);
 
-  if (!isMounted || !isOpen) return null;
+  // if (!isMounted || !isOpen) return null;
+
+  // 모달 열릴 때 뒤로가기 방지
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const pushState = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    const handlePopState = (e: PopStateEvent) => {
+      e.preventDefault();
+      pushState();
+      showToast("goBack");
+    };
+
+    pushState(); // 모달 열릴 때 한 번 push
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isOpen]);
 
   // 모달 backdrop 클릭 시 모달 닫음
   const handleClickOutside = (e: MouseEvent<HTMLDivElement>) => {
@@ -41,7 +68,7 @@ export default function Modal() {
   };
 
   // 모달이 열려있지 않거나 서버에서 실행되는 경우를 차단
-  if (!isOpen || typeof window === "undefined") return null;
+  if (!isMounted || !isOpen || typeof window === "undefined") return null;
 
   // Portal을 생성하고 내부에서 모달 content를 렌더링
   return createPortal(

@@ -111,6 +111,12 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "green"
   },
+  {
+    type: "goBack",
+    title: "작성 중에는 뒤로갈 수 없습니다.",
+    subtitle: "",
+    color: "yellow"
+  },
 
   // empty
   {
