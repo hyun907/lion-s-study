@@ -11,6 +11,8 @@ import ICFillHeart from "@/assets/icon/main/fill_heart.svg";
 import defaultThumbnail from "@/assets/image/default_thumbnail.png";
 
 import styles from "./StudyBtn.module.css";
+import { useModalStore } from "@/store/useModalStore";
+import LoginModalContent from "../login/modal/LoginModalContent";
 
 export default function StudyBtn({
   id,
@@ -22,10 +24,12 @@ export default function StudyBtn({
 }: StudyBtnProps) {
   const router = useRouter();
   const { isFavorite, handleToggleFavorite } = useFavorite(id);
-  const { showToast } = useToastStore();
+  const open = useModalStore(state => state.open);
+  const showToast = useToastStore(state => state.showToast);
 
   const handleStudyBtnClick = () => {
     if (!checkAuth()) {
+      open(<LoginModalContent />);
       showToast("login");
       return;
     }
@@ -35,6 +39,7 @@ export default function StudyBtn({
   const handleHeartClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!checkAuth()) {
+      open(<LoginModalContent />);
       showToast("login_common");
       return;
     }
