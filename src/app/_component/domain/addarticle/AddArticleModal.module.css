@@ -53,5 +53,8 @@
 .leftSection {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 2.4rem;
+  height: 48rem;
+  width: 100rem;
 }
