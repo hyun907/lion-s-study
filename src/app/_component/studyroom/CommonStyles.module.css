@@ -13,11 +13,12 @@
 }
 
 #topContentContainer {
-  min-height: 25%;
+  min-height: 14rem;
+  max-height: 20rem;
 }
 
 #bottomContentContainer {
-  min-height: 80%;
+  height: 45rem;
 }
 
 .contentTitle {
@@ -56,14 +57,18 @@
   line-height: 2.4471rem;
 }
 
-.contentItem {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.scrollContainer {
+  overflow-y: hidden;
 
-  flex-grow: 1;
+  display: flex;
+}
+
+.scrollContainer {
+  width: 100%;
+  overflow-y: hidden;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .contentSingleItem {
@@ -130,6 +135,13 @@
 
 #infoContent {
   display: flex;
+}
+
+.noItemWrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .noItemContainer {

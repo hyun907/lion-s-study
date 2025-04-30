@@ -106,7 +106,10 @@ const Notice = () => {
         <div>Notice</div>
         <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
       </div>
-      <div className={commonStyles.contentItem} id={style.noticeContainer}>
+      <div
+        className={notices.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}
+        id={style.noticeContainer}
+      >
         {notices.length !== 0 ? (
           notices.slice(0, visibleCount).map((item, index) => {
             const isLastItem = index === visibleCount - 1;

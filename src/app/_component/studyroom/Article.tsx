@@ -119,7 +119,10 @@ const Article = () => {
         <div>Article</div>
         <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
       </div>
-      <div className={commonStyles.contentItem} id={style.articleContainer}>
+      <div
+        className={articles.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}
+        id={style.articleContainer}
+      >
         {articles.length !== 0 ? (
           articles.slice(0, visibleCount).map((item, index) => {
             const isLastItem = index === visibleCount - 1;
