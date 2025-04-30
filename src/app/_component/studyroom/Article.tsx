@@ -15,6 +15,7 @@ import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
 import AddArticleModal from "../domain/addarticle/AddArticleModal";
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
+import { useRef, useCallback, useState } from "react";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -74,26 +75,41 @@ const Article = () => {
   const { articles } = useArticles(id ?? "");
   const open = useModalStore(state => state.open);
 
-  if (!articles) return <div>로딩 중..</div>;
+  const [visibleCount, setVisibleCount] = useState(5);
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastArticleRef = useCallback((node: HTMLDivElement | null) => {
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        // 가짜 로딩 텀
+        setTimeout(() => {
+          setVisibleCount(prev => prev + 5);
+        }, 300);
+      }
+    });
+
+    if (node) observer.current.observe(node);
+  }, []);
+
+  if (!articles) return <div>로딩 중...</div>;
 
   const handleDelete: StudyroomItemButtonHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
-
     open(<DeleteContentModal type={SUB_CONTENT_TYPE.ARTICLE} contentId={contentId} />);
   };
 
   const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
-
     open(<AddArticleModal articleId={id} />);
   };
 
   const handleRead: StudyroomItemGenericHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
-
     open(<ReadArticleModal articleId={id} />);
   };
 
@@ -104,17 +120,35 @@ const Article = () => {
         <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
       </div>
       <div className={commonStyles.contentItem} id={style.articleContainer}>
-        {articles.length != 0 ? (
-          articles.map((item, key) => (
-            <ArticleItem
-              key={key}
-              articleProps={item}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-              handleRead={handleRead}
-              isMyArticle={item.creatorId == user.uid}
-            ></ArticleItem>
-          ))
+        {articles.length !== 0 ? (
+          articles.slice(0, visibleCount).map((item, index) => {
+            const isLastItem = index === visibleCount - 1;
+
+            if (isLastItem) {
+              return (
+                <div ref={lastArticleRef} key={item.id} id={style.lastArticleContainer}>
+                  <ArticleItem
+                    articleProps={item}
+                    handleDelete={handleDelete}
+                    handleUpdate={handleUpdate}
+                    handleRead={handleRead}
+                    isMyArticle={item.creatorId === user.uid}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <ArticleItem
+                  key={item.id}
+                  articleProps={item}
+                  handleDelete={handleDelete}
+                  handleUpdate={handleUpdate}
+                  handleRead={handleRead}
+                  isMyArticle={item.creatorId === user.uid}
+                />
+              );
+            }
+          })
         ) : (
           <div className={commonStyles.noItemContainer}>
             <div className={commonStyles.noItemText}>Article을 생성해주세요.</div>
