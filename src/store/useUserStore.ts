@@ -156,10 +156,12 @@ const createUserStore = () => {
       {
         name: "user",
         onRehydrateStorage: () => state => {
-          // 토큰 없으면 상태 초기화
-          const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
-          if (!authToken) {
-            state?.clearUser();
+          if (typeof window !== "undefined") {
+            const token = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
+            if (!token) {
+              state?.clearUser();
+              localStorage.removeItem("user");
+            }
           }
         }
       }

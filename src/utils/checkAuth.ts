@@ -1,7 +1,5 @@
 export const checkAuth = () => {
-  if (typeof document === "undefined") return false;
-
+  if (typeof window === "undefined") return null;
   const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
-
-  return !!authToken;
+  return authToken ? authToken.split("=")[1] : null;
 };
