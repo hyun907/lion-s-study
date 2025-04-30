@@ -31,6 +31,32 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "green"
   },
+  {
+    type: "login_error",
+    title: "로그인에 실패했습니다.",
+    subtitle: "다시 로그인해주세요.",
+    color: "yellow"
+  },
+  {
+    type: "network_error",
+    title: "네트워크 오류",
+    subtitle: "인터넷 연결 상태를 확인해주세요.",
+    color: "yellow"
+  },
+
+  // signup
+  {
+    type: "signup_error",
+    title: "로그인을 다시 해주세요.",
+    subtitle: "",
+    color: "yellow"
+  },
+  {
+    type: "signup_empty",
+    title: "모든 값을 입력하세요.",
+    subtitle: "",
+    color: "yellow"
+  },
 
   // studyroom
   {
@@ -55,6 +81,18 @@ export const ToastTypeList: ToastItem[] = [
     type: "wrongStudyroomId",
     title: "스터디룸 ID가 유효하지 않습니다.",
     subtitle: "",
+    color: "yellow"
+  },
+  {
+    type: "fail_add_image",
+    title: "이미지 업로드에 실패했습니다.",
+    subtitle: "다시 시도해주세요.",
+    color: "yellow"
+  },
+  {
+    type: "fail_add_studyroom",
+    title: "서재 생성에 실패했습니다.",
+    subtitle: "다시 시도해주세요.",
     color: "yellow"
   },
 

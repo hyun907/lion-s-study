@@ -8,9 +8,13 @@ import SignUpModalContent from "./modal/SignUpModalContent";
 import styles from "./GoogleLogin.module.css";
 import ICGoogle from "@/assets/icon/google_logo.svg";
 import { useEffect } from "react";
+import { useToastStore } from "@/store/useToastStore";
 
 export default function GoogleLoginBtn() {
-  const { open, close } = useModalStore();
+  const showToast = useToastStore(state => state.showToast);
+  const open = useModalStore(state => state.open);
+  const close = useModalStore(state => state.close);
+
   const { setUser, clearUser } = useUserStore();
   const auth = useAuth();
 
@@ -34,12 +38,32 @@ export default function GoogleLoginBtn() {
   const handleLogin = async () => {
     try {
       const result = await signInWithGoogle();
-      if (typeof result === "object") {
-        setUser(result.uid, result.email);
+
+      if (result === "existing") {
+        showToast("welcome");
+        return;
       }
-    } catch (error) {
+
+      if ("error" in result) {
+        switch (result.error) {
+          case "popup_closed":
+            showToast("login_error");
+            return;
+          case "network_error":
+            showToast("network_error");
+            return;
+          case "internal_error":
+          default:
+            showToast("fail");
+            return;
+        }
+      }
+
+      showToast("welcome");
+      setUser(result.uid, result.email);
+    } catch (error: any) {
+      showToast("fail");
       console.error("Login error:", error);
-      alert("로그인에 실패했습니다. 다시 시도해주세요.");
     }
   };
 

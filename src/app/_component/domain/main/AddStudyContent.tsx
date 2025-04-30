@@ -19,10 +19,12 @@ import PlusBtn from "../../common/PlusBtn";
 
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./AddStudyContent.module.css";
+import { useToastStore } from "@/store/useToastStore";
 
 export default function AddStudyContent() {
   const { name, year } = useUserStore();
   const { isLoggedIn } = useAuth();
+  const showToast = useToastStore(state => state.showToast);
   const close = useModalStore(state => state.close);
   const fetchStudyRooms = useStudyRoomStore(state => state.fetchStudyRooms);
 
@@ -61,7 +63,7 @@ export default function AddStudyContent() {
 
       // 사용자 인증 확인
       if (!isLoggedIn) {
-        alert("로그인이 필요합니다.");
+        showToast("login");
         return;
       }
 
@@ -73,7 +75,7 @@ export default function AddStudyContent() {
           imageUrl = await getDownloadURL(storageRef);
         } catch (uploadError) {
           console.error("이미지 업로드 중 오류 발생:", uploadError);
-          alert("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
+          showToast("fail_add_image");
           return;
         }
       }
@@ -91,7 +93,7 @@ export default function AddStudyContent() {
       close();
     } catch (error) {
       console.error("서재 생성 중 오류 발생:", error);
-      alert("서재 생성에 실패했습니다. 다시 시도해주세요.");
+      showToast("fail_add_studyroom");
     }
   };
 

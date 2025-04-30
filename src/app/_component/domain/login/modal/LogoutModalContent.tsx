@@ -7,14 +7,17 @@ import { signOutWithGoogle } from "@/firebase/firebaseAuth";
 import ICDelete from "@/assets/icon/delete.svg";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./LogoutModal.module.css";
+import { useToastStore } from "@/store/useToastStore";
 
 export default function LogoutModalContent() {
   const { name, year, part, clearUser } = useUserStore();
   const close = useModalStore(state => state.close);
+  const showToast = useToastStore(state => state.showToast);
 
   const handleLogout = async () => {
     await signOutWithGoogle();
     clearUser();
+    showToast("logout");
     close();
   };
 
