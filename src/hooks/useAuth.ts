@@ -6,9 +6,19 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
 export const useAuth = () => {
-  const { uid, googleId, loadUserInfo, isHydrated } = useUserStore();
+  const { uid, googleId, loadUserInfo, isHydrated, clearUser } = useUserStore();
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
-  const isLoggedIn = !!uid;
+  const [isLoggedIn, setIsLoggedIn] = useState(!!uid);
+
+  // 초기 마운트 시 토큰 검증
+  useEffect(() => {
+    const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
+    if (!authToken) {
+      clearUser();
+      localStorage.removeItem("user");
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (uid) {
@@ -39,6 +49,6 @@ export const useAuth = () => {
     isLoggedIn,
     isRegistered,
     needsRegistration,
-    isHydrated 
+    isHydrated
   };
 };

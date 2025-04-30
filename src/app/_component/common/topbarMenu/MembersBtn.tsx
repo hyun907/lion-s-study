@@ -13,6 +13,7 @@ export default function MembersBtn() {
   const handleGoToMembers = () => {
     if (!checkAuth()) {
       showToast("login_common");
+      router.refresh();
       return;
     }
     router.push("/members");

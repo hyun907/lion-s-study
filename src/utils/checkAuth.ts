@@ -1,6 +1,13 @@
-import { useToastStore } from "@/store/useToastStore";
+import { useUserStore } from "@/store/useUserStore";
 
 export const checkAuth = () => {
   const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
-  return !!authToken;
+
+  if (!authToken) {
+    useUserStore.getState().clearUser();
+    localStorage.removeItem("user");
+    return false;
+  }
+
+  return true;
 };

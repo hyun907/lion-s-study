@@ -96,6 +96,7 @@ const createUserStore = () => {
             isSignUpCompleted: false
           });
           Cookies.remove("auth_token");
+          localStorage.removeItem("user");
         },
 
         /**
@@ -153,7 +154,14 @@ const createUserStore = () => {
         }
       }),
       {
-        name: "user" // 로컬 스토리지에 저장될 키 이름
+        name: "user",
+        onRehydrateStorage: () => state => {
+          // 토큰 없으면 상태 초기화
+          const authToken = document.cookie.split("; ").find(row => row.startsWith("auth_token="));
+          if (!authToken) {
+            state?.clearUser();
+          }
+        }
       }
     )
   );

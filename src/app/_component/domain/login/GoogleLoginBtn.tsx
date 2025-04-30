@@ -27,13 +27,11 @@ export default function GoogleLoginBtn() {
         clearUser();
         close();
       };
-    } else if (auth.isLoggedIn && auth.isRegistered) {
-      close();
     }
     return () => {
       useModalStore.getState().onBackdropClick = null;
     };
-  }, [auth.needsRegistration, auth.isLoggedIn, auth.isRegistered, close]);
+  }, [auth.needsRegistration, auth.uid, auth.googleId, close]);
 
   const handleLogin = async () => {
     try {
@@ -41,6 +39,7 @@ export default function GoogleLoginBtn() {
 
       if (result === "existing") {
         showToast("welcome");
+        close();
         return;
       }
 
