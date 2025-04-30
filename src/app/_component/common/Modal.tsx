@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, MouseEvent, useState } from "react";
+import { useEffect, useRef, MouseEvent } from "react";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import { useModalStore } from "@/store/useModalStore";
 import { createPortal } from "react-dom";
@@ -9,8 +9,6 @@ import { useToastStore } from "@/store/useToastStore";
 import { useConfirmBeforeRefresh } from "@/hooks/useConfirmBeforeRefresh";
 
 export default function Modal() {
-  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
-
   useConfirmBeforeRefresh(); // 새로고침 방지
 
   const { showToast } = useToastStore();
@@ -33,12 +31,7 @@ export default function Modal() {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      const target = document.getElementById("modal-root") || document.body;
-      setPortalTarget(target);
-    }
-  }, []);
+  // if (!isMounted || !isOpen) return null;
 
   // 모달 열릴 때 뒤로가기 방지
   useEffect(() => {
@@ -75,14 +68,13 @@ export default function Modal() {
   };
 
   // 모달이 열려있지 않거나 서버에서 실행되는 경우를 차단
-  if (!isMounted || !isOpen || !portalTarget) return null;
+  if (!isMounted || !isOpen || typeof window === "undefined") return null;
 
   // Portal을 생성하고 내부에서 모달 content를 렌더링
-
   return createPortal(
     <div ref={modalRef} onClick={handleClickOutside} className={modalStyles.modalOverlay}>
       <div onClick={e => e.stopPropagation()}>{content}</div>
     </div>,
-    portalTarget
+    document.getElementById("modal-root") || document.body
   );
 }
