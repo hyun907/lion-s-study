@@ -53,8 +53,8 @@ export const ToastTypeList: ToastItem[] = [
   },
   {
     type: "signup_empty",
-    title: "모든 값을 입력하세요.",
-    subtitle: "",
+    title: "어흥! 내용이 비어있어요!",
+    subtitle: "가입을 위해 모든 값을 입력해주세요.",
     color: "yellow"
   },
 

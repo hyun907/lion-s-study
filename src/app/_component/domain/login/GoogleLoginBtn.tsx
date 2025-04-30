@@ -58,8 +58,12 @@ export default function GoogleLoginBtn() {
         }
       }
 
-      showToast("welcome");
       setUser(result.uid, result.email);
+      open(<SignUpModalContent uid={result.uid} googleId={result.email} />);
+      useModalStore.getState().onBackdropClick = () => {
+        clearUser();
+        close();
+      };
     } catch (error: any) {
       showToast("fail");
       console.error("Login error:", error);

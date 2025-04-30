@@ -52,6 +52,7 @@ export default function SignUpModalContent({
     });
 
     useUserStore.getState().setUserInfo(name, Number(year), part);
+    showToast("welcome");
     close();
   };
 
@@ -84,8 +85,13 @@ export default function SignUpModalContent({
           <p className={styles.formLabel}>기수</p>
           <div className={styles.yearWrapper}>
             <input
-              value={year}
-              onChange={e => setYear(Number(e.target.value))}
+              value={year || ""}
+              onChange={e => {
+                const value = e.target.value;
+                if (value === "" || /^\d+$/.test(value)) {
+                  setYear(value === "" ? 0 : Number(value));
+                }
+              }}
               placeholder="ex) 13"
               className={styles.yearInput}
             />
