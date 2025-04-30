@@ -101,7 +101,7 @@ const Notice = () => {
   };
 
   return (
-    <div className={commonStyles.contentContainer}>
+    <div className={commonStyles.contentContainer} id={commonStyles.bottomContentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Notice</div>
         <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />

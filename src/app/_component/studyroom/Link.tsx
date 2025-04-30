@@ -61,7 +61,7 @@ const Link = () => {
 
   if (!links) return <div>로딩 중..</div>;
   return (
-    <div className={commonStyles.contentContainer}>
+    <div className={commonStyles.contentContainer} id={commonStyles.topContentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Link</div>
         <AddSubContentBtn type={SUB_CONTENT_TYPE.LINK} />
