@@ -4,25 +4,9 @@
   min-height: 100vh;
 }
 
-.pageContent {
-  padding: 0 18.8rem;
-}
-
-.pageText {
-  display: flex;
-  height: 16rem;
-  align-items: flex-end;
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 2.4rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
 .column {
   position: fixed;
-  left: 33.1rem;
+  left: calc(100vw * 0.3);
   top: 0;
   width: 0.1rem;
   height: 100%;

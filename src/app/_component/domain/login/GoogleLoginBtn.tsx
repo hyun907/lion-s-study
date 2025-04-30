@@ -27,13 +27,11 @@ export default function GoogleLoginBtn() {
         clearUser();
         close();
       };
-    } else if (auth.isLoggedIn && auth.isRegistered) {
-      close();
     }
     return () => {
       useModalStore.getState().onBackdropClick = null;
     };
-  }, [auth.needsRegistration, auth.isLoggedIn, auth.isRegistered, close]);
+  }, [auth.needsRegistration, auth.uid, auth.googleId, close]);
 
   const handleLogin = async () => {
     try {
@@ -41,6 +39,7 @@ export default function GoogleLoginBtn() {
 
       if (result === "existing") {
         showToast("welcome");
+        close();
         return;
       }
 
@@ -59,8 +58,12 @@ export default function GoogleLoginBtn() {
         }
       }
 
-      showToast("welcome");
       setUser(result.uid, result.email);
+      open(<SignUpModalContent uid={result.uid} googleId={result.email} />);
+      useModalStore.getState().onBackdropClick = () => {
+        clearUser();
+        close();
+      };
     } catch (error: any) {
       showToast("fail");
       console.error("Login error:", error);
