@@ -33,7 +33,9 @@ export default function StudySection() {
     <div className={styles.rootWrapper}>
       {toastType && <Toast toastType={toastType} />}
       <div className={styles.wrapper}>
-        <p className={styles.pageText}>숭실대학교 사자들을 위한 스터디 공간입니다.</p>
+        {!isLoading && (
+          <p className={styles.pageText}>숭실대학교 사자들을 위한 스터디 공간입니다.</p>
+        )}
         <div className={styles.studySection}>
           {isLoading ? (
             <div className={styles.spinnerWrapper}>
