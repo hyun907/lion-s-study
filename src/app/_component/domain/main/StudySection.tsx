@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import styles from "./StudySection.module.css";
 import { sortArrByTime } from "@/utils/sortArrByTime";
 import Toast from "../../common/Toast";
+import Spinner from "../../common/Spinner";
 
 export default function StudySection() {
   const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
@@ -20,40 +21,43 @@ export default function StudySection() {
     fetchStudyRooms();
   }, [fetchStudyRooms]);
 
-  // favorite 스터디룸과 일반 스터디룸을 분리
   const favoriteRooms = studyRooms.filter(room => isFavorite(room.id));
   const nonFavoriteRooms = studyRooms.filter(room => !isFavorite(room.id));
 
-  // 각각을 updatedAt 기준으로 내림차순 정렬
   const sortedFavoriteRooms = sortArrByTime(favoriteRooms, false);
   const sortedNonFavoriteRooms = sortArrByTime(nonFavoriteRooms, false);
 
-  // favorite 스터디룸을 먼저 배치
   const sortedStudyRooms = [...sortedFavoriteRooms, ...sortedNonFavoriteRooms];
 
   return (
     <div className={styles.rootWrapper}>
       {toastType && <Toast toastType={toastType} />}
       <div className={styles.wrapper}>
-        <p className={styles.pageText}>숭실대학교 사자들을 위한 스터디 공간입니다.</p>
+        {!isLoading && (
+          <p className={styles.pageText}>숭실대학교 사자들을 위한 스터디 공간입니다.</p>
+        )}
         <div className={styles.studySection}>
-          <AddBtn />
           {isLoading ? (
-            <p>불러오는 중</p>
+            <div className={styles.spinnerWrapper}>
+              <Spinner />
+            </div>
           ) : studyRooms.length === 0 ? (
-            <p>생성된 스터디룸이 없습니다.</p>
+            <AddBtn />
           ) : (
-            sortedStudyRooms.map(room => (
-              <StudyBtn
-                key={room.id}
-                id={room.id}
-                title={room.title}
-                creatorName={room.creatorName}
-                creatorYear={room.creatorYear}
-                updatedAt={formatDate(room.updatedAt)}
-                imageUrl={room.imageUrl}
-              />
-            ))
+            <>
+              <AddBtn />
+              {sortedStudyRooms.map(room => (
+                <StudyBtn
+                  key={room.id}
+                  id={room.id}
+                  title={room.title}
+                  creatorName={room.creatorName}
+                  creatorYear={room.creatorYear}
+                  updatedAt={formatDate(room.updatedAt)}
+                  imageUrl={room.imageUrl}
+                />
+              ))}
+            </>
           )}
         </div>
       </div>

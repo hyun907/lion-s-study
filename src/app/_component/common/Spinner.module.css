@@ -1,0 +1,70 @@
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.spinner {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.dot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.dotCircle {
+  width: 6px;
+  height: 6px;
+  background-color: #538fff;
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: fade 1s linear infinite;
+  transform: translateY(-13px);
+}
+
+.dot:nth-child(1) .dotCircle {
+  animation-delay: 0s;
+  opacity: 1;
+}
+.dot:nth-child(2) .dotCircle {
+  transform: rotate(45deg) translateY(-13px);
+  animation-delay: -0.125s;
+}
+.dot:nth-child(3) .dotCircle {
+  transform: rotate(90deg) translateY(-13px);
+  animation-delay: -0.25s;
+}
+.dot:nth-child(4) .dotCircle {
+  transform: rotate(135deg) translateY(-13px);
+  animation-delay: -0.375s;
+}
+.dot:nth-child(5) .dotCircle {
+  transform: rotate(180deg) translateY(-13px);
+  animation-delay: -0.5s;
+}
+.dot:nth-child(6) .dotCircle {
+  transform: rotate(225deg) translateY(-13px);
+  animation-delay: -0.625s;
+}
+.dot:nth-child(7) .dotCircle {
+  transform: rotate(270deg) translateY(-13px);
+  animation-delay: -0.75s;
+}
+.dot:nth-child(8) .dotCircle {
+  transform: rotate(315deg) translateY(-13px);
+  animation-delay: -0.875s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
