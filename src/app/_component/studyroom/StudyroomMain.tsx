@@ -1,13 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
+import { notFound, usePathname, useRouter } from "next/navigation";
 
 import StudyroomTitle from "./StudyroomTitle";
 import Notice from "./Notice";
 import Link from "./Link";
 import Article from "./Article";
 import Toast from "../common/Toast";
+import Spinner from "../common/Spinner";
 
 import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
@@ -24,7 +25,6 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
   const router = useRouter();
 
   const { showToast, toastType } = useToastStore();
-
   const [showToastState, setShowToastState] = useState(false);
 
   // 클릭한 스터디룸 id값 관리
@@ -34,31 +34,30 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
 
   const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
 
+  // studyRooms 배열이 바뀌거나 id가 바뀌면 다시 받아오거나 기존 배열 사용
   useEffect(() => {
-    // 스터디룸 배열을 사용하여 유효한 스터디룸인지 확인하는 함수
-    const validate = async () => {
-      if (!isLoading && studyRooms.length === 0) {
-        // 만약 특정 스터디룸 링크로 바로 들어온 상태라면 fetch 해주어야 함.
-        await fetchStudyRooms();
-      }
+    if (studyRooms.length == 0) {
+      fetchStudyRooms();
+    }
+  }, [studyRooms, id]);
 
-      const exists = studyRooms.some(room => room.id === id);
+  // 2. isLoading이 끝난 후 유효성 검사
+  useEffect(() => {
+    if (isLoading) return;
 
-      if (!exists) {
-        showToast("wrongStudyroomId");
-        clearId();
-        router.push("/"); // 메인페이지로
-      } else {
-        setId(id);
-      }
-    };
+    const exists = studyRooms.some(room => room.id === id);
 
-    validate();
+    if (!exists) {
+      clearId();
+      notFound();
+    } else {
+      setId(id);
+    }
 
     return () => {
       clearId();
     };
-  }, [id]);
+  }, [isLoading, studyRooms, id]);
 
   useEffect(() => {
     if (toastType) {
@@ -70,6 +69,7 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
     return null;
   }
 
+  if (isLoading) return <Spinner />;
   return (
     <>
       <div className={styles.mainContainer}>
