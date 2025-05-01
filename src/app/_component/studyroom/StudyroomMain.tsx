@@ -8,6 +8,7 @@ import Notice from "./Notice";
 import Link from "./Link";
 import Article from "./Article";
 import Toast from "../common/Toast";
+import Spinner from "../common/Spinner";
 
 import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
@@ -70,6 +71,7 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
     return null;
   }
 
+  if (isLoading) return <Spinner />;
   return (
     <>
       <div className={styles.mainContainer}>
