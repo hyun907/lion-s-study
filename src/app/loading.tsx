@@ -1,7 +1,11 @@
 "use client";
 
 import { lottieLion } from "@/lib/lottieLion";
-import Lottie from "react-lottie";
+import dynamic from "next/dynamic";
+
+const Lottie = dynamic(() => import("react-lottie"), {
+  ssr: false
+});
 
 export default function Loading() {
   return (
