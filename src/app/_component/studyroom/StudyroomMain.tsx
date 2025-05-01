@@ -13,6 +13,7 @@ import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useToastStore } from "@/store/useToastStore";
+import { useStudyRoomStore } from "@/store/studyRoomStore";
 
 interface StudyRoomProps {
   id: string;
@@ -21,8 +22,6 @@ interface StudyRoomProps {
 // studyroom 메인 페이지
 const StudyroomMain = ({ id }: StudyRoomProps) => {
   const router = useRouter();
-
-  const pathname = usePathname();
 
   const { showToast, toastType } = useToastStore();
 
@@ -33,8 +32,28 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
   const clearId = useStudyroomIdStore(state => state.clearStudyroomId);
   const studyroomId = useStudyroomIdStore(state => state.studyroomId);
 
+  const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
+
   useEffect(() => {
-    setId(id);
+    // 스터디룸 배열을 사용하여 유효한 스터디룸인지 확인하는 함수
+    const validate = async () => {
+      if (!isLoading && studyRooms.length === 0) {
+        // 만약 특정 스터디룸 링크로 바로 들어온 상태라면 fetch 해주어야 함.
+        await fetchStudyRooms();
+      }
+
+      const exists = studyRooms.some(room => room.id === id);
+
+      if (!exists) {
+        showToast("wrongStudyroomId");
+        clearId();
+        router.push("/"); // 메인페이지로
+      } else {
+        setId(id);
+      }
+    };
+
+    validate();
 
     return () => {
       clearId();
@@ -42,25 +61,12 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
   }, [id]);
 
   useEffect(() => {
-    const isInStudyroom = pathname?.startsWith(`/studyroom/${id}`);
-
-    if (!isInStudyroom) {
-      clearId();
-    }
-  }, [pathname, id]);
-
-  useEffect(() => {
     if (toastType) {
       setShowToastState(true);
     }
   }, [toastType]);
 
-  const handleGoBack = () => {
-    router.push("/");
-  };
-
   if (!studyroomId) {
-    showToast("wrongStudyroomId");
     return null;
   }
 
@@ -68,7 +74,7 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
     <>
       <div className={styles.mainContainer}>
         <div className={`${styles.subContainer} ${styles.leftContainer}`}>
-          <div className={styles.absoluteBackBtnContainer} onClick={handleGoBack}>
+          <div className={styles.absoluteBackBtnContainer} onClick={() => router.push("/")}>
             <Ic_ArrowRight viewBox="0 0 28 28" height="26" width="26" />
           </div>
           <StudyroomTitle />
