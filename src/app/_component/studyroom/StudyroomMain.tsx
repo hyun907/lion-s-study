@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { usePathname, useRouter } from "next/navigation";
+import { notFound, usePathname, useRouter } from "next/navigation";
 
 import StudyroomTitle from "./StudyroomTitle";
 import Notice from "./Notice";
@@ -48,9 +48,8 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
     const exists = studyRooms.some(room => room.id === id);
 
     if (!exists) {
-      showToast("wrongStudyroomId");
       clearId();
-      router.push("/");
+      notFound();
     } else {
       setId(id);
     }
