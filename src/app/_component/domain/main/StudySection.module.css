@@ -45,3 +45,10 @@
     max-width: 28rem;
   }
 }
+
+.spinnerWrapper {
+  height: 50rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

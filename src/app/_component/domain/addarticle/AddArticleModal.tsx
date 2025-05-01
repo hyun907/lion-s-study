@@ -12,8 +12,6 @@ import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
 import Toast from "../../common/Toast";
 
-import { lottieLion } from "@/lib/lottieLion";
-
 import {
   collection,
   doc,
@@ -29,14 +27,11 @@ import Titlebox from "./Titlebox";
 import ICDelete from "@/assets/icon/delete.svg";
 
 import styles from "./AddArticleModal.module.css";
-
-const Lottie = dynamic(() => import("react-lottie"), {
-  ssr: false
-});
+import Spinner from "@/app/_component/common/Spinner";
 
 const ToastEditor = dynamic(() => import("./ToastEditor"), {
   ssr: false,
-  loading: () => <Lottie options={lottieLion} height={200} width={200} />
+  loading: () => <Spinner />
 });
 
 interface Props {
