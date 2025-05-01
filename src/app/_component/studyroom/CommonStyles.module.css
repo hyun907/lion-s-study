@@ -13,12 +13,12 @@
 }
 
 #topContentContainer {
-  min-height: 14rem;
-  max-height: 20rem;
+  min-height: 20vh;
+  max-height: 25vh;
 }
 
 #bottomContentContainer {
-  height: 45rem;
+  height: 55vh;
 }
 
 .contentTitle {
