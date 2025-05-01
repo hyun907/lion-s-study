@@ -1,13 +1,20 @@
 #articleContainer {
   gap: 2rem;
+
+  overflow-y: auto;
 }
 
 #articleSingleContainer {
+  width: 100%;
   padding: 2rem;
 
   gap: 2.4rem;
 
   cursor: pointer;
+}
+
+#lastArticleContainer {
+  width: 100%;
 }
 
 .articleTitle {

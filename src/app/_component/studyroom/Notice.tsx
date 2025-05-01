@@ -10,7 +10,7 @@ import { useUserStore } from "@/store/useUserStore";
 import { NoticeItem as NoticeItemProp } from "@/types/studyRoomDetails/notice";
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
-import { useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import AddNoticeModalContent from "./modal/AddNoticeContentModal";
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
@@ -62,7 +62,24 @@ const Notice = () => {
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
 
-  const { notices, createNotice, updateNotice, deleteNotice } = useNotices(id ?? "");
+  const { notices } = useNotices(id ?? "");
+
+  const [visibleCount, setVisibleCount] = useState(5); // 처음 10개만 보여줌
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastNoticeRef = useCallback((node: HTMLDivElement | null) => {
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setTimeout(() => {
+          setVisibleCount(prev => prev + 5); // 300ms 딜레이 후 5개 추가
+        }, 300);
+      }
+    });
+
+    if (node) observer.current.observe(node);
+  }, []);
 
   if (!notices) return <div>로딩 중..</div>;
 
@@ -84,22 +101,42 @@ const Notice = () => {
   };
 
   return (
-    <div className={commonStyles.contentContainer}>
+    <div className={commonStyles.contentContainer} id={commonStyles.bottomContentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Notice</div>
         <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
       </div>
-      <div className={commonStyles.contentItem} id={style.noticeContainer}>
-        {notices.length != 0 ? (
-          notices.map((item, key) => (
-            <NoticeItem
-              key={key}
-              noticeProps={item}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-              isMyNotice={item.creatorId == user.uid}
-            />
-          ))
+      <div
+        className={notices.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}
+        id={style.noticeContainer}
+      >
+        {notices.length !== 0 ? (
+          notices.slice(0, visibleCount).map((item, index) => {
+            const isLastItem = index === visibleCount - 1;
+
+            if (isLastItem) {
+              return (
+                <div ref={lastNoticeRef} key={item.id} id={style.lastNoticeContainer}>
+                  <NoticeItem
+                    noticeProps={item}
+                    handleDelete={handleDelete}
+                    handleUpdate={handleUpdate}
+                    isMyNotice={item.creatorId == user.uid}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <NoticeItem
+                  key={item.id}
+                  noticeProps={item}
+                  handleDelete={handleDelete}
+                  handleUpdate={handleUpdate}
+                  isMyNotice={item.creatorId == user.uid}
+                />
+              );
+            }
+          })
         ) : (
           <div className={commonStyles.noItemContainer}>
             <div className={commonStyles.noItemText}>Notice를 생성해주세요.</div>

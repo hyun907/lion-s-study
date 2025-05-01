@@ -61,28 +61,30 @@ const Link = () => {
 
   if (!links) return <div>로딩 중..</div>;
   return (
-    <div className={commonStyles.contentContainer}>
+    <div className={commonStyles.contentContainer} id={commonStyles.topContentContainer}>
       <div className={commonStyles.contentTitle}>
         <div>Link</div>
         <AddSubContentBtn type={SUB_CONTENT_TYPE.LINK} />
       </div>
-      <div id={style.linkContainer}>
-        {links.length != 0 ? (
-          links.map((item, key) => (
-            <LinkItem
-              key={key}
-              handleDelete={handleDelete}
-              handleClickLink={handleClickLink}
-              id={item.id}
-              title={item.title}
-              url={item.url}
-            />
-          ))
-        ) : (
-          <div className={commonStyles.noItemContainer}>
-            <div className={commonStyles.noItemText}>Link를 생성해주세요.</div>
-          </div>
-        )}
+      <div className={commonStyles.scrollContainer}>
+        <div id={style.linkContainer}>
+          {links.length != 0 ? (
+            links.map((item, key) => (
+              <LinkItem
+                key={key}
+                handleDelete={handleDelete}
+                handleClickLink={handleClickLink}
+                id={item.id}
+                title={item.title}
+                url={item.url}
+              />
+            ))
+          ) : (
+            <div className={commonStyles.noItemContainer}>
+              <div className={commonStyles.noItemText}>Link를 생성해주세요.</div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

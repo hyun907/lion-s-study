@@ -5,6 +5,8 @@
 
 #mainBg {
   background: linear-gradient(275deg, rgba(26, 26, 26, 0.4) 0%, rgba(0, 52, 148, 0.4) 100%);
+
+  height: 14rem;
 }
 
 .svgContainer {
