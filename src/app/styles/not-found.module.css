@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 5rem;
-  padding: 15rem 8rem 15rem 8rem;
+  padding: 15rem 8rem 10rem 8rem;
   background: linear-gradient(90deg, #1a1a1a 35.78%, #000 100%);
   position: absolute;
   width: 100vw;
