@@ -1,0 +1,60 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  padding: 15rem 8rem 15rem 8rem;
+  background: linear-gradient(90deg, #1a1a1a 35.78%, #000 100%);
+  position: absolute;
+  width: 100vw;
+}
+
+.wrapper > h1 {
+  color: var(--Basic-White, #fff);
+  font-family: Pretendard;
+  font-size: 6rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px; /* 66.667% */
+}
+
+.wrapper > p {
+  color: var(--30, #9a9a9a);
+  font-feature-settings: "calt" off;
+
+  /* Web/Pretendard/Body4 */
+  font-family: Pretendard;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: -0.18px;
+}
+
+.link {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.link > p {
+  color: var(--Basic-White, #fff);
+
+  /* Web/Pretendard/Button1 */
+  font-family: Inter;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.absoluteBackBtnContainer {
+  cursor: pointer;
+  margin-bottom: 10rem;
+}
