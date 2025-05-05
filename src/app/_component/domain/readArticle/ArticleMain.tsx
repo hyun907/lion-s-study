@@ -7,9 +7,10 @@ import styles from "./ArticleMain.module.css";
 
 interface Props {
   articleId: string;
+  studyroomId: string;
 }
 
-export default function ArticleMain({ articleId }: Props) {
+export default function ArticleMain({ articleId, studyroomId }: Props) {
   return (
     <>
       <div className={styles.wrapper}>
