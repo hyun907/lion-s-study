@@ -12,8 +12,7 @@ import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
-import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
-import AddArticleModal from "../domain/addarticle/AddArticleModal";
+
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
 import { useRef, useCallback, useState } from "react";
@@ -104,36 +103,39 @@ const Article = () => {
     open(<DeleteContentModal type={SUB_CONTENT_TYPE.ARTICLE} contentId={contentId} />);
   };
 
-  const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
+  const handleUpdate: StudyroomItemButtonHandler = (e, articleId) => {
     e.preventDefault();
     e.stopPropagation();
-    open(<AddArticleModal articleId={id} />);
+    router.push(`/studyroom/${id}/addarticle/${articleId}`);
   };
 
-  const handleRead: StudyroomItemGenericHandler = (e, id) => {
+  const handleRead: StudyroomItemGenericHandler = (e, articleId) => {
     e.preventDefault();
     e.stopPropagation();
     // open(<ReadArticleModal articleId={id} />);
-    router.push(`/article/${id}`);
+    router.push(`/studyroom/${id}/article/${articleId}`);
   };
 
   return (
-    <div className={commonStyles.contentContainer} id={commonStyles.bottomContentContainer}>
-      <div className={commonStyles.contentTitle}>
-        <div>Article</div>
-        <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
+    <div className={style.articleContainer}>
+      <div className={commonStyles.titleContainer}>
+        <div className={commonStyles.titleBtnContainer}>
+          <div className={commonStyles.contentTitle}>아티클</div>
+          <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
+        </div>
+
+        <div className={commonStyles.contentDescript}>
+          스터디 자료, 회의 기록, 인사이트 공유 등 성장의 발자취를 남기세요
+        </div>
       </div>
-      <div
-        className={articles.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}
-        id={style.articleContainer}
-      >
+      <div className={style.articlesContainer}>
         {articles.length !== 0 ? (
           articles.slice(0, visibleCount).map((item, index) => {
             const isLastItem = index === visibleCount - 1;
 
             if (isLastItem) {
               return (
-                <div ref={lastArticleRef} key={item.id} id={style.lastArticleContainer}>
+                <div ref={lastArticleRef} key={item.id}>
                   <ArticleItem
                     articleProps={item}
                     handleDelete={handleDelete}
