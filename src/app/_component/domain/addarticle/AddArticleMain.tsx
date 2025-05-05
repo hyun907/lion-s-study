@@ -27,6 +27,7 @@ import IcArrow from "@/assets/icon/arrow_right.svg";
 import Spinner from "@/app/_component/common/Spinner";
 import AddTag from "./AddTag";
 import TopBtnContainer from "./TopBtnContainer";
+import TempSubmitModal from "./TempSubmitModal";
 
 import styles from "./AddArticleMain.module.css";
 
@@ -45,6 +46,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const studyRoomId = studyroomId;
   console.log("studyRoomId", studyRoomId);
 
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
     if (!articleId || !studyRoomId) return;
 
@@ -54,6 +57,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
       if (data) {
         setTitle(data.title);
         setMarkdown(data.content);
+        setIsReady(true);
       }
     });
 
@@ -64,13 +68,50 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const open = useModalStore(state => state.open);
   const handleOpenDelete = () => open(<DeleteModal studyroomId={studyRoomId} />);
 
-  const [title, setTitle] = useState(() => localStorage.getItem("draft-title") || "");
-  const [markdown, setMarkdown] = useState(() => localStorage.getItem("draft-markdown") || "");
-  const [link, setLink] = useState(() => localStorage.getItem("draft-link") || "");
+  const [title, setTitle] = useState("");
+  const [markdown, setMarkdown] = useState("");
+  const [link, setLink] = useState("");
 
   const [toastType, setToastType] = useState<string | null>(null);
 
   const { showToast } = useToastStore();
+
+  // 임시 저장
+  useEffect(() => {
+    if (articleId) {
+      setIsReady(true); // 수정 모드는 바로 렌더링
+      return;
+    }
+
+    const savedTitle = localStorage.getItem("draft-title");
+    const savedMarkdown = localStorage.getItem("draft-markdown");
+    const savedLink = localStorage.getItem("draft-link");
+
+    if (savedTitle || savedMarkdown) {
+      open(
+        <TempSubmitModal
+          onContinue={() => {
+            setTitle(savedTitle || "");
+            setMarkdown(savedMarkdown || "");
+            setLink(savedLink || "");
+            setIsReady(true);
+          }}
+          onDiscard={() => {
+            localStorage.removeItem("draft-title");
+            localStorage.removeItem("draft-markdown");
+            localStorage.removeItem("draft-link");
+
+            setTitle("");
+            setMarkdown("");
+            setLink("");
+            setIsReady(true);
+          }}
+        />
+      );
+    } else {
+      setIsReady(true);
+    }
+  }, []);
 
   const handleSubmit = async () => {
     try {

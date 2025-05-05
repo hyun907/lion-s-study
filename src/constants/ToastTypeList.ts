@@ -156,6 +156,27 @@ export const ToastTypeList: ToastItem[] = [
     color: "yellow"
   },
 
+  {
+    type: "tempSubmit",
+    title: "임시 저장되었습니다.",
+    subtitle: "",
+    color: "green"
+  },
+
+  // tag
+  {
+    type: "addTag",
+    title: "태그는 12개까지 생성할 수 있습니다.",
+    subtitle: "",
+    color: "yellow"
+  },
+  {
+    type: "selectTag",
+    title: "태그는 최대 6개까지 선택할 수 있습니다.",
+    subtitle: "",
+    color: "yellow"
+  },
+
   // empty
   {
     type: "emptyTitle",
@@ -163,6 +184,7 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "생성하기 전에 제목을 입력해주세요.",
     color: "yellow"
   },
+
   {
     type: "emptyContent",
     title: "어흥! 내용이 비어있어요!",
