@@ -10,7 +10,7 @@ import { useUserStore } from "@/store/useUserStore";
 import { NoticeItem as NoticeItemProp } from "@/types/studyRoomDetails/notice";
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import AddNoticeModalContent from "./modal/AddNoticeContentModal";
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
@@ -101,10 +101,14 @@ const Notice = () => {
   };
 
   return (
-    <div className={commonStyles.contentContainer} id={commonStyles.bottomContentContainer}>
-      <div className={commonStyles.contentTitle}>
-        <div>Notice</div>
-        <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
+    <div className={style.noticeContainer}>
+      <div className={commonStyles.titleContainer}>
+        <div className={commonStyles.titleBtnContainer}>
+          <div className={commonStyles.contentTitle}>공지</div>
+          <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
+        </div>
+
+        <div className={commonStyles.contentDescript}>공지나 알림을 등록해주세요</div>
       </div>
       <div
         className={notices.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}

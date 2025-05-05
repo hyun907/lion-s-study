@@ -118,22 +118,25 @@ const Article = () => {
   };
 
   return (
-    <div className={commonStyles.contentContainer} id={commonStyles.bottomContentContainer}>
-      <div className={commonStyles.contentTitle}>
-        <div>Article</div>
-        <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
+    <div className={style.articleContainer}>
+      <div className={commonStyles.titleContainer}>
+        <div className={commonStyles.titleBtnContainer}>
+          <div className={commonStyles.contentTitle}>아티클</div>
+          <AddSubContentBtn type={SUB_CONTENT_TYPE.ARTICLE} />
+        </div>
+
+        <div className={commonStyles.contentDescript}>
+          스터디 자료, 회의 기록, 인사이트 공유 등 성장의 발자취를 남기세요
+        </div>
       </div>
-      <div
-        className={articles.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}
-        id={style.articleContainer}
-      >
+      <div className={style.articlesContainer}>
         {articles.length !== 0 ? (
           articles.slice(0, visibleCount).map((item, index) => {
             const isLastItem = index === visibleCount - 1;
 
             if (isLastItem) {
               return (
-                <div ref={lastArticleRef} key={item.id} id={style.lastArticleContainer}>
+                <div ref={lastArticleRef} key={item.id}>
                   <ArticleItem
                     articleProps={item}
                     handleDelete={handleDelete}

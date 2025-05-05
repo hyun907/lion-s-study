@@ -1,13 +1,78 @@
-#mainTitle {
+.container {
   width: 100%;
-  text-align: left;
+  max-height: 8rem;
+  margin-bottom: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1.4rem;
+
+  overflow: hidden;
 }
 
-#mainBg {
-  background: linear-gradient(275deg, rgba(26, 26, 26, 0.4) 0%, rgba(0, 52, 148, 0.4) 100%);
+.titleContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-self: stretch;
 
-  min-height: 20vh;
-  max-height: 25vh;
+  /* 글씨 */
+  color: #fff;
+  font-size: 2.1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+
+  cursor: pointer;
+}
+
+.title {
+  max-width: 25.1rem;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.subContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.2rem;
+
+  color: #9a9a9a;
+
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.profileImgContainer {
+  width: 3.6rem;
+  height: 3.6rem;
+}
+
+.subTextContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nameContainer {
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .svgContainer {
@@ -19,4 +84,11 @@
 
 .svgItemContainer {
   cursor: pointer;
+
+  padding: none;
+  margin: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

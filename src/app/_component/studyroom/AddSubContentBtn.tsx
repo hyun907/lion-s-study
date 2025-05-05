@@ -36,7 +36,7 @@ export default function AddSubContentBtn({ type }: SubContentProps) {
 
   return (
     <button type="button" className={commonStyles.contentAddBtn} onClick={handleOpenModal}>
-      생성하기
+      작성하기
     </button>
   );
 }

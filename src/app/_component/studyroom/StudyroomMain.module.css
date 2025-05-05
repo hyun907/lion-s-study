@@ -1,40 +1,32 @@
-.mainContainer {
+.wrapper {
   width: 100vw;
   height: auto;
+  overflow-y: scroll;
 
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  column-gap: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 
   padding: 10rem 6%;
   /* 화면 크기에 가로 padding 값 상대적으로 변경 */
 }
 
-.absoluteBackBtnContainer {
+.topContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.backBtnContainer {
   cursor: pointer;
 
-  position: absolute;
-
-  padding: 1rem 3rem;
-
-  left: -7rem;
+  padding: 1rem 2rem 1rem 1rem;
 }
 
-.subContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.4rem;
-}
+.mainContainer {
+  width: 100%;
 
-.leftContainer {
-  max-width: 46rem;
-  min-width: 30rem;
-
-  position: relative;
-}
-
-.rightContainer {
-  max-width: 92rem;
-  min-width: 60rem;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: 7fr 3fr;
 }

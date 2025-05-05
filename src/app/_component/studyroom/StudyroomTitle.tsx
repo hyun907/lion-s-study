@@ -1,16 +1,18 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import styles from "./StudyroomTitle.module.css";
 import commonStyles from "./CommonStyles.module.css";
-import Ic_Heart_Abled from "../../../assets/icon/heart.svg";
-import Ic_Heart_Disabled from "../../../assets/icon/heart_empty.svg";
-import Ic_Share from "../../../assets/icon/share.svg";
+import Ic_Clip from "../../../assets/icon/clip.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
 import { useUserStore } from "@/store/useUserStore";
 import { useFavorite } from "@/hooks/useFavorite";
 import { useToastStore } from "@/store/useToastStore";
+
+import BigLionImg from "../../../assets/image/babyLion.png";
+import BabyLionImg from "../../../assets/image/bigLion.png";
 
 const StudyroomTitle = () => {
   const user = useUserStore();
@@ -41,28 +43,30 @@ const StudyroomTitle = () => {
 
   if (studyroom)
     return (
-      <div className={commonStyles.contentContainer} id={styles.mainBg}>
-        <div className={commonStyles.contentTitle}>
-          <div>{studyroom.title}</div>
+      <div className={styles.container}>
+        <div className={styles.titleContainer}>
+          <div className={styles.title}>{studyroom.title}</div>
           <div className={styles.svgContainer}>
-            <div
-              className={styles.svgItemContainer}
-              onClick={handleToggleFavorite}
-              style={{ cursor: "pointer" }}
-            >
-              {isFavorite ? <Ic_Heart_Abled /> : <Ic_Heart_Disabled />}
-            </div>
             <div
               className={styles.svgItemContainer}
               onClick={handleShare}
               style={{ cursor: "pointer" }}
             >
-              <Ic_Share />
+              <Ic_Clip />
             </div>
           </div>
         </div>
-        <div className={commonStyles.contentInfo} id={styles.mainTitle}>
-          주인장 | {studyroom.creatorYear}기 {studyroom.creatorName}
+        <div className={styles.subContainer}>
+          <Image
+            className={styles.profileImgContainer}
+            src={BabyLionImg}
+            alt="프로필 사진"
+            unoptimized={true}
+          ></Image>
+          <div className={styles.subTextContainer}>
+            <div className={styles.nameContainer}>{studyroom.creatorName}</div>
+            {studyroom.creatorYear}기
+          </div>
         </div>
       </div>
     );
