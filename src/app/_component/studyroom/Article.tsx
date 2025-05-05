@@ -6,6 +6,7 @@ import commonStyles from "./CommonStyles.module.css";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useArticles } from "@/hooks/useArticles";
 import { useUserStore } from "@/store/useUserStore";
+import { useRouter } from "next/navigation";
 
 import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
 import { formatDate } from "@/utils/formatDate";
@@ -70,6 +71,8 @@ const ArticleItem = ({
 };
 
 const Article = () => {
+  const router = useRouter();
+
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
   const { articles } = useArticles(id ?? "");
@@ -110,7 +113,8 @@ const Article = () => {
   const handleRead: StudyroomItemGenericHandler = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
-    open(<ReadArticleModal articleId={id} />);
+    // open(<ReadArticleModal articleId={id} />);
+    router.push(`/article/${id}`);
   };
 
   return (

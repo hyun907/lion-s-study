@@ -1,0 +1,16 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  background-color: #fff;
+}
+
+.rightContainer {
+  display: flex;
+  width: 100%;
+
+  padding: 10rem 2.4rem 0 6rem;
+  gap: 4rem;
+  justify-content: space-around;
+}

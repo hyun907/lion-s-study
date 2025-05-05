@@ -1,0 +1,5 @@
+.wrapper {
+  color: black;
+  width: 33rem;
+  /* flex-shrink: 0; */
+}
