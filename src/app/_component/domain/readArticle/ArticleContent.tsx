@@ -34,6 +34,10 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
 
   studyroomId = studyroomId;
 
+  const [studyroomData, setStudyroomData] = useState<{
+    title: string;
+  } | null>(null);
+
   useEffect(() => {
     const fetchArticle = async () => {
       if (!studyroomId) return;
@@ -54,6 +58,26 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
     fetchArticle();
   }, [studyroomId, articleId]);
 
+  useEffect(() => {
+    const fetchStudyroom = async () => {
+      if (!studyroomId) return;
+      try {
+        const studyroomRef = doc(fireStore, "studyRooms", studyroomId);
+        const studyroomSnap = await getDoc(studyroomRef);
+
+        if (studyroomSnap.exists()) {
+          setStudyroomData(studyroomSnap.data() as any);
+        } else {
+          console.error("해당 스터디룸을 찾을 수 없습니다.");
+        }
+      } catch (error) {
+        console.error("스터디룸 이름 불러오기 실패:", error);
+      }
+    };
+
+    fetchStudyroom();
+  }, [studyroomId]);
+
   if (!articleData) return <div className={styles.overlay}>로딩 중...</div>;
   const isMyArticle = uid === articleData.creatorId;
 
@@ -62,7 +86,7 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
       <div className={styles.bodyContainer}>
         <div className={styles.topContainer}>
           <div className={styles.topHeader}>
-            <p>13기 디자인 특별세션</p>
+            <p>{studyroomData?.title}</p>
             <p>
               {articleData.createdAt
                 ? new Date(articleData.createdAt.seconds * 1000).toLocaleDateString("ko-KR")

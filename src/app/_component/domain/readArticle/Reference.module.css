@@ -7,9 +7,8 @@
   margin: 1rem 0;
   color: var(--60, #585858);
 
-  /* Web/Pretendard/Button2 */
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -42,23 +41,21 @@
 .referenceText > h1 {
   color: var(--Basic-Black, #000);
 
-  /* Web/Pretendard/Body7(Mobile) */
   font-family: Pretendard;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px; /* 166.667% */
+  line-height: 20px;
 }
 
 .referenceText > h2 {
   color: var(--30, #9a9a9a);
 
-  /* Web/Pretendard/Body8 */
   font-family: Pretendard;
-  font-size: 10px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px; /* 160% */
+  line-height: 16px;
 }
 
 .profileImgContainer {
