@@ -15,6 +15,9 @@ import DeleteContentModal from "./modal/DeleteContentModal";
 
 import Ic_alarm from "../../../assets/icon/alarm.svg";
 import Ic_trash from "../../../assets/icon/trash.svg";
+import Ic_bottom from "../../../assets/icon/arrow_bottom.svg";
+import Ic_top from "../../../assets/icon/arrow_top.svg";
+import Loading from "@/app/loading";
 
 interface NoticeItemInterface {
   noticeProps: NoticeItemProp;
@@ -28,11 +31,11 @@ const NoticeItem = ({ noticeProps, handleDelete, isMyNotice }: NoticeItemInterfa
       <div className={style.svgContainer}>
         <Ic_alarm />
       </div>
-      <div className={style.textContainer} id={style.overflowEllipsis}>
-        <div className={style.noticeTitle} id={style.overflowEllipsis}>
+      <div className={style.textContainer} id={commonStyles.overflowEllipsis}>
+        <div className={style.noticeTitle} id={commonStyles.overflowEllipsis}>
           {noticeProps.title}
         </div>
-        <div className={style.noticeContent} id={style.overflowEllipsis}>
+        <div className={style.noticeContent} id={commonStyles.overflowEllipsis}>
           {noticeProps.content}
         </div>
       </div>
@@ -57,30 +60,34 @@ const Notice = () => {
 
   const { notices } = useNotices(id ?? "");
 
-  const [visibleCount, setVisibleCount] = useState(5); // 처음 10개만 보여줌
-  const observer = useRef<IntersectionObserver | null>(null);
+  const ITEMS_PER_PAGE = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const lastNoticeRef = useCallback((node: HTMLDivElement | null) => {
-    if (observer.current) observer.current.disconnect();
+  if (!notices) return <Loading />;
 
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setTimeout(() => {
-          setVisibleCount(prev => prev + 5); // 300ms 딜레이 후 5개 추가
-        }, 300);
-      }
-    });
-
-    if (node) observer.current.observe(node);
-  }, []);
-
-  if (!notices) return <div>로딩 중..</div>;
+  const totalPages = Math.ceil(notices.length / ITEMS_PER_PAGE);
+  const paginatedNotices = notices.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleDelete: StudyroomItemGenericHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
 
     open(<DeleteContentModal type={SUB_CONTENT_TYPE.NOTICE} contentId={contentId} />);
+  };
+
+  const toggleExpanded = () => {
+    setIsExpanded(prev => !prev);
+    setCurrentPage(1); // 페이지네이션 리셋
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -90,44 +97,57 @@ const Notice = () => {
           <div className={commonStyles.contentTitle}>공지</div>
           <AddSubContentBtn type={SUB_CONTENT_TYPE.NOTICE} />
         </div>
-
         <div className={commonStyles.contentDescript}>공지나 알림을 등록해주세요</div>
       </div>
-      <div
-        className={notices.length == 0 ? commonStyles.noItemWrapper : commonStyles.scrollContainer}
-        id={style.noticeContainer}
-      >
-        {notices.length !== 0 ? (
-          notices.slice(0, visibleCount).map((item, index) => {
-            const isLastItem = index === visibleCount - 1;
 
-            if (isLastItem) {
-              return (
-                <div ref={lastNoticeRef} key={item.id} id={style.lastNoticeContainer}>
-                  <NoticeItem
-                    noticeProps={item}
-                    handleDelete={handleDelete}
-                    isMyNotice={item.creatorId == user.uid}
-                  />
-                </div>
-              );
-            } else {
-              return (
-                <NoticeItem
-                  key={item.id}
-                  noticeProps={item}
-                  handleDelete={handleDelete}
-                  isMyNotice={item.creatorId == user.uid}
-                />
-              );
-            }
-          })
-        ) : (
+      <div className={notices.length === 0 ? commonStyles.noItemWrapper : style.noticesContainer}>
+        {(isExpanded ? paginatedNotices : notices.slice(0, 1)).map(item => (
+          <NoticeItem
+            key={item.id}
+            noticeProps={item}
+            handleDelete={handleDelete}
+            isMyNotice={item.creatorId === user.uid}
+          />
+        ))}
+
+        {notices.length === 0 && (
           <div className={commonStyles.noItemContainer}>
             <div className={commonStyles.noItemText}>Notice를 생성해주세요.</div>
           </div>
         )}
       </div>
+
+      {notices.length > 1 && (
+        <div className={commonStyles.footerContainer}>
+          {!isExpanded ? (
+            <div className={style.toggleButton} id={style.clickable} onClick={toggleExpanded}>
+              <Ic_bottom />
+            </div>
+          ) : (
+            <>
+              <div className={commonStyles.paginationContainer}>
+                {[...Array(totalPages)].map((_, index) => {
+                  const pageNum = index + 1;
+                  return (
+                    <button
+                      key={pageNum}
+                      className={`${commonStyles.pageButton} ${
+                        pageNum === currentPage ? commonStyles.activePage : ""
+                      }`}
+                      onClick={() => handlePageChange(pageNum)}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className={style.toggleButton} id={style.clickable} onClick={toggleExpanded}>
+                <Ic_top />
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

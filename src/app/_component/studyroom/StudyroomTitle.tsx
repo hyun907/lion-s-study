@@ -45,7 +45,9 @@ const StudyroomTitle = () => {
     return (
       <div className={styles.container}>
         <div className={styles.titleContainer}>
-          <div className={styles.title}>{studyroom.title}</div>
+          <div className={styles.title} id={commonStyles.overflowEllipsis}>
+            {studyroom.title}
+          </div>
           <div className={styles.svgContainer}>
             <div
               className={styles.svgItemContainer}
@@ -56,15 +58,15 @@ const StudyroomTitle = () => {
             </div>
           </div>
         </div>
-        <div className={styles.subContainer}>
+        <div className={commonStyles.subContainer}>
           <Image
-            className={styles.profileImgContainer}
+            className={commonStyles.profileImgContainer}
             src={BabyLionImg}
             alt="프로필 사진"
             unoptimized={true}
           ></Image>
-          <div className={styles.subTextContainer}>
-            <div className={styles.nameContainer}>{studyroom.creatorName}</div>
+          <div className={commonStyles.subTextContainer}>
+            <div className={commonStyles.nameContainer}>{studyroom.creatorName}</div>
             {studyroom.creatorYear}기
           </div>
         </div>
