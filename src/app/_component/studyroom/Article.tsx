@@ -23,6 +23,7 @@ import ExImg from "../../../assets/image/default_thumbnail.png";
 
 import BigLionImg from "../../../assets/image/babyLion.png";
 import BabyLionImg from "../../../assets/image/bigLion.png";
+import Loading from "@/app/loading";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -67,10 +68,10 @@ const ArticleItem = ({
             style={{ width: 28, height: 28 }}
           ></Image>
           <div className={commonStyles.subTextContainer} id={style.creatorInfoContainer}>
-            <div className={commonStyles.nameContainer} style={{ color: "#000" }}>
+            <div className={commonStyles.nameContainer} id={style.fontSize12}>
               {articleProps.creatorName}
             </div>
-            <span style={{ color: "#585858" }}>{articleProps.creatorYear}기</span>
+            <span id={style.fontSize08}>{articleProps.creatorYear}기</span>
           </div>
         </div>
 
@@ -115,7 +116,12 @@ const Article = () => {
   const ITEMS_PER_PAGE = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
-  if (!articles) return <div>로딩 중...</div>;
+  if (!articles)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
 
   const totalPages = Math.ceil(articles.length / ITEMS_PER_PAGE);
   const paginatedArticles = articles.slice(
