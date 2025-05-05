@@ -22,6 +22,7 @@ export function useNotices(studyroomId: string) {
         const data = docSnap.data();
         return {
           id: docSnap.id,
+          title: data.title,
           content: data.content,
           creatorId: data.creatorId,
           creatorName: data.creatorName,
@@ -39,6 +40,7 @@ export function useNotices(studyroomId: string) {
   }, [studyroomId]);
 
   const createNotice = async (
+    title: string,
     content: string,
     creatorId: string,
     creatorName: string,
@@ -47,6 +49,7 @@ export function useNotices(studyroomId: string) {
     const ref = doc(NoticesRef);
     const Notice: NoticeItem = {
       id: ref.id,
+      title,
       content,
       creatorId,
       creatorName,

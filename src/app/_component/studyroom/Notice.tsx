@@ -8,51 +8,44 @@ import { useNotices } from "@/hooks/useNotices";
 import { useUserStore } from "@/store/useUserStore";
 
 import { NoticeItem as NoticeItemProp } from "@/types/studyRoomDetails/notice";
-import { formatDate } from "@/utils/formatDate";
-import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
+import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { useRef, useState, useCallback } from "react";
-import AddNoticeModalContent from "./modal/AddNoticeContentModal";
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
 
+import Ic_alarm from "../../../assets/icon/alarm.svg";
+import Ic_trash from "../../../assets/icon/trash.svg";
+
 interface NoticeItemInterface {
   noticeProps: NoticeItemProp;
-  handleDelete: StudyroomItemButtonHandler;
-  handleUpdate: StudyroomItemButtonHandler;
+  handleDelete: StudyroomItemGenericHandler;
   isMyNotice: boolean;
 }
 
-const NoticeItem = ({
-  noticeProps,
-  handleDelete,
-  handleUpdate,
-  isMyNotice
-}: NoticeItemInterface) => {
+const NoticeItem = ({ noticeProps, handleDelete, isMyNotice }: NoticeItemInterface) => {
   return (
-    <div className={commonStyles.contentSingleItem} id={style.noticeSingleContainer}>
-      <div className={style.noticeTitle}>{noticeProps.content}</div>
-      <div className={commonStyles.flexSpaceBetContainer}>
-        {isMyNotice && (
-          <div className={commonStyles.btnContainer}>
-            <button
-              className={commonStyles.noticeBtn}
-              onClick={e => handleUpdate(e, noticeProps.id)}
-            >
-              수정
-            </button>
-            <button
-              className={commonStyles.noticeBtn}
-              onClick={e => handleDelete(e, noticeProps.id)}
-            >
-              삭제
-            </button>
-          </div>
-        )}
-        <div className={commonStyles.contentInfo} id={commonStyles.infoContent}>
-          {noticeProps.creatorYear}기 {noticeProps.creatorName} |{" "}
-          {formatDate(noticeProps.createdAt)}
+    <div className={style.noticeSingleContainer}>
+      <div className={style.svgContainer}>
+        <Ic_alarm />
+      </div>
+      <div className={style.textContainer} id={style.overflowEllipsis}>
+        <div className={style.noticeTitle} id={style.overflowEllipsis}>
+          {noticeProps.title}
+        </div>
+        <div className={style.noticeContent} id={style.overflowEllipsis}>
+          {noticeProps.content}
         </div>
       </div>
+
+      {isMyNotice && (
+        <div
+          className={style.svgContainer}
+          id={style.clickable}
+          onClick={e => handleDelete(e, noticeProps.id)}
+        >
+          <Ic_trash />
+        </div>
+      )}
     </div>
   );
 };
@@ -83,17 +76,7 @@ const Notice = () => {
 
   if (!notices) return <div>로딩 중..</div>;
 
-  const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const target = notices.find(n => n.id === id);
-    if (!target) return;
-
-    open(<AddNoticeModalContent noticeId={target.id} initialContent={target.content} />);
-  };
-
-  const handleDelete: StudyroomItemButtonHandler = (e, contentId) => {
+  const handleDelete: StudyroomItemGenericHandler = (e, contentId) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -124,7 +107,6 @@ const Notice = () => {
                   <NoticeItem
                     noticeProps={item}
                     handleDelete={handleDelete}
-                    handleUpdate={handleUpdate}
                     isMyNotice={item.creatorId == user.uid}
                   />
                 </div>
@@ -135,7 +117,6 @@ const Notice = () => {
                   key={item.id}
                   noticeProps={item}
                   handleDelete={handleDelete}
-                  handleUpdate={handleUpdate}
                   isMyNotice={item.creatorId == user.uid}
                 />
               );

@@ -149,7 +149,7 @@
 }
 
 .noItemWrapper {
-  height: 100%;
+  height: 23rem;
   display: flex;
   justify-content: center;
   align-items: center;
