@@ -64,10 +64,7 @@ a {
   }
 } */
 
-.toastui-editor-defaultUI,
-.toastui-editor-contents,
-.toastui-editor-contents *,
-.toastui-editor-md-container,
-.toastui-editor-md-container * {
+.w-md-editor-text-input,
+.w-md-editor-preview {
   font-family: "Pretendard", sans-serif !important;
 }

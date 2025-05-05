@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
-import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useToastStore } from "@/store/useToastStore";
 
 import { useAuth } from "@/hooks/useAuth";
@@ -24,23 +23,25 @@ import {
 import fireStore from "@/firebase/firestore";
 
 import Titlebox from "./Titlebox";
-import ICDelete from "@/assets/icon/delete.svg";
-
-import styles from "./AddArticleModal.module.css";
+import IcArrow from "@/assets/icon/arrow_right.svg";
 import Spinner from "@/app/_component/common/Spinner";
+import AddTag from "./AddTag";
+import TopBtnContainer from "./TopBtnContainer";
 
-const ToastEditor = dynamic(() => import("./ToastEditor"), {
+import styles from "./AddArticleMain.module.css";
+
+const MarkdownEditor = dynamic(() => import("./MarkdownEditor"), {
   ssr: false,
   loading: () => <Spinner />
 });
 
 interface Props {
   articleId?: string;
+  studyroomId: string;
 }
 
-const AddArticleModal = ({ articleId }: Props) => {
+const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const { name, year, uid } = useUserStore();
-  const { studyroomId } = useStudyroomIdStore();
   const studyRoomId = studyroomId;
   console.log("studyRoomId", studyRoomId);
 
@@ -115,23 +116,26 @@ const AddArticleModal = ({ articleId }: Props) => {
   };
 
   return (
-    <div className={styles.overlay} onClick={handleOpenDelete}>
-      <div className={styles.modalBox} onClick={e => e.stopPropagation()}>
+    <div className={styles.overlay}>
+      <div className={styles.titleContainer}>
+        <IcArrow />
+        <p>{articleId ? "아티클 수정하기" : "아티클 작성하기"}</p>
+      </div>
+
+      <div className={styles.modalBox}>
+        <TopBtnContainer
+          title={title}
+          markdown={markdown}
+          onSubmit={handleSubmit}
+          articleId={articleId}
+          studyRoomId={studyRoomId}
+        />
         <div className={styles.topSection}>
-          <p>{articleId ? "Article 수정하기" : "Article 생성하기"}</p>
-          <ICDelete onClick={handleOpenDelete} style={{ cursor: "pointer" }} />
+          <Titlebox title={title} setTitle={setTitle} />
+          <AddTag />
         </div>
         <div className={styles.bodySection}>
-          <div className={styles.leftSection}>
-            <Titlebox
-              title={title}
-              setTitle={setTitle}
-              markdown={markdown}
-              onSubmit={handleSubmit}
-              articleId={articleId}
-            />
-            <ToastEditor setMarkdown={setMarkdown} markdown={markdown} />
-          </div>
+          <MarkdownEditor setMarkdown={setMarkdown} markdown={markdown} />
         </div>
       </div>
       {toastType && <Toast toastType={toastType} />}
@@ -139,4 +143,4 @@ const AddArticleModal = ({ articleId }: Props) => {
   );
 };
 
-export default AddArticleModal;
+export default AddArticleMain;

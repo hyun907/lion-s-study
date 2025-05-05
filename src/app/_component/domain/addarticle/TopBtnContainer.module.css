@@ -1,0 +1,77 @@
+.topContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  gap: 4.6rem;
+
+  position: absolute;
+  top: 2rem;
+  right: 4rem;
+}
+
+.buttonSection {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.tempSubBtn {
+  color: var(--60, #585858);
+  font-family: Pretendard;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19.024px; /* 128.571% */
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
+
+  display: flex;
+  padding: 8.455px 14.796px;
+  justify-content: center;
+  align-items: center;
+  gap: 6.341px;
+}
+
+.activatedBtn,
+.defaultBtn {
+  display: flex;
+  height: 3.6rem;
+  padding: 4.228px 14.796px;
+  justify-content: center;
+  align-items: center;
+  gap: 6.341px;
+  border-radius: 31.706px;
+  border: 1.057px solid var(--60, #585858);
+}
+
+.activatedBtn {
+  background: var(--Basic-White, #fff);
+  cursor: pointer;
+}
+
+.defaultBtn {
+  background-color: transparent;
+  color: #c6c6c6;
+}
+
+.infoBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.infoBtn > p {
+  color: var(--Basic-White, #fff);
+
+  /* Web/Pretendard/Body8 */
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 160% */
+}

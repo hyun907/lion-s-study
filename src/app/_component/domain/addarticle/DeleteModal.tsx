@@ -2,17 +2,18 @@
 
 import React from "react";
 import { useModalStore } from "@/store/useModalStore";
+import { useRouter } from "next/navigation";
+
 import ICDelete from "@/assets/icon/delete.svg";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./DeleteModal.module.css";
-import AddArticleModal from "./AddArticleModal";
 
 export default function DeleteModal() {
   const { close, open } = useModalStore();
+  const router = useRouter();
 
   const handleKeepWriting = () => {
     close();
-    open(<AddArticleModal />);
   };
 
   const handleStopWriting = () => {

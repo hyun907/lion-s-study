@@ -1,11 +1,13 @@
 .overlay {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   width: 100vw;
   height: 100vh;
 
+  padding: 5rem;
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -15,24 +17,39 @@
   justify-content: center;
   align-items: center;
   gap: 3rem;
-  flex-shrink: 0;
+  width: 100%;
 
-  width: 128rem;
-  height: 68rem;
-  padding: 3rem;
-  margin-top: 11.5rem;
+  padding: 3.4rem;
   border-radius: 20px;
   border: 1.5px solid rgba(255, 255, 255, 0.1);
 
   background: var(--90, #1a1a1a);
+  position: relative;
 }
 
-.topSection {
+.titleContainer {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1.2rem;
+  margin: 5rem 0 3rem 0;
+}
 
-  width: 85%;
+.titleContainer > p {
+  color: var(--Basic-White, #fff);
+
+  /* Web/Pretendard/Button1 */
+  font-family: Pretendard;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.topSection {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .topSection > p {
@@ -47,14 +64,5 @@
 .bodySection {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-}
-
-.leftSection {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2.4rem;
-  height: 48rem;
-  width: 100rem;
+  height: 50rem;
 }

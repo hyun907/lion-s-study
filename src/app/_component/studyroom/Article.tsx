@@ -12,8 +12,7 @@ import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article
 import { formatDate } from "@/utils/formatDate";
 import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHandler";
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
-import ReadArticleModal from "../domain/readArticle/ReadArticleModal";
-import AddArticleModal from "../domain/addarticle/AddArticleModal";
+
 import { useModalStore } from "@/store/useModalStore";
 import DeleteContentModal from "./modal/DeleteContentModal";
 import { useRef, useCallback, useState } from "react";
@@ -104,17 +103,17 @@ const Article = () => {
     open(<DeleteContentModal type={SUB_CONTENT_TYPE.ARTICLE} contentId={contentId} />);
   };
 
-  const handleUpdate: StudyroomItemButtonHandler = (e, id) => {
+  const handleUpdate: StudyroomItemButtonHandler = (e, articleId) => {
     e.preventDefault();
     e.stopPropagation();
-    open(<AddArticleModal articleId={id} />);
+    router.push(`/studyroom/${id}/addarticle/${articleId}`);
   };
 
-  const handleRead: StudyroomItemGenericHandler = (e, id) => {
+  const handleRead: StudyroomItemGenericHandler = (e, articleId) => {
     e.preventDefault();
     e.stopPropagation();
     // open(<ReadArticleModal articleId={id} />);
-    router.push(`/article/${id}`);
+    router.push(`/studyroom/${id}/article/${articleId}`);
   };
 
   return (
