@@ -21,8 +21,8 @@ import { useState } from "react";
 // 예시 이미지 임시 사용
 import ExImg from "../../../assets/image/default_thumbnail.png";
 
-import BigLionImg from "../../../assets/image/babyLion.png";
-import BabyLionImg from "../../../assets/image/bigLion.png";
+import BabyLionImg from "../../../assets/image/babyLion.png";
+import BigLionImg from "../../../assets/image/bigLion.png";
 import Loading from "@/app/loading";
 
 interface ArticeItemInterface {
@@ -33,13 +33,7 @@ interface ArticeItemInterface {
   isMyArticle: boolean;
 }
 
-const ArticleItem = ({
-  articleProps,
-  handleDelete,
-  handleUpdate,
-  handleRead,
-  isMyArticle
-}: ArticeItemInterface) => {
+const ArticleItem = ({ articleProps, handleRead, isMyArticle }: ArticeItemInterface) => {
   return (
     <div className={style.articleSingleContainer} onClick={e => handleRead(e, articleProps.id)}>
       <div className={style.imgWrapper}>
@@ -62,7 +56,7 @@ const ArticleItem = ({
         <div className={commonStyles.subContainer} id={style.profileContainer}>
           <Image
             className={commonStyles.profileImgContainer}
-            src={BabyLionImg}
+            src={articleProps.creatorYear == 13 ? BabyLionImg : BigLionImg}
             alt="프로필 사진"
             unoptimized={true}
             style={{ width: 28, height: 28 }}

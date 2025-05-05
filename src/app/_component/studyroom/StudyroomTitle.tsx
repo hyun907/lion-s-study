@@ -11,8 +11,8 @@ import { useUserStore } from "@/store/useUserStore";
 import { useFavorite } from "@/hooks/useFavorite";
 import { useToastStore } from "@/store/useToastStore";
 
-import BigLionImg from "../../../assets/image/babyLion.png";
-import BabyLionImg from "../../../assets/image/bigLion.png";
+import BabyLionImg from "../../../assets/image/babyLion.png";
+import BigLionImg from "../../../assets/image/bigLion.png";
 
 const StudyroomTitle = () => {
   const user = useUserStore();
@@ -61,7 +61,7 @@ const StudyroomTitle = () => {
         <div className={commonStyles.subContainer}>
           <Image
             className={commonStyles.profileImgContainer}
-            src={BabyLionImg}
+            src={studyroom.creatorYear == 13 ? BabyLionImg : BigLionImg}
             alt="프로필 사진"
             unoptimized={true}
           ></Image>
