@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { notFound, usePathname, useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 
 import StudyroomTitle from "./StudyroomTitle";
 import Notice from "./Notice";
-import Link from "./Link";
 import Article from "./Article";
 import Toast from "../common/Toast";
 import Spinner from "../common/Spinner";
@@ -72,20 +71,19 @@ const StudyroomMain = ({ id }: StudyRoomProps) => {
   if (isLoading) return <Spinner />;
   return (
     <>
-      <div className={styles.mainContainer}>
-        <div className={`${styles.subContainer} ${styles.leftContainer}`}>
-          <div className={styles.absoluteBackBtnContainer} onClick={() => router.push("/")}>
+      <div className={styles.wrapper}>
+        <div className={styles.topContainer}>
+          <div className={styles.backBtnContainer} onClick={() => router.push("/")}>
             <Ic_ArrowRight viewBox="0 0 28 28" height="26" width="26" />
           </div>
           <StudyroomTitle />
+        </div>
+
+        <div className={styles.mainContainer}>
+          <Article />
           <Notice />
         </div>
-        <div className={`${styles.subContainer} ${styles.rightContainer}`}>
-          <Link />
-          <Article />
-        </div>
       </div>
-
       {showToastState && toastType && <Toast toastType={toastType} />}
     </>
   );

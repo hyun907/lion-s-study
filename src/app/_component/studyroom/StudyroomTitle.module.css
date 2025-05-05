@@ -1,6 +1,7 @@
 .container {
-  width: 30rem; /* 고정 */
+  width: 100%;
   max-height: 8rem;
+  margin-bottom: 3rem;
 
   display: flex;
   flex-direction: column;
@@ -83,4 +84,11 @@
 
 .svgItemContainer {
   cursor: pointer;
+
+  padding: none;
+  margin: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
