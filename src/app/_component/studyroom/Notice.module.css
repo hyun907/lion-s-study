@@ -1,12 +1,12 @@
 .noticeContainer {
-  padding: 3rem;
+  width: 100%;
+  padding: 2.1rem;
   gap: 1rem;
 
   overflow-y: auto;
 
   border-radius: 3rem;
   border: 1.5px solid rgba(255, 255, 255, 0.1);
-  background: #0f0f0f;
 }
 
 #noticeSingleContainer {

@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 
 import AddNoticeModalContent from "./modal/AddNoticeContentModal";
-import AddLinkModalContent from "./modal/AddLinkContentModal";
 
 import { SubContentType } from "@/types/studyRoomDetails/content";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
@@ -26,9 +25,6 @@ export default function AddSubContentBtn({ type }: SubContentProps) {
     switch (type) {
       case SUB_CONTENT_TYPE.NOTICE:
         open(<AddNoticeModalContent />);
-        break;
-      case SUB_CONTENT_TYPE.LINK:
-        open(<AddLinkModalContent />);
         break;
       case SUB_CONTENT_TYPE.ARTICLE:
         router.push(`/studyroom/${id}/addarticle`);
