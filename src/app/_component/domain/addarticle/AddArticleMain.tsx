@@ -66,6 +66,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
 
   const [title, setTitle] = useState(() => localStorage.getItem("draft-title") || "");
   const [markdown, setMarkdown] = useState(() => localStorage.getItem("draft-markdown") || "");
+  const [link, setLink] = useState(() => localStorage.getItem("draft-link") || "");
 
   const [toastType, setToastType] = useState<string | null>(null);
 
@@ -81,6 +82,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
         setToastType("wrongStudyroomId");
         return;
       }
+      const parsedLink = link ? JSON.parse(link) : [];
 
       if (articleId) {
         // 수정
@@ -88,7 +90,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
         await updateDoc(docRef, {
           title,
           content: markdown,
-          updatedAt: serverTimestamp()
+          updatedAt: serverTimestamp(),
+          link: parsedLink
         });
         showToast("editArticle");
       } else {
@@ -100,13 +103,15 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
           creatorName: name,
           creatorYear: year,
           creatorId: uid,
-          createdAt: serverTimestamp()
+          createdAt: serverTimestamp(),
+          link: parsedLink
         });
         showToast("addArticle");
       }
 
       localStorage.removeItem("draft-title");
       localStorage.removeItem("draft-markdown");
+      localStorage.removeItem("draft-link");
 
       useModalStore.getState().close();
     } catch (error) {
@@ -135,7 +140,12 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
           <AddTag />
         </div>
         <div className={styles.bodySection}>
-          <MarkdownEditor setMarkdown={setMarkdown} markdown={markdown} />
+          <MarkdownEditor
+            setMarkdown={setMarkdown}
+            markdown={markdown}
+            setLink={setLink}
+            link={link}
+          />
         </div>
       </div>
       {toastType && <Toast toastType={toastType} />}
