@@ -62,7 +62,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
 
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
-  const handleOpenDelete = () => open(<DeleteModal />);
+  const handleOpenDelete = () => open(<DeleteModal studyroomId={studyRoomId} />);
 
   const [title, setTitle] = useState(() => localStorage.getItem("draft-title") || "");
   const [markdown, setMarkdown] = useState(() => localStorage.getItem("draft-markdown") || "");
@@ -118,7 +118,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.titleContainer}>
-        <IcArrow />
+        <IcArrow onClick={handleOpenDelete} cursor="pointer" />
         <p>{articleId ? "아티클 수정하기" : "아티클 작성하기"}</p>
       </div>
 

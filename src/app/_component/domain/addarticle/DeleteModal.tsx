@@ -8,10 +8,14 @@ import ICDelete from "@/assets/icon/delete.svg";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./DeleteModal.module.css";
 
-export default function DeleteModal() {
+interface Props {
+  studyroomId: string;
+}
+
+export default function DeleteModal({ studyroomId }: Props) {
   const { close, open } = useModalStore();
   const router = useRouter();
-
+  const id = studyroomId;
   const handleKeepWriting = () => {
     close();
   };
@@ -19,6 +23,7 @@ export default function DeleteModal() {
   const handleStopWriting = () => {
     localStorage.removeItem("draft-title");
     localStorage.removeItem("draft-markdown");
+    router.push(`/studyroom/${id}`);
     close();
   };
 
