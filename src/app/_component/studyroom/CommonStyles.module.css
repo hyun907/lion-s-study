@@ -1,17 +1,3 @@
-.contentContainer {
-  width: 100%;
-  padding: 3rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  align-items: center;
-
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.06);
-}
-
 #topContentContainer {
   min-height: 20vh;
   max-height: 25vh;
@@ -22,10 +8,8 @@
 }
 
 .contentTitle {
-  width: 100%;
-
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   align-self: stretch;
 
@@ -82,13 +66,9 @@
   background: #1a1a1a;
 }
 
+/* 회색 sub text 설명 */
 .contentInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.4rem;
-
-  color: #c6c6c6;
+  color: #9a9a9a;
   text-align: left;
 
   font-size: 1.2rem;
