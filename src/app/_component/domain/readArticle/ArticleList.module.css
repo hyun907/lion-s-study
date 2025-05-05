@@ -1,0 +1,8 @@
+.wrapper {
+  width: 42rem;
+  /* flex-shrink: 0; */
+
+  border-radius: 0px 30px 30px 0px;
+  border: 2.353px solid var(--60, #585858);
+  background: var(--90, #1a1a1a);
+}
