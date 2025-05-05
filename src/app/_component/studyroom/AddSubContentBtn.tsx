@@ -3,11 +3,10 @@
 import React from "react";
 import { useModalStore } from "@/store/useModalStore";
 import commonStyles from "./CommonStyles.module.css";
-import { useRouter } from "next/navigation";
-import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 
 import AddNoticeModalContent from "./modal/AddNoticeContentModal";
 import AddLinkModalContent from "./modal/AddLinkContentModal";
+import AddArticleModal from "@/app/_component/domain/addarticle/AddArticleModal";
 
 import { SubContentType } from "@/types/studyRoomDetails/content";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
@@ -17,9 +16,6 @@ interface SubContentProps {
 }
 
 export default function AddSubContentBtn({ type }: SubContentProps) {
-  const router = useRouter();
-  const id = useStudyroomIdStore(state => state.studyroomId);
-
   const open = useModalStore(state => state.open);
 
   const handleOpenModal = () => {
@@ -31,7 +27,7 @@ export default function AddSubContentBtn({ type }: SubContentProps) {
         open(<AddLinkModalContent />);
         break;
       case SUB_CONTENT_TYPE.ARTICLE:
-        router.push(`/studyroom/${id}/addarticle`);
+        open(<AddArticleModal />);
         break;
       default:
         console.warn(`Unknown content type: ${type}`);
