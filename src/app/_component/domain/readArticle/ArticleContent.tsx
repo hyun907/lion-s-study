@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 import fireStore from "@/firebase/firestore";
@@ -10,8 +10,9 @@ import { useUserStore } from "@/store/useUserStore";
 import MDEditor from "@uiw/react-md-editor";
 
 import IcMenu from "@/assets/icon/menu.svg";
-import BigLionImg from "@/assets/image/babyLion.png";
-import BabyLionImg from "@/assets/image/bigLion.png";
+import BabyLionImg from "@/assets/image/babyLion.png";
+import BigLionImg from "@/assets/image/bigLion.png";
+import MenuModal from "./MenuModal";
 
 import styles from "./ArticleContent.module.css";
 import Reference from "./Reference";
@@ -32,11 +33,11 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
     createdAt?: any;
   } | null>(null);
 
-  studyroomId = studyroomId;
-
   const [studyroomData, setStudyroomData] = useState<{
     title: string;
   } | null>(null);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -78,7 +79,36 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
     fetchStudyroom();
   }, [studyroomId]);
 
+  // 메뉴 모달
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleOpenMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(e.target as Node) &&
+      modalRef.current &&
+      !modalRef.current.contains(e.target as Node)
+    ) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   if (!articleData) return <div className={styles.overlay}>로딩 중...</div>;
+
   const isMyArticle = uid === articleData.creatorId;
 
   return (
@@ -96,13 +126,30 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
 
           <div className={styles.topBody}>
             <p>{articleData.title}</p>
-            {isMyArticle && <IcMenu cursor="pointer" />}
+            {isMyArticle && (
+              <div style={{ position: "relative" }} ref={menuRef}>
+                <IcMenu onClick={handleOpenMenu} style={{ cursor: "pointer" }} />
+                {isMenuOpen && (
+                  <div
+                    ref={modalRef}
+                    style={{
+                      position: "absolute",
+                      top: "3rem",
+                      right: "14rem",
+                      zIndex: 1000
+                    }}
+                  >
+                    <MenuModal articleId={articleId} studyroomId={studyroomId} />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className={styles.profile}>
             <Image
               className={styles.profileImgContainer}
-              src={BabyLionImg}
+              src={articleData.creatorYear == "13" ? BabyLionImg : BigLionImg}
               alt="프로필 사진"
               unoptimized={true}
             ></Image>
