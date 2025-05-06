@@ -63,15 +63,16 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  position: relative;
+  cursor: pointer;
 }
 
 .infoBtn > p {
   color: var(--Basic-White, #fff);
 
-  /* Web/Pretendard/Body8 */
   font-family: Pretendard;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px; /* 160% */
+  line-height: 16px;
 }

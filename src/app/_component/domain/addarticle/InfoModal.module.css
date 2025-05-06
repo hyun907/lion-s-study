@@ -1,0 +1,24 @@
+.modalOverlay {
+  background-color: red;
+}
+.modal {
+  position: absolute;
+  top: 2rem;
+  right: -4rem;
+  display: flex;
+  width: 72rem;
+  height: 40rem;
+  padding: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: var(--90, #1a1a1a);
+}
+
+.body {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}

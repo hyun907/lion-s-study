@@ -1,10 +1,9 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import Toast from "../../common/Toast";
 import IcInfo from "@/assets/icon/info.svg";
+import InfoModal from "./InfoModal";
 
 import styles from "./TopBtnContainer.module.css";
 
@@ -19,9 +18,31 @@ interface Props {
 const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: Props) => {
   const [showEmptyTitleToast, setShowEmptyTitleToast] = useState(false);
   const [showEmptyContentToast, setShowEmptyContentToast] = useState(false);
-  const router = useRouter();
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
-  // 제목, 내용 비어있는지
+  const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleOpenInfoModal = () => setShowInfoModal(true);
+  const handleCloseInfoModal = () => setShowInfoModal(false);
+
+  // 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setShowInfoModal(false);
+      }
+    };
+
+    if (showInfoModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showInfoModal]);
+
   const handleClick = () => {
     if (title.trim() === "") {
       setShowEmptyTitleToast(true);
@@ -41,10 +62,11 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
 
   return (
     <div className={styles.topContainer}>
-      <div className={styles.infoBtn}>
+      <div className={styles.infoBtn} onClick={handleOpenInfoModal}>
         <IcInfo />
         <p>마크다운 언어란?</p>
       </div>
+
       <div className={styles.buttonSection}>
         <div className={styles.tempSubBtn}>임시저장</div>
         <button
@@ -58,6 +80,12 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
 
       {showEmptyTitleToast && <Toast toastType="emptyTitle" />}
       {showEmptyContentToast && <Toast toastType="emptyContent" />}
+
+      {showInfoModal && (
+        <div ref={modalRef} style={{ position: "absolute", zIndex: 1000 }}>
+          <InfoModal onClose={handleCloseInfoModal} />
+        </div>
+      )}
     </div>
   );
 };

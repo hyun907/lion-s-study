@@ -38,8 +38,6 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
   } | null>(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -82,6 +80,9 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
   }, [studyroomId]);
 
   // 메뉴 모달
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleOpenMenu = () => {
     setIsMenuOpen(prev => !prev);
