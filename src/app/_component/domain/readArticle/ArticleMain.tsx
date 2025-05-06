@@ -14,7 +14,7 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
   return (
     <>
       <div className={styles.wrapper}>
-        <ArticleList articleId={articleId} />
+        <ArticleList articleId={articleId} studyroomId={studyroomId} />
         <div className={styles.rightContainer}>
           <ArticleContent articleId={articleId} studyroomId={studyroomId} />
           <Comment articleId={articleId} />

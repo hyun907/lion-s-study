@@ -13,9 +13,5 @@ export default function Article({ params }: Params) {
   const { articleId } = params;
   const { id } = params;
 
-  return (
-    <>
-      <ArticleMain articleId={articleId} studyroomId={id} />
-    </>
-  );
+  return <ArticleMain articleId={articleId} studyroomId={id} />;
 }

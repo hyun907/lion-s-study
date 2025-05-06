@@ -1,4 +1,4 @@
-"use client";
+"use client"; // 이 파일은 클라이언트 컴포넌트임
 
 import { useEffect } from "react";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
