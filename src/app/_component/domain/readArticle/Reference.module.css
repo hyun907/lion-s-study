@@ -1,0 +1,65 @@
+.wrapper {
+  width: 100%;
+  border-top: 0.5px solid #c6c6c6;
+}
+
+.wrapper > h1 {
+  margin: 1rem 0;
+  color: var(--60, #585858);
+
+  font-family: Pretendard;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.referenceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.referenceBox {
+  display: flex;
+  width: 100%;
+  height: 5.7rem;
+  padding: 0.6rem;
+  align-items: center;
+  gap: 1rem;
+
+  border-radius: 10px;
+  border: 0.5px solid var(--10, #c6c6c6);
+  background: var(--BG_White, #f3f5f7);
+}
+
+.referenceText {
+  display: flex;
+  flex-direction: column;
+}
+.referenceText > h1 {
+  color: var(--Basic-Black, #000);
+
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.referenceText > h2 {
+  color: var(--30, #9a9a9a);
+
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.profileImgContainer {
+  width: 6rem;
+  height: 4.5rem;
+  border-radius: 10px;
+}

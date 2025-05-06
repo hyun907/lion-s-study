@@ -2,4 +2,83 @@
   color: black;
   width: 100%;
   min-width: 70rem;
+  margin-bottom: 9.3rem;
+}
+
+.bodyContainer {
+  margin-bottom: 6rem;
+}
+.topContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2.6rem;
+}
+
+.topHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topHeader > p {
+  color: var(--30, #9a9a9a);
+
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.topBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0.6rem 0 1.2rem 0;
+}
+
+.topBody > p {
+  color: var(--Basic-Black, #000);
+
+  font-family: Pretendard;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px;
+}
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profileImgContainer {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.profile > div {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.profile > div > h1 {
+  color: var(--Basic-Black, #000);
+  text-align: right;
+
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.profile > div > h2 {
+  color: var(--60, #585858);
+  text-align: right;
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
