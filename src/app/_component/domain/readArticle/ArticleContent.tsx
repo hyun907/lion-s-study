@@ -10,8 +10,8 @@ import { useUserStore } from "@/store/useUserStore";
 import MDEditor from "@uiw/react-md-editor";
 
 import IcMenu from "@/assets/icon/menu.svg";
-import BigLionImg from "@/assets/image/babyLion.png";
-import BabyLionImg from "@/assets/image/bigLion.png";
+import BabyLionImg from "@/assets/image/babyLion.png";
+import BigLionImg from "@/assets/image/bigLion.png";
 
 import styles from "./ArticleContent.module.css";
 import Reference from "./Reference";
@@ -102,7 +102,7 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
           <div className={styles.profile}>
             <Image
               className={styles.profileImgContainer}
-              src={BabyLionImg}
+              src={articleData.creatorYear == "13" ? BabyLionImg : BigLionImg}
               alt="프로필 사진"
               unoptimized={true}
             ></Image>
