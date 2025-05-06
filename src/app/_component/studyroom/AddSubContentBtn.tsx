@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 
 import AddNoticeModalContent from "./modal/AddNoticeContentModal";
-import AddLinkModalContent from "./modal/AddLinkContentModal";
 
 import { SubContentType } from "@/types/studyRoomDetails/content";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
@@ -27,9 +26,6 @@ export default function AddSubContentBtn({ type }: SubContentProps) {
       case SUB_CONTENT_TYPE.NOTICE:
         open(<AddNoticeModalContent />);
         break;
-      case SUB_CONTENT_TYPE.LINK:
-        open(<AddLinkModalContent />);
-        break;
       case SUB_CONTENT_TYPE.ARTICLE:
         router.push(`/studyroom/${id}/addarticle`);
         break;
@@ -40,7 +36,7 @@ export default function AddSubContentBtn({ type }: SubContentProps) {
 
   return (
     <button type="button" className={commonStyles.contentAddBtn} onClick={handleOpenModal}>
-      작성하기
+      {type == SUB_CONTENT_TYPE.NOTICE ? "등록하기" : "작성하기"}
     </button>
   );
 }

@@ -11,8 +11,8 @@ import { useUserStore } from "@/store/useUserStore";
 import { useFavorite } from "@/hooks/useFavorite";
 import { useToastStore } from "@/store/useToastStore";
 
-import BigLionImg from "../../../assets/image/babyLion.png";
-import BabyLionImg from "../../../assets/image/bigLion.png";
+import BabyLionImg from "../../../assets/image/babyLion.png";
+import BigLionImg from "../../../assets/image/bigLion.png";
 
 const StudyroomTitle = () => {
   const user = useUserStore();
@@ -45,7 +45,9 @@ const StudyroomTitle = () => {
     return (
       <div className={styles.container}>
         <div className={styles.titleContainer}>
-          <div className={styles.title}>{studyroom.title}</div>
+          <div className={styles.title} id={commonStyles.overflowEllipsis}>
+            {studyroom.title}
+          </div>
           <div className={styles.svgContainer}>
             <div
               className={styles.svgItemContainer}
@@ -56,15 +58,15 @@ const StudyroomTitle = () => {
             </div>
           </div>
         </div>
-        <div className={styles.subContainer}>
+        <div className={commonStyles.subContainer}>
           <Image
-            className={styles.profileImgContainer}
-            src={BabyLionImg}
+            className={commonStyles.profileImgContainer}
+            src={studyroom.creatorYear == 13 ? BabyLionImg : BigLionImg}
             alt="프로필 사진"
             unoptimized={true}
           ></Image>
-          <div className={styles.subTextContainer}>
-            <div className={styles.nameContainer}>{studyroom.creatorName}</div>
+          <div className={commonStyles.subTextContainer}>
+            <div className={commonStyles.nameContainer}>{studyroom.creatorName}</div>
             {studyroom.creatorYear}기
           </div>
         </div>

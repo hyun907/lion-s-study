@@ -28,8 +28,9 @@ export default function AddNoticeModalContent({
   const { createNotice, updateNotice } = useNotices(studyroomId ?? "");
   const { showToast } = useToastStore();
 
+  const [title, setTitle] = useState(initialContent);
   const [content, setContent] = useState(initialContent);
-  const isValid = content.trim() !== "";
+  const isValid = content.trim() !== "" && title.trim() !== "";
 
   const handleSubmit = async () => {
     if (!isValid) {
@@ -43,12 +44,10 @@ export default function AddNoticeModalContent({
 
     try {
       if (noticeId) {
-        console.log("content", JSON.stringify(content));
         await updateNotice(noticeId, content);
         showToast("editNotice");
       } else {
-        console.log("content", JSON.stringify(content));
-        await createNotice(content, user.uid, user.name, user.year);
+        await createNotice(title, content, user.uid, user.name, user.year);
         showToast("addNotice");
       }
 
@@ -61,10 +60,18 @@ export default function AddNoticeModalContent({
   return (
     <div className={modalStyles.modal}>
       <div className={modalStyles.modalHeader}>
-        <h2 className={modalStyles.modalTitle}>
-          {noticeId ? "Notice 수정하기" : "Notice 생성하기"}
-        </h2>
+        <h2 className={modalStyles.modalTitle}>{noticeId ? "Notice 수정하기" : "공지 생성하기"}</h2>
         <ICDelete onClick={close} style={{ cursor: "pointer" }} />
+      </div>
+
+      <div className={styles.inputContainer}>
+        <div>제목</div>
+        <input
+          className={styles.input}
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          placeholder="공지 제목을 입력해주세요"
+        />
       </div>
 
       <div className={styles.inputContainer}>
@@ -73,6 +80,7 @@ export default function AddNoticeModalContent({
           className={styles.input}
           value={content}
           onChange={e => setContent(e.target.value)}
+          placeholder="공지 내용을 입력해주세요"
         />
       </div>
 
@@ -82,7 +90,7 @@ export default function AddNoticeModalContent({
           id={isValid ? modalStyles.active : modalStyles.deactive}
           onClick={handleSubmit}
         >
-          {noticeId ? "수정하기" : "생성하기"}
+          {noticeId ? "수정하기" : "등록하기"}
         </button>
       </div>
     </div>

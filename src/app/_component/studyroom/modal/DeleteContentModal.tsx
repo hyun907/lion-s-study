@@ -5,7 +5,6 @@ import styles from "./DeleteContentModal.module.css";
 import ICDelete from "@/assets/icon/delete.svg";
 
 import { useArticles } from "@/hooks/useArticles";
-import { useLinks } from "@/hooks/useLinks";
 import { useNotices } from "@/hooks/useNotices";
 import { useModalStore } from "@/store/useModalStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
@@ -21,7 +20,6 @@ export default function DeleteContentModal({ type, contentId }: DeleteContentMod
 
   const { deleteArticle } = useArticles(studyroomId ?? "");
   const { deleteNotice } = useNotices(studyroomId ?? "");
-  const { deleteLink } = useLinks(studyroomId ?? "");
 
   const { close } = useModalStore();
   const { showToast } = useToastStore();
@@ -29,8 +27,7 @@ export default function DeleteContentModal({ type, contentId }: DeleteContentMod
   // 정의해둔 SubContentType을 통해 알맞은 delete 함수로 매핑해줌.
   const deleteMap: Record<SubContentType, (id: string) => void> = {
     Article: deleteArticle,
-    Notice: deleteNotice,
-    Link: deleteLink
+    Notice: deleteNotice
   };
 
   // 한번에 받아서 삭제 처리하는 공통 핸들러 함수

@@ -25,54 +25,12 @@
   font-weight: 600;
   line-height: normal;
 
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
-
   cursor: pointer;
 }
 
 .title {
-  max-width: 25.1rem;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
-}
-
-.subContainer {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 1.2rem;
-
-  color: #9a9a9a;
-
-  font-family: Pretendard;
-  font-size: 1.2rem;
-  font-weight: 400;
-}
-
-.profileImgContainer {
-  width: 3.6rem;
-  height: 3.6rem;
-}
-
-.subTextContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.nameContainer {
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 1.4rem;
-  font-weight: 600;
+  max-width: 50rem;
+  max-height: 2.3rem;
 }
 
 .svgContainer {
