@@ -75,25 +75,6 @@ const ArticleItem = ({ articleProps, handleRead, isMyArticle }: ArticeItemInterf
             {articleProps.content}
           </div>
         </div>
-        {/* 아티클 수정, 삭제 */}
-        {/* <div className={commonStyles.flexSpaceBetContainer}>
-          {isMyArticle && (
-            <div className={commonStyles.btnContainer}>
-              <button
-                className={commonStyles.noticeBtn}
-                onClick={e => handleUpdate(e, articleProps.id)}
-              >
-                수정
-              </button>
-              <button
-                className={commonStyles.noticeBtn}
-                onClick={e => handleDelete(e, articleProps.id)}
-              >
-                삭제
-              </button>
-            </div>
-          )}
-        </div> */}
       </div>
     </div>
   );
@@ -126,6 +107,8 @@ const Article = () => {
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 

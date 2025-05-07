@@ -87,6 +87,8 @@ const Notice = () => {
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
