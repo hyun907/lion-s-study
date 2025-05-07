@@ -1,5 +1,172 @@
 .wrapper {
-  color: black;
+  min-width: 40rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.commentBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: fixed;
+
+  padding: 1.4rem;
   width: 33rem;
-  /* flex-shrink: 0; */
+  background-color: #f3f5f7;
+  border-radius: 10px;
+}
+
+.commentsArea {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+  padding: 1.6rem;
+
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.commentWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 0.8rem;
+}
+
+.profileImgContainer {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.comment {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.authorGroup {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.creatorYear {
+  color: #666;
+  font-size: 0.95em;
+}
+
+.author {
+  color: #000;
+  text-align: right;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+.creatorYear {
+  color: #585858;
+  text-align: right;
+
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
+}
+
+.date {
+  color: #9a9a9a;
+
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
+}
+
+.commentContent {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
+}
+
+.inputArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.input {
+  display: flex;
+  width: 25.8rem;
+  height: 4rem;
+  padding: 0.6rem 1.2rem;
+  align-items: center;
+  align-content: center;
+
+  border: 1px solid #c6c6c6;
+  border-radius: 10px;
+  background-color: #fff;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem;
+  outline: none;
+}
+
+.submitBtn {
+  display: flex;
+  height: 4rem;
+  padding: 1.4244rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1.0175rem;
+  border-radius: 10.175px;
+  border: 1.017px solid #c6c6c6;
+  background: #fff;
+  fill: #c6c6c6;
+
+  cursor: pointer;
+}
+
+.submitBtn.active {
+  background-color: #1a1a1a;
+  border: 1.017px solid #9a9a9a;
+}
+
+.submitBtn.active svg {
+  fill: #fff;
+}
+
+.noComment {
+  display: flex;
+  padding: 16px 14px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: -2rem;
+
+  color: #9a9a9a;
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
 }
