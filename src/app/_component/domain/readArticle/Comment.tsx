@@ -51,8 +51,10 @@ const Comment = ({ articleId, studyroomId }: Props) => {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const { name, year, uid } = useUserStore();
   const showToast = useToastStore(state => state.showToast);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const commentsAreaRef = useRef<HTMLDivElement>(null);
   const prevCommentsLengthRef = useRef(0);
@@ -154,7 +156,21 @@ const Comment = ({ articleId, studyroomId }: Props) => {
     }
   };
 
+  const handleFileButtonClick = (e: React.MouseEvent) => {
+    if (selectedFile) {
+      e.preventDefault();
+      e.stopPropagation();
+      showToast("fail_upload");
+      return;
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedFile) {
+      e.preventDefault();
+      showToast("fail_upload");
+      return;
+    }
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
@@ -268,7 +284,11 @@ const Comment = ({ articleId, studyroomId }: Props) => {
               style={{ border: "none", width: "100%", paddingRight: "4rem", outline: "none" }}
             />
             <div className={styles.buttonGroup}>
-              <label className={styles.fileButton}>
+              <label
+                className={styles.fileButton}
+                onClick={handleFileButtonClick}
+                onMouseDown={handleFileButtonClick}
+              >
                 <input
                   ref={fileInputRef}
                   type="file"
