@@ -161,11 +161,34 @@
   line-height: 2rem;
 }
 
-#overflowEllipsis {
+#overflowEllipsisLine1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
   overflow: hidden;
-  white-space: wrap;
   text-overflow: ellipsis;
-  word-break: break-all;
+  white-space: normal;
+}
+
+#overflowEllipsisLine2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+#overflowEllipsisLine3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 /* 프로필 사진 관련 */

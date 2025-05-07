@@ -13,8 +13,12 @@ import { useToastStore } from "@/store/useToastStore";
 
 import BabyLionImg from "../../../assets/image/babyLion.png";
 import BigLionImg from "../../../assets/image/bigLion.png";
+import { useRouter } from "next/navigation";
+import Loading from "@/app/loading";
 
 const StudyroomTitle = () => {
+  const router = useRouter();
+
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
   const { studyroom, loading, error } = useStudyroomDetail(id ?? "");
@@ -22,12 +26,12 @@ const StudyroomTitle = () => {
   const { showToast } = useToastStore();
 
   if (!id || !user) {
-    return <div>오류 발생</div>;
+    router.replace("/404");
   }
 
   // 이후 loading, error 처리
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러 발생: {error.message}</div>;
+  if (loading) return <Loading />;
+  if (error) router.replace("/404");
 
   const handleShare = async () => {
     if (!id) return;
@@ -45,7 +49,7 @@ const StudyroomTitle = () => {
     return (
       <div className={styles.container}>
         <div className={styles.titleContainer}>
-          <div className={styles.title} id={commonStyles.overflowEllipsis}>
+          <div className={styles.title} id={commonStyles.overflowEllipsisLine1}>
             {studyroom.title}
           </div>
           <div className={styles.svgContainer}>
@@ -72,7 +76,7 @@ const StudyroomTitle = () => {
         </div>
       </div>
     );
-  else return <div>오류 발생</div>;
+  else router.replace("/404");
 };
 
 export default StudyroomTitle;

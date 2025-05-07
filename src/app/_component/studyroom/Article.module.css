@@ -41,6 +41,10 @@
   gap: 2.4rem;
 }
 
+.articleSingleContainer:hover {
+  background-color: #ffffff;
+}
+
 .imgWrapper {
   width: 100%;
   height: 100%;
