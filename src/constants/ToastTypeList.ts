@@ -162,6 +162,12 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "green"
   },
+  {
+    type: "fail_upload",
+    title: "파일은 1개만 첨부 가능합니다.",
+    subtitle: "",
+    color: "yellow"
+  },
 
   // tag
   {

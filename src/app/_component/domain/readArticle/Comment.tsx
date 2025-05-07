@@ -16,7 +16,9 @@ import storage from "@/firebase/firebaseStorage";
 import { formatDate } from "@/utils/formatDate";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
-import { useAuth } from "@/hooks/useAuth";
+import { sortArrByTime } from "@/utils/sortArrByTime";
+import { convertUrlsToLinks } from "@/utils/convertUrlsToLinks";
+import Spinner from "@/app/_component/common/Spinner";
 
 import Image from "next/image";
 import styles from "./Comment.module.css";
@@ -34,7 +36,7 @@ interface CommentData {
   content: string;
   author: string;
   creatorYear: string;
-  createdAt: {};
+  createdAt: { toMillis: () => number };
   uid: string;
   fileName?: string;
   imageUrl?: string;
@@ -49,9 +51,14 @@ const Comment = ({ articleId, studyroomId }: Props) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState<CommentData[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const { name, year, uid } = useUserStore();
   const showToast = useToastStore(state => state.showToast);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const commentsAreaRef = useRef<HTMLDivElement>(null);
+  const prevCommentsLengthRef = useRef(0);
 
   useEffect(() => {
     const commentsRef = collection(
@@ -69,11 +76,25 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         fileName: doc.data().fileName,
         imageUrl: doc.data().imageUrl
       }));
-      setComments(result);
+      const sortedComments = sortArrByTime(result, true);
+      setComments(sortedComments);
+      setIsLoading(false);
     });
 
     return () => unsub();
   }, [articleId, studyroomId]);
+
+  // 댓글 추가하면 해당 댓글로 스크롤
+  useEffect(() => {
+    if (comments.length > prevCommentsLengthRef.current && commentsAreaRef.current) {
+      const scrollOptions = {
+        top: commentsAreaRef.current.scrollHeight,
+        behavior: "smooth" as const
+      };
+      commentsAreaRef.current.scrollTo(scrollOptions);
+    }
+    prevCommentsLengthRef.current = comments.length;
+  }, [comments]);
 
   const handleSubmit = async () => {
     if (!commentText.trim() && !selectedFile) {
@@ -113,6 +134,10 @@ const Comment = ({ articleId, studyroomId }: Props) => {
       await addDoc(commentsRef, commentData);
       setCommentText("");
       setSelectedFile(null);
+
+      if (commentsAreaRef.current) {
+        commentsAreaRef.current.scrollTop = commentsAreaRef.current.scrollHeight;
+      }
     } catch (error) {
       console.error("댓글 작성 중 오류 발생:", error);
       showToast("fail");
@@ -132,7 +157,21 @@ const Comment = ({ articleId, studyroomId }: Props) => {
     }
   };
 
+  const handleFileButtonClick = (e: React.MouseEvent) => {
+    if (selectedFile) {
+      e.preventDefault();
+      e.stopPropagation();
+      showToast("fail_upload");
+      return;
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedFile) {
+      e.preventDefault();
+      showToast("fail_upload");
+      return;
+    }
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
@@ -168,8 +207,12 @@ const Comment = ({ articleId, studyroomId }: Props) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.commentBoxWrapper}>
-        {comments.length > 0 ? (
-          <div className={styles.commentsArea}>
+        {isLoading ? (
+          <div className={styles.loadingContainer}>
+            <Spinner />
+          </div>
+        ) : comments.length > 0 ? (
+          <div className={styles.commentsArea} ref={commentsAreaRef}>
             {comments.map(comment => (
               <div className={styles.commentWrapper} key={comment.commentId}>
                 <Image
@@ -189,7 +232,9 @@ const Comment = ({ articleId, studyroomId }: Props) => {
                     </div>
                   </div>
                   <div className={styles.commentInner}>
-                    <div className={styles.commentContent}>{comment.content}</div>
+                    <div className={styles.commentContent}>
+                      {convertUrlsToLinks(comment.content)}
+                    </div>
 
                     {uid && comment.uid === uid && (
                       <button
@@ -203,7 +248,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
                   {comment.fileName && (
                     <div className={styles.fileAttachmentWrapper}>
                       <div className={styles.fileAttachment}>
-                        <span>{comment.fileName}</span>
+                        <div className={styles.fileNameInner}>{comment.fileName}</div>
                         <button
                           className={styles.downloadBtn}
                           onClick={() =>
@@ -226,7 +271,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         {selectedFile && (
           <div className={styles.fileNameWrapper}>
             <div className={styles.fileName}>
-              {selectedFile.name}
+              <div className={styles.nameInner}>{selectedFile.name}</div>
               <button className={styles.deleteFileBtn} onClick={handleResetFile}>
                 <ICDelete />
               </button>
@@ -242,7 +287,11 @@ const Comment = ({ articleId, studyroomId }: Props) => {
               style={{ border: "none", width: "100%", paddingRight: "4rem", outline: "none" }}
             />
             <div className={styles.buttonGroup}>
-              <label className={styles.fileButton}>
+              <label
+                className={styles.fileButton}
+                onClick={handleFileButtonClick}
+                onMouseDown={handleFileButtonClick}
+              >
                 <input
                   ref={fileInputRef}
                   type="file"

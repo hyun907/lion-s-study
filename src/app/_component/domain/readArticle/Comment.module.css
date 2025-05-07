@@ -20,11 +20,22 @@
 .commentsArea {
   display: flex;
   flex-direction: column;
+  max-height: 50rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-right: 1rem;
   gap: 2.2rem;
   padding: 1.6rem;
 
   border-radius: 10px;
   background-color: #fff;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.commentsArea:-webkit-scrollbar {
+  display: none;
 }
 
 .commentInner {
@@ -150,34 +161,30 @@
 
 .fileName {
   display: flex;
-  height: 26px;
-  padding: 2px 8px;
+  height: 2.6rem;
+  padding: 0.5rem 0.8rem;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  border-radius: 2px;
-  border: 0.5px solid var(--10, #c6c6c6);
-  background: var(--BG_White, #f3f5f7);
-  color: var(--Basic-Black, #000);
+  gap: 0.8rem;
 
-  /* Web/Pretendard/Body8 */
+  border-radius: 2px;
+  border: 0.5px solid #c6c6c6;
+  background: #f3f5f7;
+
+  color: #000;
   font-family: Pretendard;
-  font-size: 10px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px; /* 160% */
+  line-height: 1.6rem;
+}
 
+.nameInner {
+  max-width: 25.47rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   word-break: break-all;
-}
-
-.fileName span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100% - 30px);
 }
 
 .deleteFileBtn {
@@ -224,7 +231,7 @@
 
 .noComment {
   display: flex;
-  padding: 16px 14px;
+  padding: 1.6rem 1.4rem;
   justify-content: center;
   align-items: flex-start;
   margin-bottom: -2rem;
@@ -268,25 +275,34 @@
 }
 
 .fileAttachment {
-  max-width: 23.5rem;
+  max-width: 23rem;
   display: flex;
-  padding: 2px 2px 2px 8px;
+  height: 2.6rem;
+  padding: 0 0.8rem;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-
+  gap: 0.8rem;
   border-radius: 2px;
-  border: 0.5px solid var(--10, #c6c6c6);
-  background: var(--BG_White, #f3f5f7);
+  border: 0.5px solid #c6c6c6;
+  background: #f3f5f7;
+
+  margin-top: 0.5rem;
 }
 
-.fileAttachment span {
+.fileNameInner {
+  width: 100%;
+
   color: #000;
   font-family: Pretendard;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6rem;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 }
 
 .downloadBtn {
@@ -300,4 +316,23 @@
 
 .fileAttachmentWrapper {
   display: flex;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10rem;
+  padding-top: 4rem;
+  width: 100%;
+}
+
+.link {
+  color: #0077ff;
+  word-break: break-all;
+}
+
+.link:hover {
+  color: #0067dd;
+  text-decoration: underline;
 }
