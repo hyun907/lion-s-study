@@ -45,6 +45,8 @@
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
+
+  gap: 1rem;
 }
 
 .tagContainer:hover {
@@ -126,4 +128,9 @@
   width: 2rem;
   height: 2rem;
   cursor: pointer;
+}
+
+.icTrash {
+  width: 1.6rem;
+  height: 1.6rem;
 }

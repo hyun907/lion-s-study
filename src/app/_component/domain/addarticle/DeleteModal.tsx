@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { useRouter } from "next/navigation";
 import { useToastStore } from "@/store/useToastStore";
@@ -17,7 +17,6 @@ export default function DeleteModal({ studyroomId }: Props) {
   const { close, open } = useModalStore();
   const router = useRouter();
   const id = studyroomId;
-  const [toastType, setToastType] = useState<string | null>(null);
   const { showToast } = useToastStore();
 
   // 계속 작성
@@ -29,6 +28,9 @@ export default function DeleteModal({ studyroomId }: Props) {
   const handleStopWriting = () => {
     localStorage.removeItem("draft-title");
     localStorage.removeItem("draft-markdown");
+    localStorage.removeItem("draft-link");
+    localStorage.removeItem("draft-tags");
+
     router.push(`/studyroom/${id}`);
     close();
   };

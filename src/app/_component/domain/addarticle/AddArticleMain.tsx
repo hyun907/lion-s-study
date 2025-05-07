@@ -17,8 +17,11 @@ import {
   getDoc,
   updateDoc,
   addDoc,
+  getDocs,
   serverTimestamp,
-  onSnapshot
+  onSnapshot,
+  arrayUnion,
+  writeBatch
 } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
@@ -71,6 +74,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const [title, setTitle] = useState("");
   const [markdown, setMarkdown] = useState("");
   const [link, setLink] = useState("");
+  const [tag, setTag] = useState("");
 
   const [toastType, setToastType] = useState<string | null>(null);
 
@@ -86,6 +90,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     const savedTitle = localStorage.getItem("draft-title");
     const savedMarkdown = localStorage.getItem("draft-markdown");
     const savedLink = localStorage.getItem("draft-link");
+    const savedTag = localStorage.getItem("draft-tags");
 
     if (savedTitle || savedMarkdown) {
       open(
@@ -94,12 +99,16 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
             setTitle(savedTitle || "");
             setMarkdown(savedMarkdown || "");
             setLink(savedLink || "");
+            setTag(savedTag || "");
+
             setIsReady(true);
           }}
           onDiscard={() => {
             localStorage.removeItem("draft-title");
             localStorage.removeItem("draft-markdown");
             localStorage.removeItem("draft-link");
+            localStorage.removeItem("draft-tags");
+            localStorage.removeItem("draft-modal-tags");
 
             setTitle("");
             setMarkdown("");
@@ -113,50 +122,99 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     }
   }, []);
 
+  const getRandomColor = () => {
+    const colors = ["#FFB6C1", "#ADD8E6", "#90EE90", "#FFD700", "#FFA07A"];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
+
   const handleSubmit = async () => {
     try {
       if (!isLoggedIn) {
         setToastType("login");
         return;
       }
-      if (!studyRoomId) {
-        setToastType("wrongStudyroomId");
-        return;
-      }
-      const parsedLink = link ? JSON.parse(link) : [];
 
+      const parsedLink = link ? JSON.parse(link) : [];
+      const rawTags = localStorage.getItem("draft-tags");
+      const parsedTags = rawTags ? JSON.parse(rawTags) : [];
+
+      const batch = writeBatch(fireStore);
+      const finalTagIds: string[] = [];
+
+      // 1. 기존 태그 조회
+      const commonTagRef = collection(fireStore, "commonTags");
+      const existingTagsSnap = await getDocs(commonTagRef);
+      const existingTagMap: Record<string, { id: string; color: string }> = {};
+      existingTagsSnap.forEach(doc => {
+        const data = doc.data();
+        existingTagMap[data.name] = { id: doc.id, color: data.color };
+      });
+
+      // 2. 태그 처리
+      for (const tagName of parsedTags) {
+        if (existingTagMap[tagName]) {
+          finalTagIds.push(existingTagMap[tagName].id);
+        } else {
+          const newTagRef = doc(collection(fireStore, "commonTags"));
+          const color = getRandomColor();
+          batch.set(newTagRef, {
+            name: tagName,
+            color
+          });
+          finalTagIds.push(newTagRef.id);
+        }
+      }
+
+      // 3. 아티클 생성 or 수정
+      let articleRef;
       if (articleId) {
-        // 수정
-        const docRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
-        await updateDoc(docRef, {
+        articleRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
+        batch.update(articleRef, {
           title,
           content: markdown,
           updatedAt: serverTimestamp(),
-          link: parsedLink
+          link: parsedLink,
+          tags: finalTagIds
         });
-        showToast("editArticle");
       } else {
-        // 생성
-        const articleRef = collection(fireStore, "studyRooms", studyRoomId, "articles");
-        await addDoc(articleRef, {
+        articleRef = doc(collection(fireStore, "studyRooms", studyRoomId, "articles"));
+        batch.set(articleRef, {
           title,
           content: markdown,
           creatorName: name,
           creatorYear: year,
           creatorId: uid,
           createdAt: serverTimestamp(),
-          link: parsedLink
+          link: parsedLink,
+          tags: finalTagIds
         });
-        showToast("addArticle");
       }
+
+      // 4. 유저 태그 업데이트
+      if (!uid) {
+        setToastType("login");
+        return;
+      }
+      const userRef = doc(fireStore, "users", uid);
+      finalTagIds.forEach(tagId => {
+        batch.update(userRef, {
+          tags: arrayUnion(tagId)
+        });
+      });
+
+      // 5. 커밋
+      await batch.commit();
+      showToast(articleId ? "editArticle" : "addArticle");
 
       localStorage.removeItem("draft-title");
       localStorage.removeItem("draft-markdown");
       localStorage.removeItem("draft-link");
+      localStorage.removeItem("draft-tags");
+      localStorage.removeItem("draft-modal-tags");
 
       useModalStore.getState().close();
-    } catch (error) {
-      console.error("처리 중 오류:", error);
+    } catch (err) {
+      console.error("아티클 생성 실패:", err);
       setToastType("fail");
     }
   };

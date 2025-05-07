@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import fireStore from "@/firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore";
 import IcPlus from "@/assets/icon/plus.svg";
+import Ictrash from "@/assets/icon/trash.svg";
 import styles from "./AddTagModal.module.css";
 
 interface Props {
@@ -18,7 +19,7 @@ interface TagData {
 }
 
 export default function AddTagModal({ onClose }: Props) {
-  const { tags } = useUserStore();
+  const { tags, uid } = useUserStore();
   const [tagDataList, setTagDataList] = useState<TagData[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [draftTags, setDraftTags] = useState<string[]>(() => {
@@ -105,6 +106,35 @@ export default function AddTagModal({ onClose }: Props) {
     setInputValue("");
   };
 
+  // 태그 삭제
+  const handleDeleteClick = async (tag: TagData) => {
+    const isDraft = draftModalTags.some(t => t.id === tag.id);
+    // 생성 태그
+    if (isDraft) {
+      const updated = draftModalTags.filter(t => t.id !== tag.id);
+      setDraftModalTags(updated);
+
+      localStorage.setItem("draft-modal-tags", JSON.stringify(updated));
+    } else {
+      // 기존 태그
+      try {
+        if (!uid) return;
+        await updateDoc(doc(fireStore, "users", uid), {
+          tags: arrayRemove(tag.id)
+        });
+        setTagDataList(prev => prev.filter(t => t.id !== tag.id));
+      } catch (err) {
+        console.error("Firestore 태그 삭제 실패:", err);
+      }
+    }
+    // 반영
+    setDraftTags(prev => {
+      const updated = prev.filter(name => name !== tag.name);
+      localStorage.setItem("draft-tags", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   return (
     <div className={styles.modal}>
       {combinedTagList.length > 0 && (
@@ -121,6 +151,13 @@ export default function AddTagModal({ onClose }: Props) {
                   <div className={styles.tagColor} style={{ backgroundColor: tag.color }}></div>
                   <p>{tag.name}</p>
                 </div>
+                <Ictrash
+                  className={styles.icTrash}
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    handleDeleteClick(tag);
+                  }}
+                />
               </div>
             ))}
           </div>
