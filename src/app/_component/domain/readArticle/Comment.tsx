@@ -1,7 +1,11 @@
 "use client";
 
 import { formatDate } from "@/utils/formatDate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { collection, onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
+import fireStore from "@/firebase/firestore";
+import { useUserStore } from "@/store/useUserStore";
+import { useToastStore } from "@/store/useToastStore";
 
 import Image from "next/image";
 import styles from "./Comment.module.css";
@@ -10,7 +14,6 @@ import BabyLionImg from "@/assets/image/babyLion.png";
 import BigLionImg from "@/assets/image/bigLion.png";
 import ICUpload from "@/assets/icon/upload_arrow.svg";
 
-// 목업 데이터 타입 정의
 interface CommentData {
   commentId: string;
   content: string;
@@ -19,43 +22,74 @@ interface CommentData {
   createdAt: {};
 }
 
-// 목업 데이터
-const mockComments: CommentData[] = [
-  // {
-  //   commentId: "1",
-  //   content: "댓글 목업 데이터",
-  //   author: "사용자1",
-  //   creatorYear: "12",
-  //   createdAt: {
-  //     nanoseconds: 386000000,
-  //     seconds: 1745086007
-  //   }
-  // },
-  // {
-  //   commentId: "2",
-  //   content: "도움이 많이 되었습니다.",
-  //   author: "사용자2",
-  //   creatorYear: "13",
-  //   createdAt: {
-  //     nanoseconds: 386000000,
-  //     seconds: 1745086007
-  //   }
-  // }
-];
+interface Props {
+  articleId: string;
+  studyroomId: string;
+}
 
-const Comment = () => {
+const Comment = ({ articleId, studyroomId }: Props) => {
   const [commentText, setCommentText] = useState("");
+  const [comments, setComments] = useState<CommentData[]>([]);
+  const { name, year } = useUserStore();
+  const showToast = useToastStore(state => state.showToast);
+
+  useEffect(() => {
+    const commentsRef = collection(
+      fireStore,
+      `studyRooms/${studyroomId}/articles/${articleId}/comments`
+    );
+    const unsub = onSnapshot(commentsRef, snap => {
+      const result: CommentData[] = snap.docs.map(doc => ({
+        commentId: doc.id,
+        content: doc.data().content,
+        author: doc.data().author,
+        creatorYear: doc.data().creatorYear,
+        createdAt: doc.data().createdAt
+      }));
+      setComments(result);
+    });
+
+    return () => unsub();
+  }, [articleId, studyroomId]);
+
+  const handleSubmit = async () => {
+    if (!commentText.trim()) {
+      return;
+    }
+
+    if (!name || !year) {
+      showToast("login_common");
+      return;
+    }
+
+    try {
+      const commentsRef = collection(
+        fireStore,
+        `studyRooms/${studyroomId}/articles/${articleId}/comments`
+      );
+      await addDoc(commentsRef, {
+        content: commentText,
+        author: name,
+        creatorYear: year.toString(),
+        createdAt: serverTimestamp()
+      });
+      setCommentText("");
+    } catch (error) {
+      console.error("댓글 작성 중 오류 발생:", error);
+      showToast("fail");
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.commentBoxWrapper}>
-        {mockComments.length > 0 ? (
+        {comments.length > 0 ? (
           <div className={styles.commentsArea}>
-            {mockComments.map(comment => (
+            {comments.map(comment => (
               <div className={styles.commentWrapper} key={comment.commentId}>
                 <Image
                   className={styles.profileImgContainer}
-                  src={comment.creatorYear == "13" ? BabyLionImg : BigLionImg}
+                  src={comment.creatorYear === "13" ? BabyLionImg : BigLionImg}
                   alt="프로필 사진"
                   unoptimized={true}
                 />
@@ -82,7 +116,10 @@ const Comment = () => {
             value={commentText}
             onChange={e => setCommentText(e.target.value)}
           />
-          <button className={`${styles.submitBtn} ${commentText ? styles.active : ""}`}>
+          <button
+            className={`${styles.submitBtn} ${commentText ? styles.active : ""}`}
+            onClick={handleSubmit}
+          >
             <ICUpload />
           </button>
         </div>
