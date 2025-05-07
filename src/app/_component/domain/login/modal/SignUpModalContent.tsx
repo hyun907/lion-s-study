@@ -10,6 +10,7 @@ import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./SignUpModal.module.css";
 import PlusBtn from "@/app/_component/common/PlusBtn";
 import { useToastStore } from "@/store/useToastStore";
+import { PartDefaultTags } from "@/constants/PartDefaultTag";
 
 const PART_OPTIONS = [
   { value: "기획", label: "기획" },
@@ -42,13 +43,16 @@ export default function SignUpModalContent({
   const handleSubmit = async () => {
     if (!isFormValid) return showToast("signup_empty");
 
+    const defaultTags = PartDefaultTags[part] || [];
+
     await setDoc(doc(fireStore, "users", uid), {
       googleId,
       name,
       year: Number(year),
       part,
       createdAt: serverTimestamp(),
-      favorites: []
+      favorites: [],
+      tags: defaultTags
     });
 
     useUserStore.getState().setUserInfo(name, Number(year), part);
