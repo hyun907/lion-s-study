@@ -245,7 +245,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
                   {comment.fileName && (
                     <div className={styles.fileAttachmentWrapper}>
                       <div className={styles.fileAttachment}>
-                        <span>{comment.fileName}</span>
+                        <div className={styles.fileNameInner}>{comment.fileName}</div>
                         <button
                           className={styles.downloadBtn}
                           onClick={() =>
@@ -268,7 +268,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         {selectedFile && (
           <div className={styles.fileNameWrapper}>
             <div className={styles.fileName}>
-              {selectedFile.name}
+              <div className={styles.nameInner}>{selectedFile.name}</div>
               <button className={styles.deleteFileBtn} onClick={handleResetFile}>
                 <ICDelete />
               </button>
