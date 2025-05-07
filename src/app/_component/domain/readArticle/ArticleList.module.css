@@ -89,6 +89,10 @@
   cursor: pointer;
 }
 
+.itemWholeContainer:hover {
+  background-color: red;
+}
+
 .tngleSvgContainer {
   width: 2.4rem;
   height: 2.4rem;
