@@ -27,11 +27,10 @@
   background-color: #fff;
 }
 
-.commentWrapper {
+.commentInner {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 0.8rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .profileImgContainer {
@@ -44,6 +43,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  overflow: hidden;
 }
 
 .commentHeader {
@@ -102,11 +102,15 @@
   font-style: normal;
   font-weight: 400;
   line-height: 1.6rem;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .commentWrapper {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  gap: 0.8rem;
 }
 
 .inputArea {
@@ -123,6 +127,7 @@
   padding: 0.6rem 1.2rem;
   align-items: center;
   align-content: center;
+  position: relative;
 
   border: 1px solid #c6c6c6;
   border-radius: 10px;
@@ -137,6 +142,60 @@
   outline: none;
 }
 
+.fileNameWrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.fileName {
+  display: flex;
+  height: 26px;
+  padding: 2px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 2px;
+  border: 0.5px solid var(--10, #c6c6c6);
+  background: var(--BG_White, #f3f5f7);
+  color: var(--Basic-Black, #000);
+
+  /* Web/Pretendard/Body8 */
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 160% */
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.fileName span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 30px);
+}
+
+.deleteFileBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.deleteFileBtn:hover {
+  opacity: 0.7;
+}
+
 .submitBtn {
   display: flex;
   height: 4rem;
@@ -149,12 +208,14 @@
   background: #fff;
   fill: #c6c6c6;
 
+  transition: background-color 0.5s;
   cursor: pointer;
 }
 
 .submitBtn.active {
   background-color: #1a1a1a;
   border: 1.017px solid #9a9a9a;
+  transition: background-color 0.5s;
 }
 
 .submitBtn.active svg {
@@ -179,7 +240,7 @@
 .commentActions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .deleteBtn {
@@ -188,4 +249,55 @@
   border: none;
   background: none;
   cursor: pointer;
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0.5rem;
+}
+
+.fileButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+}
+
+.fileAttachment {
+  max-width: 23.5rem;
+  display: flex;
+  padding: 2px 2px 2px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 2px;
+  border: 0.5px solid var(--10, #c6c6c6);
+  background: var(--BG_White, #f3f5f7);
+}
+
+.fileAttachment span {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6rem;
+}
+
+.downloadBtn {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0.4rem;
+  align-items: center;
+  background: none;
+}
+
+.fileAttachmentWrapper {
+  display: flex;
 }
