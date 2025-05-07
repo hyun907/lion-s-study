@@ -1,9 +1,9 @@
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
+import { TagColors } from "@/constants/TagColors";
 
 const getRandomColor = () => {
-  const colors = ["#FFB6C1", "#ADD8E6", "#90EE90", "#FFD700", "#FFA07A"];
-  return colors[Math.floor(Math.random() * colors.length)];
+  return TagColors[Math.floor(Math.random() * TagColors.length)];
 };
 
 export const useTagHandler = () => {
