@@ -22,6 +22,7 @@ interface UserState {
   year: number | undefined;
   part: string | undefined;
   favorites: string[];
+  tags: string[];
   isSignUpCompleted: boolean;
   isHydrated: boolean;
 
@@ -35,6 +36,7 @@ interface UserState {
   loadUserInfo: (uid: string) => Promise<void>;
   toggleFavorite: (studyId: string) => Promise<void>;
   isFavorite: (studyId: string) => boolean;
+  setTags: (tags: string[]) => void;
 }
 
 /**
@@ -51,13 +53,14 @@ const createUserStore = () => {
         year: undefined,
         part: undefined,
         favorites: [],
+        tags: [],
         isSignUpCompleted: false,
         isHydrated: false,
 
         setName: name => set({ name }),
         setYear: year => set({ year }),
         setPart: part => set({ part }),
-
+        setTags: tags => set({ tags }),
         /**
          * 사용자 기본 정보 설정
          * @param uid Firebase 사용자 ID
@@ -79,8 +82,8 @@ const createUserStore = () => {
          * @param year 기수
          * @param part 파트
          */
-        setUserInfo: (name, year, part) => set({ name, year, part, isSignUpCompleted: true }),
-
+        setUserInfo: (name, year, part, tags = []) =>
+          set({ name, year, part, tags, isSignUpCompleted: true }),
         /**
          * 사용자 정보 초기화
          * 로그아웃 시 호출
@@ -113,6 +116,7 @@ const createUserStore = () => {
               part: userData.part,
               googleId: userData.googleId,
               favorites: userData.favorites || [],
+              tags: userData.tags || [],
               isSignUpCompleted: true
             });
           }
