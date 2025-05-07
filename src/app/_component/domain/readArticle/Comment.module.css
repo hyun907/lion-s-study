@@ -20,11 +20,22 @@
 .commentsArea {
   display: flex;
   flex-direction: column;
+  max-height: 500px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-right: 10px;
   gap: 2.2rem;
   padding: 1.6rem;
 
   border-radius: 10px;
   background-color: #fff;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.commentsArea:-webkit-scrollbar {
+  display: none;
 }
 
 .commentInner {
@@ -300,4 +311,13 @@
 
 .fileAttachmentWrapper {
   display: flex;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10rem;
+  padding-top: 4rem;
+  width: 100%;
 }
