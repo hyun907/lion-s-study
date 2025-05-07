@@ -17,6 +17,7 @@ import { formatDate } from "@/utils/formatDate";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
 import { sortArrByTime } from "@/utils/sortArrByTime";
+import { convertUrlsToLinks } from "@/utils/convertUrlsToLinks";
 import Spinner from "@/app/_component/common/Spinner";
 
 import Image from "next/image";
@@ -231,7 +232,9 @@ const Comment = ({ articleId, studyroomId }: Props) => {
                     </div>
                   </div>
                   <div className={styles.commentInner}>
-                    <div className={styles.commentContent}>{comment.content}</div>
+                    <div className={styles.commentContent}>
+                      {convertUrlsToLinks(comment.content)}
+                    </div>
 
                     {uid && comment.uid === uid && (
                       <button

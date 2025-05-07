@@ -326,3 +326,13 @@
   padding-top: 4rem;
   width: 100%;
 }
+
+.link {
+  color: #0077ff;
+  word-break: break-all;
+}
+
+.link:hover {
+  color: #0067dd;
+  text-decoration: underline;
+}
