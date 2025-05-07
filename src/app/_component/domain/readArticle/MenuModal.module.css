@@ -35,7 +35,7 @@
 .menuOption > p {
   color: var(--Basic-Black, #000);
   font-family: Pretendard;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

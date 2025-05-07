@@ -3,10 +3,10 @@
   min-width: 15rem;
   top: 6.5rem;
   display: flex;
-  padding: 10px 12px;
+  padding: 1rem 1.2rem;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 0.8rem;
   border-radius: 10px;
   border: 1.302px solid rgba(255, 255, 255, 0.1);
   background: #272727;
@@ -22,10 +22,10 @@
 .contentsContainer > p {
   color: var(--30, #9a9a9a);
   font-family: Pretendard;
-  font-size: 8px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 14px; /* 175% */
+  line-height: 14px;
 }
 
 .tagsContainer {
@@ -37,7 +37,7 @@
 
 .tagContainer {
   display: flex;
-  padding: 2px;
+  padding: 0.2rem;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
@@ -62,7 +62,7 @@
 
 .tagBtn {
   display: inline-flex;
-  height: 20px;
+  height: 2rem;
   padding: 2.75px 5.499px;
   justify-content: center;
   align-items: center;
@@ -89,9 +89,9 @@
   gap: 0.2rem;
 }
 .inputTag {
-  height: 22px;
+  height: 2.2rem;
   width: 100%;
-  padding: 2px 8px;
+  padding: 0.2rem 0.8rem;
   align-items: center;
 
   border-radius: 6px;
@@ -100,7 +100,7 @@
 
   color: var(--30, #9a9a9a);
   font-family: Pretendard;
-  font-size: 8px;
+  font-size: 0.8rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -108,8 +108,8 @@
 
 .plusBtn {
   display: flex;
-  width: 22px;
-  height: 22px;
+  width: 2.2rem;
+  height: 2.2rem;
   padding: 4.714px 9.429px;
   justify-content: center;
   align-items: center;
