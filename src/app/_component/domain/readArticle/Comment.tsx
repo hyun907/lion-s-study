@@ -1,9 +1,17 @@
 "use client";
 
-import { formatDate } from "@/utils/formatDate";
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  serverTimestamp,
+  deleteDoc,
+  doc
+} from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
+
+import { formatDate } from "@/utils/formatDate";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
 
@@ -13,6 +21,7 @@ import styles from "./Comment.module.css";
 import BabyLionImg from "@/assets/image/babyLion.png";
 import BigLionImg from "@/assets/image/bigLion.png";
 import ICUpload from "@/assets/icon/upload_arrow.svg";
+import ICTrash from "@/assets/icon/trash.svg";
 
 interface CommentData {
   commentId: string;
@@ -20,6 +29,7 @@ interface CommentData {
   author: string;
   creatorYear: string;
   createdAt: {};
+  uid: string;
 }
 
 interface Props {
@@ -30,7 +40,7 @@ interface Props {
 const Comment = ({ articleId, studyroomId }: Props) => {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState<CommentData[]>([]);
-  const { name, year } = useUserStore();
+  const { name, year, uid } = useUserStore();
   const showToast = useToastStore(state => state.showToast);
 
   useEffect(() => {
@@ -44,7 +54,8 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         content: doc.data().content,
         author: doc.data().author,
         creatorYear: doc.data().creatorYear,
-        createdAt: doc.data().createdAt
+        createdAt: doc.data().createdAt,
+        uid: doc.data().uid
       }));
       setComments(result);
     });
@@ -57,7 +68,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
       return;
     }
 
-    if (!name || !year) {
+    if (!name || !year || !uid) {
       showToast("login_common");
       return;
     }
@@ -71,11 +82,25 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         content: commentText,
         author: name,
         creatorYear: year.toString(),
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
+        uid: uid
       });
       setCommentText("");
     } catch (error) {
       console.error("댓글 작성 중 오류 발생:", error);
+      showToast("fail");
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      const commentRef = doc(
+        fireStore,
+        `studyRooms/${studyroomId}/articles/${articleId}/comments/${commentId}`
+      );
+      await deleteDoc(commentRef);
+    } catch (error) {
+      console.error("댓글 삭제 중 오류 발생:", error);
       showToast("fail");
     }
   };
@@ -99,9 +124,21 @@ const Comment = ({ articleId, studyroomId }: Props) => {
                       <span className={styles.author}>{comment.author}</span>
                       <span className={styles.creatorYear}>{comment.creatorYear}기</span>
                     </div>
-                    <span className={styles.date}>{formatDate(comment.createdAt)}</span>
+                    <div className={styles.commentActions}>
+                      <span className={styles.date}>{formatDate(comment.createdAt)}</span>
+                    </div>
                   </div>
-                  <div className={styles.commentContent}>{comment.content}</div>
+                  <div className={styles.commentWrapper}>
+                    <div className={styles.commentContent}>{comment.content}</div>
+                    {uid && comment.uid === uid && (
+                      <button
+                        className={styles.deleteBtn}
+                        onClick={() => handleDeleteComment(comment.commentId)}
+                      >
+                        <ICTrash viewBox="0 0 13 15" width="8" height="10" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
