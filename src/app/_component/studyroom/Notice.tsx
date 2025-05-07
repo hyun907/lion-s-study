@@ -31,11 +31,11 @@ const NoticeItem = ({ noticeProps, handleDelete, isMyNotice }: NoticeItemInterfa
       <div className={style.svgContainer}>
         <Ic_alarm />
       </div>
-      <div className={style.textContainer} id={commonStyles.overflowEllipsis}>
-        <div className={style.noticeTitle} id={commonStyles.overflowEllipsis}>
+      <div className={style.textContainer}>
+        <div className={style.noticeTitle} id={commonStyles.overflowEllipsisLine2}>
           {noticeProps.title}
         </div>
-        <div className={style.noticeContent} id={commonStyles.overflowEllipsis}>
+        <div className={style.noticeContent} id={commonStyles.overflowEllipsisLine2}>
           {noticeProps.content}
         </div>
       </div>

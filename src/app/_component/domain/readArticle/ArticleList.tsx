@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+import commonStyles from "../../studyroom/CommonStyles.module.css";
 import styles from "./ArticleList.module.css";
 import { useArticles } from "@/hooks/useArticles";
 import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
@@ -39,7 +40,9 @@ const ArticleItem = React.forwardRef<HTMLDivElement, ArticleItemProps>(
           <Ic_article />
         </div>
         <div className={styles.rightContainer}>
-          <div className={styles.itemTitleContainer}>{articleProps.title}</div>
+          <div className={styles.itemTitleContainer} id={commonStyles.overflowEllipsisLine1}>
+            {articleProps.title}
+          </div>
           <div className={styles.profileContainer}>
             <div>
               <Image
@@ -52,7 +55,9 @@ const ArticleItem = React.forwardRef<HTMLDivElement, ArticleItemProps>(
             <div className={styles.name}>{articleProps.creatorName}</div>
             <div className={styles.year}>{articleProps.creatorYear}기</div>
           </div>
-          <div className={styles.contentPreview}>{articleProps.content}</div>
+          <div className={styles.contentPreview} id={commonStyles.overflowEllipsisLine1}>
+            {articleProps.content}
+          </div>
         </div>
       </div>
     );
@@ -98,7 +103,10 @@ const ArticleList = ({ articleId, studyroomId }: ArticleListProps) => {
         <div className={styles.iconContainer} id={styles.clickable} onClick={handleBack}>
           <Ic_back />
         </div>
-        <div className={styles.title}> {studyroom?.title}</div>
+        <div className={styles.title} id={commonStyles.overflowEllipsisLine1}>
+          {" "}
+          {studyroom?.title}
+        </div>
       </div>
       <div className={styles.titleInvisibleContainer}>
         <div style={{ color: "#1a1a1a" }}> {studyroom?.title}</div>

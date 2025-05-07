@@ -47,11 +47,6 @@
   font-size: 1.6rem;
   font-weight: 600;
   line-height: normal;
-
-  overflow: hidden;
-  white-space: wrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
 }
 
 .scrollContainer {
@@ -90,7 +85,6 @@
 }
 
 .itemWholeContainer:hover {
-  background-color: red;
 }
 
 .tngleSvgContainer {
@@ -114,11 +108,6 @@
   font-size: 1.6rem;
   font-weight: 600;
   line-height: normal;
-
-  overflow: hidden;
-  white-space: wrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
 }
 
 .profileContainer {
@@ -154,11 +143,6 @@
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 2rem;
-
-  overflow: hidden;
-  white-space: wrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
 }
 
 #clickedItem {

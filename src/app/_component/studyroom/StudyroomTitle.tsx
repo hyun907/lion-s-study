@@ -49,7 +49,7 @@ const StudyroomTitle = () => {
     return (
       <div className={styles.container}>
         <div className={styles.titleContainer}>
-          <div className={styles.title} id={commonStyles.overflowEllipsis}>
+          <div className={styles.title} id={commonStyles.overflowEllipsisLine1}>
             {studyroom.title}
           </div>
           <div className={styles.svgContainer}>

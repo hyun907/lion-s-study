@@ -71,7 +71,7 @@ const ArticleItem = ({ articleProps, handleRead, isMyArticle }: ArticeItemInterf
 
         {/* 태그 추가 예정 */}
         <div className={style.contentContainer}>
-          <div className={style.content} id={commonStyles.overflowEllipsis}>
+          <div className={style.content} id={commonStyles.overflowEllipsisLine3}>
             {articleProps.content}
           </div>
         </div>
