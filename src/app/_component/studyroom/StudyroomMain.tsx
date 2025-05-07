@@ -12,6 +12,9 @@ import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useToastStore } from "@/store/useToastStore";
+import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import Loading from "@/app/loading";
+import NotFound from "@/app/not-found";
 
 // studyroom 메인 페이지
 const StudyroomMain = () => {
@@ -20,6 +23,7 @@ const StudyroomMain = () => {
 
   const { toastType } = useToastStore();
   const [showToastState, setShowToastState] = useState(false);
+  const { loading, error } = useStudyroomDetail(studyroomId ?? "");
 
   useEffect(() => {
     if (toastType) {
@@ -30,6 +34,9 @@ const StudyroomMain = () => {
   if (!studyroomId) {
     return null;
   }
+
+  if (loading) return <Loading />;
+  if (error) return <NotFound />;
 
   return (
     <>

@@ -14,24 +14,18 @@ import { useToastStore } from "@/store/useToastStore";
 import BabyLionImg from "../../../assets/image/babyLion.png";
 import BigLionImg from "../../../assets/image/bigLion.png";
 import { useRouter } from "next/navigation";
-import Loading from "@/app/loading";
 
 const StudyroomTitle = () => {
   const router = useRouter();
 
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
-  const { studyroom, loading, error } = useStudyroomDetail(id ?? "");
-  const { isFavorite, handleToggleFavorite } = useFavorite(id ?? "");
+  const { studyroom } = useStudyroomDetail(id ?? "");
   const { showToast } = useToastStore();
 
   if (!id || !user) {
     router.replace("/404");
   }
-
-  // 이후 loading, error 처리
-  if (loading) return <Loading />;
-  if (error) router.replace("/404");
 
   const handleShare = async () => {
     if (!id) return;
@@ -76,7 +70,6 @@ const StudyroomTitle = () => {
         </div>
       </div>
     );
-  else router.replace("/404");
 };
 
 export default StudyroomTitle;
