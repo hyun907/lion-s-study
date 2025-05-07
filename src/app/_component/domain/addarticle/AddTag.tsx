@@ -6,7 +6,7 @@ import AddTagModal from "./Modal/AddTagModal";
 
 import styles from "./AddTag.module.css";
 
-const AddTag = () => {
+const AddTag = ({ isReady }: { isReady: boolean }) => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [draftTags, setDraftTags] = useState<string[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -64,21 +64,22 @@ const AddTag = () => {
             <IcPlus viewBox="0 0 12 12" width="8" height="8" cursor="pointer" />
             <p>태그 추가</p>
           </div>
-
-          {draftTags.map((tag, index) => (
-            <div key={index} className={styles.tagBtn}>
-              <div className={styles.tagColor}></div>
-              <p>{tag}</p>
-              <IcDelete
-                className={styles.deleteIcn}
-                viewBox="0 0 12 12"
-                width="8"
-                height="8"
-                cursor="pointer"
-                onClick={() => handleDeleteTag(tag)}
-              />
-            </div>
-          ))}
+          {/* isReady일 때 렌더링 되도록 */}
+          {isReady &&
+            draftTags.map((tag, index) => (
+              <div key={index} className={styles.tagBtn}>
+                <div className={styles.tagColor}></div>
+                <p>{tag}</p>
+                <IcDelete
+                  className={styles.deleteIcn}
+                  viewBox="0 0 12 12"
+                  width="8"
+                  height="8"
+                  cursor="pointer"
+                  onClick={() => handleDeleteTag(tag)}
+                />
+              </div>
+            ))}
         </div>
 
         {showInfoModal && (

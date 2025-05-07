@@ -32,6 +32,8 @@ export default function DeleteModal({ studyroomId }: Props) {
     localStorage.removeItem("draft-tags");
 
     router.push(`/studyroom/${id}`);
+    showToast("stopArticle");
+
     close();
   };
 

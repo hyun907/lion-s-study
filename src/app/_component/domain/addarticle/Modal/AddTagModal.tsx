@@ -103,6 +103,12 @@ export default function AddTagModal({ onClose }: Props) {
     setDraftModalTags(updatedModalTags);
     localStorage.setItem("draft-modal-tags", JSON.stringify(updatedModalTags));
 
+    const updatedDraftTags = [...draftTags, trimmed];
+    setDraftTags(updatedDraftTags);
+    localStorage.setItem("draft-tags", JSON.stringify(updatedDraftTags));
+
+    window.dispatchEvent(new Event("draft-tags-updated"));
+
     setInputValue("");
   };
 

@@ -2,22 +2,18 @@
 
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
-
 import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
 import Toast from "../../common/Toast";
-
 import IcArrow from "@/assets/icon/arrow_right.svg";
 import Spinner from "@/app/_component/common/Spinner";
 import AddTag from "./AddTag";
 import TopBtnContainer from "./TopBtnContainer";
 import TempSubmitModal from "./TempSubmitModal";
 import Titlebox from "./Titlebox";
-
 import styles from "./AddArticleMain.module.css";
 import { useDraftLoader } from "@/hooks/useDraftLoader";
 import { useArticleSubmit } from "@/hooks/useArticleSubmit";
@@ -36,17 +32,14 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const { name, year, uid } = useUserStore();
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
-
   const [title, setTitle] = useState("");
   const [markdown, setMarkdown] = useState("");
   const [link, setLink] = useState("");
   const [tag, setTag] = useState("");
   const [isReady, setIsReady] = useState(false);
   const [toastType, setToastType] = useState<string | null>(null);
-
   const { showToast } = useToastStore();
   const { loadDraft, clearDraft } = useDraftLoader();
-
   const isUserValid = uid && name && year;
 
   const { submitArticle } = useArticleSubmit({
@@ -81,6 +74,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
             setTitle("");
             setMarkdown("");
             setLink("");
+            setTag("");
             setIsReady(true);
           }}
         />
@@ -126,7 +120,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
         />
         <div className={styles.topSection}>
           <Titlebox title={title} setTitle={setTitle} />
-          <AddTag />
+          <AddTag isReady={isReady} />
         </div>
         <div className={styles.bodySection}>
           <MarkdownEditor
