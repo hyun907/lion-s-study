@@ -43,8 +43,6 @@ const ArticleItem = ({
   commonTags
 }: ArticeItemInterface) => {
   const tagMap = new Map(commonTags.map(tag => [tag.id, tag]));
-  console.log(articleProps);
-
   return (
     <div className={style.articleSingleContainer} onClick={e => handleRead(e, articleProps.id)}>
       <div className={style.imgWrapper}>

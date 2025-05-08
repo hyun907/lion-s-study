@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ToastTypeList, ToastItem } from "@/constants/ToastTypeList";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
@@ -22,7 +22,7 @@ const Toast = ({ toastType }: Props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       clearToast();
-    }, 3000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [toastType]);
