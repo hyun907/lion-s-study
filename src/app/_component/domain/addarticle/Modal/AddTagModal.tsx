@@ -3,13 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import fireStore from "@/firebase/firestore";
-import { doc, getDoc, deleteDoc, updateDoc, arrayRemove } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
 import IcPlus from "@/assets/icon/plus.svg";
 import Ictrash from "@/assets/icon/trash.svg";
 import styles from "./AddTagModal.module.css";
 
 interface Props {
   onClose: () => void;
+  setShouldRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface TagData {
@@ -18,10 +19,11 @@ interface TagData {
   color: string;
 }
 
-export default function AddTagModal({ onClose }: Props) {
+export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
   const { tags, uid } = useUserStore();
   const [tagDataList, setTagDataList] = useState<TagData[]>([]);
   const [inputValue, setInputValue] = useState("");
+
   const [draftTags, setDraftTags] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("draft-tags");
@@ -30,7 +32,6 @@ export default function AddTagModal({ onClose }: Props) {
     return [];
   });
 
-  // 유저별 태그 페치
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -61,7 +62,6 @@ export default function AddTagModal({ onClose }: Props) {
     fetchTags();
   }, [tags]);
 
-  // 태그 클릭 핸들러
   const handleTagClick = (tagName: string) => {
     setDraftTags(prev => {
       if (prev.includes(tagName)) return prev;
@@ -79,10 +79,8 @@ export default function AddTagModal({ onClose }: Props) {
     return [];
   });
 
-  // 통합 렌더링용
   const combinedTagList = [...tagDataList, ...draftModalTags];
 
-  // 새 태그 추가 핸들러
   const handleAddNewTag = () => {
     const trimmed = inputValue.trim();
     if (!trimmed) return;
@@ -107,22 +105,21 @@ export default function AddTagModal({ onClose }: Props) {
     setDraftTags(updatedDraftTags);
     localStorage.setItem("draft-tags", JSON.stringify(updatedDraftTags));
 
-    window.dispatchEvent(new Event("draft-tags-updated"));
-
     setInputValue("");
   };
 
-  // 태그 삭제
+  useEffect(() => {
+    setShouldRefresh(prev => !prev);
+  }, [draftTags]);
+
   const handleDeleteClick = async (tag: TagData) => {
     const isDraft = draftModalTags.some(t => t.id === tag.id);
-    // 생성 태그
+
     if (isDraft) {
       const updated = draftModalTags.filter(t => t.id !== tag.id);
       setDraftModalTags(updated);
-
       localStorage.setItem("draft-modal-tags", JSON.stringify(updated));
     } else {
-      // 기존 태그
       try {
         if (!uid) return;
         await updateDoc(doc(fireStore, "users", uid), {
@@ -133,10 +130,11 @@ export default function AddTagModal({ onClose }: Props) {
         console.error("Firestore 태그 삭제 실패:", err);
       }
     }
-    // 반영
+
     setDraftTags(prev => {
       const updated = prev.filter(name => name !== tag.name);
       localStorage.setItem("draft-tags", JSON.stringify(updated));
+      setShouldRefresh(true);
       return updated;
     });
   };

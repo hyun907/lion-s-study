@@ -10,6 +10,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [draftTags, setDraftTags] = useState<string[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
 
   const handleOpenInfoModal = () => setShowInfoModal(true);
   const handleCloseInfoModal = () => setShowInfoModal(false);
@@ -48,6 +49,18 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
     };
   }, []);
 
+  // shouldRefresh가 true일 때 태그 목록 다시 불러오기
+  useEffect(() => {
+    if (shouldRefresh) {
+      const syncDraftTags = () => {
+        const savedTags = localStorage.getItem("draft-tags");
+        setDraftTags(savedTags ? JSON.parse(savedTags) : []);
+      };
+      syncDraftTags();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
   const handleDeleteTag = (tagToDelete: string) => {
     const updatedTags = draftTags.filter(tag => tag !== tagToDelete);
     localStorage.setItem("draft-tags", JSON.stringify(updatedTags));
@@ -84,7 +97,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
 
         {showInfoModal && (
           <div ref={modalRef} style={{ position: "absolute", zIndex: 1000 }}>
-            <AddTagModal onClose={handleCloseInfoModal} />
+            <AddTagModal onClose={handleCloseInfoModal} setShouldRefresh={setShouldRefresh} />
           </div>
         )}
       </div>
