@@ -63,6 +63,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
   }, [tags]);
 
   const handleTagClick = (tagName: string) => {
+    // 에디터 태그
     setDraftTags(prev => {
       if (prev.includes(tagName)) return prev;
       const updated = [...prev, tagName];
@@ -97,13 +98,10 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
       color: "#BDBDBD"
     };
 
+    // 모달 생성태그
     const updatedModalTags = [...draftModalTags, newTag];
     setDraftModalTags(updatedModalTags);
     localStorage.setItem("draft-modal-tags", JSON.stringify(updatedModalTags));
-
-    const updatedDraftTags = [...draftTags, trimmed];
-    setDraftTags(updatedDraftTags);
-    localStorage.setItem("draft-tags", JSON.stringify(updatedDraftTags));
 
     setInputValue("");
   };
