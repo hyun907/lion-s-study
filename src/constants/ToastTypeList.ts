@@ -169,6 +169,13 @@ export const ToastTypeList: ToastItem[] = [
     color: "yellow"
   },
 
+  {
+    type: "stopArticle",
+    title: "작성 중인 Article이 삭제되었습니다.",
+    subtitle: "",
+    color: "green"
+  },
+
   // tag
   {
     type: "addTag",

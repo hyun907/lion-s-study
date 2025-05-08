@@ -2,34 +2,21 @@
 
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
-
 import { useAuth } from "@/hooks/useAuth";
 import DeleteModal from "./DeleteModal";
 import Toast from "../../common/Toast";
-
-import {
-  collection,
-  doc,
-  getDoc,
-  updateDoc,
-  addDoc,
-  serverTimestamp,
-  onSnapshot
-} from "firebase/firestore";
-import fireStore from "@/firebase/firestore";
-
-import Titlebox from "./Titlebox";
 import IcArrow from "@/assets/icon/arrow_right.svg";
 import Spinner from "@/app/_component/common/Spinner";
 import AddTag from "./AddTag";
 import TopBtnContainer from "./TopBtnContainer";
 import TempSubmitModal from "./TempSubmitModal";
-
+import Titlebox from "./Titlebox";
 import styles from "./AddArticleMain.module.css";
+import { useDraftLoader } from "@/hooks/useDraftLoader";
+import { useArticleSubmit } from "@/hooks/useArticleSubmit";
 
 const MarkdownEditor = dynamic(() => import("./MarkdownEditor"), {
   ssr: false,
@@ -43,67 +30,51 @@ interface Props {
 
 const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const { name, year, uid } = useUserStore();
-  const studyRoomId = studyroomId;
-  console.log("studyRoomId", studyRoomId);
-
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    if (!articleId || !studyRoomId) return;
-
-    const docRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
-    const unsub = onSnapshot(docRef, snapshot => {
-      const data = snapshot.data();
-      if (data) {
-        setTitle(data.title);
-        setMarkdown(data.content);
-        setIsReady(true);
-      }
-    });
-
-    return () => unsub();
-  }, [articleId, studyRoomId]);
-
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
-  const handleOpenDelete = () => open(<DeleteModal studyroomId={studyRoomId} />);
-
   const [title, setTitle] = useState("");
   const [markdown, setMarkdown] = useState("");
   const [link, setLink] = useState("");
-
+  const [tag, setTag] = useState("");
+  const [isReady, setIsReady] = useState(false);
   const [toastType, setToastType] = useState<string | null>(null);
-
   const { showToast } = useToastStore();
+  const { loadDraft, clearDraft } = useDraftLoader();
+  const isUserValid = uid && name && year;
 
-  // 임시 저장
+  const { submitArticle } = useArticleSubmit({
+    uid: uid ?? "",
+    name: name ?? "",
+    year: Number(year),
+    studyRoomId: studyroomId,
+    closeModal: useModalStore.getState().close,
+    showToast,
+    setToastType
+  });
+
   useEffect(() => {
     if (articleId) {
-      setIsReady(true); // 수정 모드는 바로 렌더링
+      setIsReady(true);
       return;
     }
 
-    const savedTitle = localStorage.getItem("draft-title");
-    const savedMarkdown = localStorage.getItem("draft-markdown");
-    const savedLink = localStorage.getItem("draft-link");
-
-    if (savedTitle || savedMarkdown) {
+    const { title, markdown, link, tags } = loadDraft();
+    if (title || markdown) {
       open(
         <TempSubmitModal
           onContinue={() => {
-            setTitle(savedTitle || "");
-            setMarkdown(savedMarkdown || "");
-            setLink(savedLink || "");
+            setTitle(title);
+            setMarkdown(markdown);
+            setLink(link);
+            setTag(tags);
             setIsReady(true);
           }}
           onDiscard={() => {
-            localStorage.removeItem("draft-title");
-            localStorage.removeItem("draft-markdown");
-            localStorage.removeItem("draft-link");
-
+            clearDraft();
             setTitle("");
             setMarkdown("");
             setLink("");
+            setTag("");
             setIsReady(true);
           }}
         />
@@ -113,52 +84,23 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     }
   }, []);
 
+  const handleOpenDelete = () => open(<DeleteModal studyroomId={studyroomId} />);
+
   const handleSubmit = async () => {
-    try {
-      if (!isLoggedIn) {
-        setToastType("login");
-        return;
-      }
-      if (!studyRoomId) {
-        setToastType("wrongStudyroomId");
-        return;
-      }
-      const parsedLink = link ? JSON.parse(link) : [];
-
-      if (articleId) {
-        // 수정
-        const docRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
-        await updateDoc(docRef, {
-          title,
-          content: markdown,
-          updatedAt: serverTimestamp(),
-          link: parsedLink
-        });
-        showToast("editArticle");
-      } else {
-        // 생성
-        const articleRef = collection(fireStore, "studyRooms", studyRoomId, "articles");
-        await addDoc(articleRef, {
-          title,
-          content: markdown,
-          creatorName: name,
-          creatorYear: year,
-          creatorId: uid,
-          createdAt: serverTimestamp(),
-          link: parsedLink
-        });
-        showToast("addArticle");
-      }
-
-      localStorage.removeItem("draft-title");
-      localStorage.removeItem("draft-markdown");
-      localStorage.removeItem("draft-link");
-
-      useModalStore.getState().close();
-    } catch (error) {
-      console.error("처리 중 오류:", error);
-      setToastType("fail");
+    if (!isLoggedIn || !isUserValid) {
+      setToastType("login");
+      return;
     }
+
+    const parsedTags = JSON.parse(localStorage.getItem("draft-tags") || "[]");
+    await submitArticle({
+      articleId,
+      title,
+      markdown,
+      link,
+      tags: parsedTags
+    });
+    clearDraft();
   };
 
   return (
@@ -174,11 +116,11 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
           markdown={markdown}
           onSubmit={handleSubmit}
           articleId={articleId}
-          studyRoomId={studyRoomId}
+          studyRoomId={studyroomId}
         />
         <div className={styles.topSection}>
           <Titlebox title={title} setTitle={setTitle} />
-          <AddTag />
+          <AddTag isReady={isReady} />
         </div>
         <div className={styles.bodySection}>
           <MarkdownEditor
