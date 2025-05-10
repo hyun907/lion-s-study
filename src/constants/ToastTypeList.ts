@@ -51,6 +51,7 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "yellow"
   },
+
   {
     type: "signup_empty",
     title: "어흥! 내용이 비어있어요!",
