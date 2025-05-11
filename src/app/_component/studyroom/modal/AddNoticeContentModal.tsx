@@ -30,10 +30,15 @@ export default function AddNoticeModalContent({
 
   const [title, setTitle] = useState(initialContent);
   const [content, setContent] = useState(initialContent);
-  const isValid = content.trim() !== "" && title.trim() !== "";
+  const isTitleValid = title.trim() !== "";
+  const isContentValid = content.trim() != "";
 
   const handleSubmit = async () => {
-    if (!isValid) {
+    if (!isTitleValid) {
+      showToast("emptyTitle");
+      return;
+    }
+    if (!isContentValid) {
       showToast("emptyContent");
       return;
     }
@@ -87,7 +92,7 @@ export default function AddNoticeModalContent({
       <div className={styles.btnWrapper}>
         <button
           className={modalStyles.contentAddBtn}
-          id={isValid ? modalStyles.active : modalStyles.deactive}
+          id={isTitleValid && isContentValid ? modalStyles.active : modalStyles.deactive}
           onClick={handleSubmit}
         >
           {noticeId ? "수정하기" : "등록하기"}
