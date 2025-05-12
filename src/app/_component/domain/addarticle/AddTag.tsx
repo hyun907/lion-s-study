@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from "react";
 import IcDelete from "@/assets/icon/delete.svg";
 import IcPlus from "@/assets/icon/plus_tag_add.svg";
 import AddTagModal from "./Modal/AddTagModal";
+import Toast from "../../common/Toast";
+import { useToastStore } from "@/store/useToastStore";
 
 import styles from "./AddTag.module.css";
 
@@ -11,6 +13,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
   const [draftTags, setDraftTags] = useState<string[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
   const [shouldRefresh, setShouldRefresh] = useState(false);
+  const { showToast } = useToastStore();
 
   const handleOpenInfoModal = () => setShowInfoModal(true);
   const handleCloseInfoModal = () => setShowInfoModal(false);

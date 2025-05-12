@@ -2,10 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
+
 import fireStore from "@/firebase/firestore";
 import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
+
 import IcPlus from "@/assets/icon/plus_tag.svg";
 import Ictrash from "@/assets/icon/trash.svg";
+import Toast from "@/app/_component/common/Toast";
+
 import styles from "./AddTagModal.module.css";
 
 interface Props {
@@ -23,6 +27,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
   const { tags, uid } = useUserStore();
   const [tagDataList, setTagDataList] = useState<TagData[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [toastType, setToastType] = useState<string | null>(null);
 
   const [draftTags, setDraftTags] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
@@ -64,8 +69,15 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
 
   const handleTagClick = (tagName: string) => {
     // 에디터 태그
+    if (draftTags.includes(tagName)) return;
+
+    // 최대 6개
+    if (draftTags.length >= 6) {
+      setToastType("selectTag");
+      return;
+    }
+
     setDraftTags(prev => {
-      if (prev.includes(tagName)) return prev;
       const updated = [...prev, tagName];
       localStorage.setItem("draft-tags", JSON.stringify(updated));
       return updated;
@@ -84,14 +96,21 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
 
   const handleAddNewTag = () => {
     const trimmed = inputValue.trim();
-    if (!trimmed) return;
+    if (!trimmed) {
+      setToastType("noTagName");
+      return;
+    }
 
     const isDuplicate = [...tagDataList, ...draftModalTags].some(tag => tag.name === trimmed);
     if (isDuplicate) {
       setInputValue("");
       return;
     }
-
+    // 최대 12개
+    if (combinedTagList.length >= 12) {
+      setToastType("addTag");
+      return;
+    }
     const newTag: TagData = {
       id: `new-${Date.now()}`,
       name: trimmed,
@@ -182,6 +201,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
           </div>
         </div>
       </div>
+      {toastType && <Toast toastType={toastType} />}
     </div>
   );
 }

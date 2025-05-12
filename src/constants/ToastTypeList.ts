@@ -190,7 +190,12 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "yellow"
   },
-
+  {
+    type: "noTagName",
+    title: "태그명을 입력해주세요.",
+    subtitle: "",
+    color: "yellow"
+  },
   // empty
   {
     type: "emptyTitle",
