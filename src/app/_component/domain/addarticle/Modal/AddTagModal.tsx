@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
 import fireStore from "@/firebase/firestore";
 import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
-import IcPlus from "@/assets/icon/plus.svg";
+import IcPlus from "@/assets/icon/plus_tag.svg";
 import Ictrash from "@/assets/icon/trash.svg";
 import styles from "./AddTagModal.module.css";
 
@@ -155,6 +155,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
                 </div>
                 <Ictrash
                   className={styles.icTrash}
+                  viewBox="0 0 20 20"
                   onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     handleDeleteClick(tag);
@@ -177,7 +178,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
             onChange={e => setInputValue(e.target.value)}
           />
           <div className={styles.plusBtn} onClick={handleAddNewTag}>
-            <IcPlus className={styles.icPlus} viewBox="0 0 20 20" />
+            <IcPlus className={styles.icPlus} viewBox="0 0 8 8" />
           </div>
         </div>
       </div>

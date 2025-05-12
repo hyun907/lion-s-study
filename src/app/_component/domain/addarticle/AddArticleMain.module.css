@@ -50,6 +50,7 @@
   align-items: flex-start;
   justify-content: space-between;
   width: 100%;
+  gap: 3rem;
 }
 
 .topSection > p {

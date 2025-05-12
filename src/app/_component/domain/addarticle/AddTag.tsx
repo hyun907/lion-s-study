@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 
 import IcDelete from "@/assets/icon/delete.svg";
-import IcPlus from "@/assets/icon/plus.svg";
+import IcPlus from "@/assets/icon/plus_tag_add.svg";
 import AddTagModal from "./Modal/AddTagModal";
 
 import styles from "./AddTag.module.css";
@@ -74,7 +74,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
 
         <div className={styles.tagContainer}>
           <div className={styles.addTagBtn} onClick={handleOpenInfoModal}>
-            <IcPlus viewBox="0 0 12 12" width="8" height="8" cursor="pointer" />
+            <IcPlus viewBox="0 0 12 12" width="12" height="12" cursor="pointer" />
             <p>태그 추가</p>
           </div>
           {/* isReady일 때 렌더링 되도록 */}
