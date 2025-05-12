@@ -117,9 +117,11 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     }
   }, []);
 
+  // 작성 중단 모달
   const handleOpenDelete = () =>
     open(<DeleteModal studyroomId={studyroomId} articleId={articleId} />);
 
+  // 작성하기
   const handleSubmit = async () => {
     if (!isLoggedIn || !isUserValid) {
       setToastType("login");

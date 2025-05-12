@@ -11,6 +11,7 @@ interface Props {
   link?: string;
 }
 
+// 링크 추출
 const extractLinks = (markdown: string): string[] => {
   const regex = /\[.*?\]\((https?:\/\/[^\s)]+)\)/g;
   const links: string[] = [];
@@ -23,6 +24,7 @@ const extractLinks = (markdown: string): string[] => {
   return links;
 };
 
+// 수정하기 원문 적용, 로컬스토리지에 저장
 const MarkdownEditor = ({ setMarkdown, markdown }: Props) => {
   const handleChange = (value?: string) => {
     const updatedMarkdown = value || "";
