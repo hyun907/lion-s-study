@@ -117,7 +117,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     }
   }, []);
 
-  const handleOpenDelete = () => open(<DeleteModal studyroomId={studyroomId} />);
+  const handleOpenDelete = () =>
+    open(<DeleteModal studyroomId={studyroomId} articleId={articleId} />);
 
   const handleSubmit = async () => {
     if (!isLoggedIn || !isUserValid) {

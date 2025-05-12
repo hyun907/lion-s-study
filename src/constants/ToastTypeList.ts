@@ -176,6 +176,12 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "green"
   },
+  {
+    type: "stopEdit",
+    title: "Article 수정이 중단되었습니다.",
+    subtitle: "",
+    color: "green"
+  },
 
   // tag
   {
