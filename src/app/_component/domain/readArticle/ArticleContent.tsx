@@ -3,8 +3,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
-import fireStore from "@/firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
 import { useUserStore } from "@/store/useUserStore";
 
 import MDEditor from "@uiw/react-md-editor";
@@ -17,70 +15,37 @@ import MenuModal from "./MenuModal";
 import styles from "./ArticleContent.module.css";
 import Reference from "./Reference";
 
+import { ArticleItem } from "@/types/studyRoomDetails/article";
+import { Tag } from "@/types/studyRoomDetails/article";
+import { useTagHandler } from "@/hooks/useTagHandler";
+import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import TagItem from "../../common/TagItem";
+
 interface Props {
+  article: ArticleItem;
   articleId: string;
   studyroomId: string;
 }
 
-const ArticleContent = ({ articleId, studyroomId }: Props) => {
+const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
   const { uid } = useUserStore();
-  const [articleData, setArticleData] = useState<{
-    title: string;
-    creatorName: string;
-    creatorYear: string;
-    creatorId: string;
-    content: string;
-    createdAt?: any;
-  } | null>(null);
 
-  const [studyroomData, setStudyroomData] = useState<{
-    title: string;
-  } | null>(null);
+  const { fetchAllCommonTags } = useTagHandler();
+  const { studyroom } = useStudyroomDetail(studyroomId);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [commonTags, setCommonTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    const fetchArticle = async () => {
-      if (!studyroomId) return;
-      try {
-        const articleRef = doc(fireStore, "studyRooms", studyroomId, "articles", articleId);
-        const articleSnap = await getDoc(articleRef);
-
-        if (articleSnap.exists()) {
-          setArticleData(articleSnap.data() as any);
-        } else {
-          console.error("해당 아티클을 찾을 수 없습니다.");
-        }
-      } catch (error) {
-        console.error("아티클 불러오기 실패:", error);
-      }
+    const loadTags = async () => {
+      const fetchedTags = await fetchAllCommonTags();
+      setCommonTags(fetchedTags);
     };
 
-    fetchArticle();
-  }, [studyroomId, articleId]);
-
-  useEffect(() => {
-    const fetchStudyroom = async () => {
-      if (!studyroomId) return;
-      try {
-        const studyroomRef = doc(fireStore, "studyRooms", studyroomId);
-        const studyroomSnap = await getDoc(studyroomRef);
-
-        if (studyroomSnap.exists()) {
-          setStudyroomData(studyroomSnap.data() as any);
-        } else {
-          console.error("해당 스터디룸을 찾을 수 없습니다.");
-        }
-      } catch (error) {
-        console.error("스터디룸 이름 불러오기 실패:", error);
-      }
-    };
-
-    fetchStudyroom();
-  }, [studyroomId]);
+    loadTags();
+  }, []);
 
   // 메뉴 모달
-
   const menuRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -107,25 +72,24 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
     };
   }, []);
 
-  if (!articleData) return <div className={styles.overlay}>로딩 중...</div>;
-
-  const isMyArticle = uid === articleData.creatorId;
+  const isMyArticle = uid === article.creatorId;
+  const tagMap = new Map(commonTags.map(tag => [tag.id, tag]));
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.bodyContainer}>
         <div className={styles.topContainer}>
           <div className={styles.topHeader}>
-            <p>{studyroomData?.title}</p>
+            <p>{studyroom?.title}</p>
             <p>
-              {articleData.createdAt
-                ? new Date(articleData.createdAt.seconds * 1000).toLocaleDateString("ko-KR")
+              {article.createdAt
+                ? new Date(article.createdAt.seconds * 1000).toLocaleDateString("ko-KR")
                 : " "}
             </p>
           </div>
 
           <div className={styles.topBody}>
-            <p>{articleData.title}</p>
+            <p>{article.title}</p>
             {isMyArticle && (
               <div style={{ position: "relative" }} ref={menuRef}>
                 <IcMenu onClick={handleOpenMenu} style={{ cursor: "pointer" }} />
@@ -146,21 +110,33 @@ const ArticleContent = ({ articleId, studyroomId }: Props) => {
             )}
           </div>
 
+          <div className={styles.tag}>
+            {article.tagIds &&
+              article.tagIds.map(tagId => {
+                const matchedTag = tagMap.get(tagId);
+                return (
+                  matchedTag && (
+                    <TagItem key={matchedTag.id} name={matchedTag.name} color={matchedTag.color} />
+                  )
+                );
+              })}
+          </div>
+
           <div className={styles.profile}>
             <Image
               className={styles.profileImgContainer}
-              src={articleData.creatorYear == "13" ? BabyLionImg : BigLionImg}
+              src={article.creatorYear == 13 ? BabyLionImg : BigLionImg}
               alt="프로필 사진"
               unoptimized={true}
             ></Image>
             <div>
-              <h1>{articleData.creatorName}</h1>
-              <h2>{articleData.creatorYear}기</h2>
+              <h1>{article.creatorName}</h1>
+              <h2>{article.creatorYear}기</h2>
             </div>
           </div>
         </div>
 
-        <MDEditor.Markdown source={articleData.content} />
+        <MDEditor.Markdown source={article.content} />
       </div>
 
       <Reference articleId={articleId} />

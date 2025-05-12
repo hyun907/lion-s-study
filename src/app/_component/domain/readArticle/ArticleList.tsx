@@ -6,7 +6,6 @@ import Image from "next/image";
 
 import commonStyles from "../../studyroom/CommonStyles.module.css";
 import styles from "./ArticleList.module.css";
-import { useArticles } from "@/hooks/useArticles";
 import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
 
@@ -15,9 +14,12 @@ import Ic_article from "../../../../assets/icon/triangle.svg";
 import BabyLion from "../../../../assets/image/babyLion.png";
 import BigLion from "../../../../assets/image/bigLion.png";
 
+import { useArticlesStore } from "@/store/useArticlesStore";
+
 interface ArticleListProps {
   articleId: string;
   studyroomId: string;
+  articles: ArticleItemProp[];
 }
 
 interface ArticleItemProps {
@@ -65,14 +67,11 @@ const ArticleItem = React.forwardRef<HTMLDivElement, ArticleItemProps>(
 );
 ArticleItem.displayName = "ArticleItem";
 
-const ArticleList = ({ articleId, studyroomId }: ArticleListProps) => {
+const ArticleList = ({ articleId, studyroomId, articles }: ArticleListProps) => {
   const router = useRouter();
 
   // articleId: 현재 클릭한 아티클의 아이디
   const { studyroom } = useStudyroomDetail(studyroomId ?? "");
-
-  // // 현재 들어와 있는 스터디룸의 아이디
-  const { articles } = useArticles(studyroomId ?? ""); // 아티클 목록
 
   const selectedItemRef = useRef<HTMLDivElement | null>(null);
 

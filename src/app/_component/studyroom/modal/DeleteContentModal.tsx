@@ -5,11 +5,11 @@ import styles from "./DeleteContentModal.module.css";
 import ICDelete from "@/assets/icon/delete.svg";
 import { useRouter } from "next/navigation";
 
-import { useArticles } from "@/hooks/useArticles";
 import { useNotices } from "@/hooks/useNotices";
 import { useModalStore } from "@/store/useModalStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useToastStore } from "@/store/useToastStore";
+import { useArticlesStore } from "@/store/useArticlesStore";
 
 type DeleteContentModalProps = {
   type: SubContentType;
@@ -25,7 +25,7 @@ export default function DeleteContentModal({
   const storeStudyroomId = useStudyroomIdStore(state => state.studyroomId);
   const studyroomId = propStudyroomId ?? storeStudyroomId;
 
-  const { deleteArticle } = useArticles(studyroomId ?? "");
+  const { deleteArticle } = useArticlesStore();
   const { deleteNotice } = useNotices(studyroomId ?? "");
 
   const { close } = useModalStore();

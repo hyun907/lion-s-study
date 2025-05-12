@@ -4,8 +4,8 @@ import style from "./Article.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import Image from "next/image";
 
+import { useArticlesStore } from "@/store/useArticlesStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
-import { useArticles } from "@/hooks/useArticles";
 import { useUserStore } from "@/store/useUserStore";
 import { useModalStore } from "@/store/useModalStore";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import { StudyroomItemButtonHandler } from "@/types/studyRoomDetails/itemClickHa
 import { StudyroomItemGenericHandler } from "@/types/studyRoomDetails/itemClickHandler";
 
 import DeleteContentModal from "./modal/DeleteContentModal";
-import TagItem from "./TagItem";
+import TagItem from "../common/TagItem";
 import { useEffect, useState } from "react";
 
 // 예시 이미지 임시 사용
@@ -36,13 +36,9 @@ interface ArticeItemInterface {
   commonTags: Tag[];
 }
 
-const ArticleItem = ({
-  articleProps,
-  handleRead,
-  isMyArticle,
-  commonTags
-}: ArticeItemInterface) => {
+const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterface) => {
   const tagMap = new Map(commonTags.map(tag => [tag.id, tag]));
+
   return (
     <div className={style.articleSingleContainer} onClick={e => handleRead(e, articleProps.id)}>
       <div className={style.imgWrapper}>
@@ -85,12 +81,13 @@ const ArticleItem = ({
 
         <div className={style.bottomContainer}>
           <div className={style.tagContainer}>
-            {articleProps.tags &&
-              articleProps.tags.map(tagId => {
+            {articleProps.tagIds &&
+              articleProps.tagIds.map(tagId => {
                 const matchedTag = tagMap.get(tagId);
+
                 return (
                   matchedTag && (
-                    <TagItem key={tagId} name={matchedTag.name} color={matchedTag.color} />
+                    <TagItem key={matchedTag.id} name={matchedTag.name} color={matchedTag.color} />
                   )
                 );
               })}
@@ -111,7 +108,7 @@ const Article = () => {
 
   const user = useUserStore();
   const id = useStudyroomIdStore(state => state.studyroomId);
-  const { articles } = useArticles(id ?? "");
+  const { articles } = useArticlesStore();
   const open = useModalStore(state => state.open);
   const { fetchAllCommonTags } = useTagHandler();
 
@@ -119,12 +116,7 @@ const Article = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [commonTags, setCommonTags] = useState<Tag[]>([]);
 
-  if (!articles)
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+  if (!articles) return <Loading />;
 
   const totalPages = Math.ceil(articles.length / ITEMS_PER_PAGE);
   const paginatedArticles = articles.slice(

@@ -15,7 +15,7 @@ export default async function StudyroomLayout({ children, params }: Props) {
   const { id } = params;
 
   const isValid = await isValidStudyroomId(id);
-  if (!isValid) notFound(); // ✅ 서버에서 404 처리
+  if (!isValid) notFound(); // 서버에서 404 처리
 
   return <ClientStudyroomIdSetter id={id}>{children}</ClientStudyroomIdSetter>;
 }
