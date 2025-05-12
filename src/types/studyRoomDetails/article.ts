@@ -1,3 +1,4 @@
+// commonTag와 매치됐을 때의 완전한 형태의 Tag
 export type Tag = {
   id: string;
   name: string;
@@ -21,5 +22,5 @@ export type ArticleItem = {
   createdAt: any;
   creatorName: string;
   creatorYear: number;
-  tags: Tag[];
+  tagIds: string[];
 };

@@ -81,12 +81,13 @@ const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterfa
 
         <div className={style.bottomContainer}>
           <div className={style.tagContainer}>
-            {articleProps.tags &&
-              articleProps.tags.map(tagId => {
-                const matchedTag = tagMap.get(tagId.id);
+            {articleProps.tagIds &&
+              articleProps.tagIds.map(tagId => {
+                const matchedTag = tagMap.get(tagId);
+
                 return (
                   matchedTag && (
-                    <TagItem key={tagId.id} name={matchedTag.name} color={matchedTag.color} />
+                    <TagItem key={matchedTag.id} name={matchedTag.name} color={matchedTag.color} />
                   )
                 );
               })}
@@ -115,12 +116,7 @@ const Article = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [commonTags, setCommonTags] = useState<Tag[]>([]);
 
-  if (!articles)
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+  if (!articles) return <Loading />;
 
   const totalPages = Math.ceil(articles.length / ITEMS_PER_PAGE);
   const paginatedArticles = articles.slice(

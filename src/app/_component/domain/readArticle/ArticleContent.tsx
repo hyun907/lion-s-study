@@ -19,7 +19,7 @@ import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { Tag } from "@/types/studyRoomDetails/article";
 import { useTagHandler } from "@/hooks/useTagHandler";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
-import { useRouter } from "next/navigation";
+import TagItem from "../../common/TagItem";
 
 interface Props {
   article: ArticleItem;
@@ -28,7 +28,6 @@ interface Props {
 }
 
 const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
-  const router = useRouter();
   const { uid } = useUserStore();
 
   const { fetchAllCommonTags } = useTagHandler();
@@ -111,7 +110,17 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
             )}
           </div>
 
-          <div className={styles.tag}></div>
+          <div className={styles.tag}>
+            {article.tagIds &&
+              article.tagIds.map(tagId => {
+                const matchedTag = tagMap.get(tagId);
+                return (
+                  matchedTag && (
+                    <TagItem key={matchedTag.id} name={matchedTag.name} color={matchedTag.color} />
+                  )
+                );
+              })}
+          </div>
 
           <div className={styles.profile}>
             <Image
