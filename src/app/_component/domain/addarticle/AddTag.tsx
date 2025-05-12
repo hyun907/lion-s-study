@@ -47,7 +47,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
       window.removeEventListener("storage", syncDraftTags);
       window.removeEventListener("focus", syncDraftTags);
     };
-  }, []);
+  }, [isReady]);
 
   // shouldRefresh가 true일 때 태그 목록 다시 불러오기
   useEffect(() => {
@@ -61,6 +61,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
     }
   }, [shouldRefresh]);
 
+  // 태그 삭제
   const handleDeleteTag = (tagToDelete: string) => {
     const updatedTags = draftTags.filter(tag => tag !== tagToDelete);
     localStorage.setItem("draft-tags", JSON.stringify(updatedTags));
