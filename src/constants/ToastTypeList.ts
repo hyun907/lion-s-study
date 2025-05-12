@@ -176,6 +176,12 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "green"
   },
+  {
+    type: "stopEdit",
+    title: "Article 수정이 중단되었습니다.",
+    subtitle: "",
+    color: "green"
+  },
 
   // tag
   {
@@ -190,7 +196,12 @@ export const ToastTypeList: ToastItem[] = [
     subtitle: "",
     color: "yellow"
   },
-
+  {
+    type: "noTagName",
+    title: "태그명을 입력해주세요.",
+    subtitle: "",
+    color: "yellow"
+  },
   // empty
   {
     type: "emptyTitle",

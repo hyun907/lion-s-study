@@ -24,12 +24,11 @@
   position: fixed;
   bottom: 6rem;
   left: 50%;
-  /* transform: translateX(-50%); */
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-
   animation: fadeIn 0.3s ease-out forwards, fadeOutDown 0.3s ease-in 1s forwards;
 }
 

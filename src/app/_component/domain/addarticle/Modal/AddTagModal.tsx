@@ -2,10 +2,14 @@
 
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
+
 import fireStore from "@/firebase/firestore";
 import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
-import IcPlus from "@/assets/icon/plus.svg";
+
+import IcPlus from "@/assets/icon/plus_tag.svg";
 import Ictrash from "@/assets/icon/trash.svg";
+import Toast from "@/app/_component/common/Toast";
+
 import styles from "./AddTagModal.module.css";
 
 interface Props {
@@ -23,6 +27,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
   const { tags, uid } = useUserStore();
   const [tagDataList, setTagDataList] = useState<TagData[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [toastType, setToastType] = useState<string | null>(null);
 
   const [draftTags, setDraftTags] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
@@ -32,6 +37,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
     return [];
   });
 
+  // commonTags 페치
   useEffect(() => {
     const fetchTags = async () => {
       try {
@@ -62,10 +68,17 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
     fetchTags();
   }, [tags]);
 
+  // 에디터 태그 생성하기
   const handleTagClick = (tagName: string) => {
-    // 에디터 태그
+    if (draftTags.includes(tagName)) return;
+
+    // 최대 6개
+    if (draftTags.length >= 6) {
+      setToastType("selectTag");
+      return;
+    }
+
     setDraftTags(prev => {
-      if (prev.includes(tagName)) return prev;
       const updated = [...prev, tagName];
       localStorage.setItem("draft-tags", JSON.stringify(updated));
       return updated;
@@ -82,16 +95,26 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
 
   const combinedTagList = [...tagDataList, ...draftModalTags];
 
+  // 모달 태그 생성하기
   const handleAddNewTag = () => {
     const trimmed = inputValue.trim();
-    if (!trimmed) return;
+    // 태그명 비어있을 경우
+    if (!trimmed) {
+      setToastType("noTagName");
+      return;
+    }
 
+    // 중복 처리
     const isDuplicate = [...tagDataList, ...draftModalTags].some(tag => tag.name === trimmed);
     if (isDuplicate) {
       setInputValue("");
       return;
     }
-
+    // 최대 12개
+    if (combinedTagList.length >= 12) {
+      setToastType("addTag");
+      return;
+    }
     const newTag: TagData = {
       id: `new-${Date.now()}`,
       name: trimmed,
@@ -110,9 +133,10 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
     setShouldRefresh(prev => !prev);
   }, [draftTags]);
 
+  // 태그 삭제
   const handleDeleteClick = async (tag: TagData) => {
     const isDraft = draftModalTags.some(t => t.id === tag.id);
-
+    // localStorage 모달태그에 저장
     if (isDraft) {
       const updated = draftModalTags.filter(t => t.id !== tag.id);
       setDraftModalTags(updated);
@@ -120,6 +144,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
     } else {
       try {
         if (!uid) return;
+        // 모달 생성태그가 아니라면 firebase에서 삭제
         await updateDoc(doc(fireStore, "users", uid), {
           tags: arrayRemove(tag.id)
         });
@@ -136,6 +161,17 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
       return updated;
     });
   };
+
+  // toastType초기화
+  useEffect(() => {
+    if (toastType) {
+      const timer = setTimeout(() => {
+        setToastType(null);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [toastType]);
 
   return (
     <div className={styles.modal}>
@@ -155,6 +191,7 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
                 </div>
                 <Ictrash
                   className={styles.icTrash}
+                  viewBox="0 0 20 20"
                   onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     handleDeleteClick(tag);
@@ -177,10 +214,11 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
             onChange={e => setInputValue(e.target.value)}
           />
           <div className={styles.plusBtn} onClick={handleAddNewTag}>
-            <IcPlus className={styles.icPlus} viewBox="0 0 20 20" />
+            <IcPlus className={styles.icPlus} viewBox="0 0 8 8" />
           </div>
         </div>
       </div>
+      {toastType && <Toast toastType={toastType} />}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 import Toast from "../../common/Toast";
 import IcInfo from "@/assets/icon/info.svg";
-import InfoModal from "./InfoModal";
+import InfoModal from "./modal/InfoModal";
 
 import styles from "./TopBtnContainer.module.css";
 
@@ -18,31 +18,34 @@ interface Props {
 const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: Props) => {
   const [showEmptyTitleToast, setShowEmptyTitleToast] = useState(false);
   const [showEmptyContentToast, setShowEmptyContentToast] = useState(false);
-  const [showInfoModal, setShowInfoModal] = useState(false);
 
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenInfoModal = () => setShowInfoModal(true);
-  const handleCloseInfoModal = () => setShowInfoModal(false);
-
   // 외부 클릭 감지
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        setShowInfoModal(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (e: MouseEvent) => {
+  //     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+  //       setShowInfoModal(false);
+  //     }
+  //   };
 
-    if (showInfoModal) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+  //   if (showInfoModal) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showInfoModal]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [showInfoModal]);
 
+  // hover
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseEnter = () => setIsHovering(true);
+  const handleMouseLeave = () => setIsHovering(false);
+
+  //작성완료
   const handleClick = () => {
     if (title.trim() === "") {
       setShowEmptyTitleToast(true);
@@ -62,7 +65,11 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
 
   return (
     <div className={styles.topContainer}>
-      <div className={styles.infoBtn} onClick={handleOpenInfoModal}>
+      <div
+        className={styles.infoBtn}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <IcInfo />
         <p>마크다운 언어란?</p>
       </div>
@@ -81,9 +88,9 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
       {showEmptyTitleToast && <Toast toastType="emptyTitle" />}
       {showEmptyContentToast && <Toast toastType="emptyContent" />}
 
-      {showInfoModal && (
-        <div ref={modalRef} style={{ position: "absolute", zIndex: 1000 }}>
-          <InfoModal onClose={handleCloseInfoModal} />
+      {isHovering && (
+        <div style={{ position: "absolute", zIndex: 1000 }}>
+          <InfoModal onClose={() => setIsHovering(false)} />
         </div>
       )}
     </div>

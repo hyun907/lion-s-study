@@ -5,18 +5,22 @@ import React, { useState, useEffect } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
+import { doc, getDoc } from "firebase/firestore";
+import fireStore from "@/firebase/firestore";
+
 import { useAuth } from "@/hooks/useAuth";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "./modal/DeleteModal";
 import Toast from "../../common/Toast";
 import IcArrow from "@/assets/icon/arrow_right.svg";
 import Spinner from "@/app/_component/common/Spinner";
 import AddTag from "./AddTag";
 import TopBtnContainer from "./TopBtnContainer";
-import TempSubmitModal from "./TempSubmitModal";
+import TempSubmitModal from "./modal/TempSubmitModal";
 import Titlebox from "./Titlebox";
 import styles from "./AddArticleMain.module.css";
 import { useDraftLoader } from "@/hooks/useDraftLoader";
 import { useArticleSubmit } from "@/hooks/useArticleSubmit";
+import { useTagHandler } from "@/hooks/useTagHandler";
 
 const MarkdownEditor = dynamic(() => import("./MarkdownEditor"), {
   ssr: false,
@@ -35,7 +39,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const [title, setTitle] = useState("");
   const [markdown, setMarkdown] = useState("");
   const [link, setLink] = useState("");
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState<string[]>([]);
   const [isReady, setIsReady] = useState(false);
   const [toastType, setToastType] = useState<string | null>(null);
   const { showToast } = useToastStore();
@@ -52,40 +56,72 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     setToastType
   });
 
-  useEffect(() => {
-    if (articleId) {
-      setIsReady(true);
-      return;
-    }
+  // 수정 페이지 데이터 불러오기
+  const { fetchAllCommonTags } = useTagHandler();
 
-    const { title, markdown, link, tags } = loadDraft();
-    if (title || markdown) {
-      open(
-        <TempSubmitModal
-          onContinue={() => {
-            setTitle(title);
-            setMarkdown(markdown);
-            setLink(link);
-            setTag(tags);
-            setIsReady(true);
-          }}
-          onDiscard={() => {
-            clearDraft();
-            setTitle("");
-            setMarkdown("");
-            setLink("");
-            setTag("");
-            setIsReady(true);
-          }}
-        />
-      );
+  useEffect(() => {
+    const loadArticleData = async () => {
+      const docRef = doc(fireStore, "studyRooms", studyroomId, "articles", articleId!);
+      const snap = await getDoc(docRef);
+
+      if (snap.exists()) {
+        const data = snap.data();
+        const tagIdsFromDb: string[] = data.tags || [];
+
+        const allTags = await fetchAllCommonTags();
+
+        const matchedTagNames = allTags
+          .filter(tag => tagIdsFromDb.includes(tag.id))
+          .map(tag => tag.name);
+
+        setTitle(data.title || "");
+        setMarkdown(data.content || "");
+        setLink(JSON.stringify(data.link || []));
+        setTag(matchedTagNames);
+        localStorage.setItem("draft-tags", JSON.stringify(matchedTagNames));
+        setIsReady(true);
+      }
+    };
+
+    const loadDraftIfNeeded = () => {
+      const { title, markdown, link, tags } = loadDraft();
+      if (title || markdown) {
+        open(
+          <TempSubmitModal
+            onContinue={() => {
+              setTitle(title);
+              setMarkdown(markdown);
+              setLink(link);
+              setTag(Array.isArray(tags) ? tags : []);
+              setIsReady(true);
+            }}
+            onDiscard={() => {
+              clearDraft();
+              setTitle("");
+              setMarkdown("");
+              setLink("");
+              setTag([]);
+              setIsReady(true);
+            }}
+          />
+        );
+      } else {
+        setIsReady(true);
+      }
+    };
+
+    if (articleId) {
+      loadArticleData();
     } else {
-      setIsReady(true);
+      loadDraftIfNeeded();
     }
   }, []);
 
-  const handleOpenDelete = () => open(<DeleteModal studyroomId={studyroomId} />);
+  // 작성 중단 모달
+  const handleOpenDelete = () =>
+    open(<DeleteModal studyroomId={studyroomId} articleId={articleId} />);
 
+  // 작성하기
   const handleSubmit = async () => {
     if (!isLoggedIn || !isUserValid) {
       setToastType("login");
