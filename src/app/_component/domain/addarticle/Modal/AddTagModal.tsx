@@ -156,6 +156,17 @@ export default function AddTagModal({ onClose, setShouldRefresh }: Props) {
     });
   };
 
+  // toastType초기화
+  useEffect(() => {
+    if (toastType) {
+      const timer = setTimeout(() => {
+        setToastType(null);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [toastType]);
+
   return (
     <div className={styles.modal}>
       {combinedTagList.length > 0 && (
