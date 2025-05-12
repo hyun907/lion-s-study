@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 import Toast from "../../common/Toast";
 import IcInfo from "@/assets/icon/info.svg";
-import InfoModal from "./InfoModal";
+import InfoModal from "./modal/InfoModal";
 
 import styles from "./TopBtnContainer.module.css";
 

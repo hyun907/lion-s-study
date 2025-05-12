@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 
 import IcDelete from "@/assets/icon/delete.svg";
 import IcPlus from "@/assets/icon/plus_tag_add.svg";
-import AddTagModal from "./Modal/AddTagModal";
+import AddTagModal from "./modal/AddTagModal";
 import Toast from "../../common/Toast";
 import { useToastStore } from "@/store/useToastStore";
 

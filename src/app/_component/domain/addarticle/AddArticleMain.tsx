@@ -9,13 +9,13 @@ import { doc, getDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
 import { useAuth } from "@/hooks/useAuth";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "./modal/DeleteModal";
 import Toast from "../../common/Toast";
 import IcArrow from "@/assets/icon/arrow_right.svg";
 import Spinner from "@/app/_component/common/Spinner";
 import AddTag from "./AddTag";
 import TopBtnContainer from "./TopBtnContainer";
-import TempSubmitModal from "./TempSubmitModal";
+import TempSubmitModal from "./modal/TempSubmitModal";
 import Titlebox from "./Titlebox";
 import styles from "./AddArticleMain.module.css";
 import { useDraftLoader } from "@/hooks/useDraftLoader";
