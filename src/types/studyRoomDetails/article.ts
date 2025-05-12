@@ -16,9 +16,10 @@ export type ArticleItem = {
   id: string;
   title: string;
   content: string;
+  preview: string;
   creatorId: string;
   createdAt: any;
   creatorName: string;
   creatorYear: number;
-  tags: string[];
+  tags: Tag[];
 };

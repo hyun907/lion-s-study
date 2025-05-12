@@ -15,6 +15,7 @@ import { useToastStore } from "@/store/useToastStore";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
 import Loading from "@/app/loading";
 import NotFound from "@/app/not-found";
+import { useArticlesStore } from "@/store/useArticlesStore";
 
 // studyroom 메인 페이지
 const StudyroomMain = () => {
@@ -24,6 +25,8 @@ const StudyroomMain = () => {
   const { toastType } = useToastStore();
   const [showToastState, setShowToastState] = useState(false);
   const { loading, error } = useStudyroomDetail(studyroomId ?? "");
+  const { isLoading } = useArticlesStore(); // 아티클 상세 페이지에서 새로고침시
+  // 클라이언트 메모리는 일시적으로 초기화, 아티클을 불러와야 함.
 
   useEffect(() => {
     if (toastType) {
@@ -35,7 +38,7 @@ const StudyroomMain = () => {
     return null;
   }
 
-  if (loading) return <Loading />;
+  if (loading || isLoading) return <Loading />;
   if (error) return <NotFound />;
 
   return (
