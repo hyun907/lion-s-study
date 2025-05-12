@@ -46,10 +46,11 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
     }
   }, [isLoading, articles, articleId]);
 
-  if (isLoading || articles.length === 0 || singleArticle === null) {
+  if (singleArticle === null && articles.length > 0) return <NotFound />;
+
+  if (isLoading || articles.length === 0 || !singleArticle) {
     return <Loading />;
   }
-  if (!singleArticle && articles.length > 0) return <NotFound />;
 
   return (
     <>
