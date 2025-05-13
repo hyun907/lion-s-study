@@ -58,7 +58,7 @@ const ArticleItem = React.forwardRef<HTMLDivElement, ArticleItemProps>(
             <div className={styles.year}>{articleProps.creatorYear}기</div>
           </div>
           <div className={styles.contentPreview} id={commonStyles.overflowEllipsisLine1}>
-            {articleProps.content}
+            {articleProps.preview}
           </div>
         </div>
       </div>
