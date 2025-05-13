@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import { useMicrolink } from "@/hooks/useMicroLink";
+import Spinner from "@/app/_component/common/Spinner";
+import defaultThumbnail from "@/assets/image/default_thumbnail.png";
 
-import UrlImg from "@/assets/image/urlImage.png";
 import styles from "./LinkModal.module.css";
 
 interface Props {
@@ -11,35 +12,61 @@ interface Props {
 }
 
 export default function LinkModal({ onClose }: Props) {
+  const [draftLinks, setDraftLinks] = useState<string[]>([]);
+
+  // draft-link 업데이트하고 가져오기
+  useEffect(() => {
+    const updateDraftLinks = () => {
+      const storedLinks = localStorage.getItem("draft-link");
+      if (storedLinks) {
+        try {
+          const parsedLinks = JSON.parse(storedLinks);
+          if (Array.isArray(parsedLinks)) {
+            setDraftLinks(parsedLinks);
+          }
+        } catch (err) {
+          console.error("❌ Error parsing draft-link:", err);
+        }
+      }
+    };
+
+    // 모달이 열릴 때마다 로컬스토리지에서 최신 draft-link 가져오기
+    updateDraftLinks();
+  }, []);
+
+  // Microlink API에서 미리보기 데이터 불러오기
+  const { linkPreviews, loading, error } = useMicrolink(draftLinks);
+
   return (
     <div className={styles.modal}>
       <h1 className={styles.modalText}>레퍼런스(Link)</h1>
       <div className={styles.referenceContainer}>
-        <div className={styles.referenceBox}>
-          <Image
-            className={styles.profileImgContainer}
-            src={UrlImg}
-            alt="url썸네일"
-            unoptimized={true}
-          ></Image>
-          <div className={styles.referenceText}>
-            <h1>[팝업 디자인] 팝업, 토스트 팝업, 스낵바 디자인</h1>
-            <h2>https://potatohands-design.tistory.com/20</h2>
+        {loading && (
+          <div className={styles.loadingContainer}>
+            <Spinner />
           </div>
-        </div>
+        )}
+        {error && <p>{error}</p>}
 
-        <div className={styles.referenceBox}>
-          <Image
-            className={styles.profileImgContainer}
-            src={UrlImg}
-            alt="url썸네일"
-            unoptimized={true}
-          ></Image>
-          <div className={styles.referenceText}>
-            <h1>[팝업 디자인] 팝업, 토스트 팝업, 스낵바 디자인</h1>
-            <h2>https://potatohands-design.tistory.com/20</h2>
-          </div>
-        </div>
+        {linkPreviews.map((link, index) => {
+          const imageUrl = link.image?.url || "/default_thumbnail.png";
+
+          return (
+            <a
+              key={index}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.referenceBox}
+            >
+              <img className={styles.profileImgContainer} src={imageUrl} alt="썸네일" />
+              <div className={styles.referenceText}>
+                <h1>{link.title}</h1>
+                <h2>{link.url}</h2>
+              </div>
+            </a>
+          );
+        })}
       </div>
     </div>
   );
