@@ -27,13 +27,15 @@ export const useArticleSubmit = ({
     title,
     markdown,
     link,
-    tags
+    tags,
+    imgUrls
   }: {
     articleId?: string;
     title: string;
     markdown: string;
     link: string;
     tags: string[];
+    imgUrls: string[];
   }) => {
     const parsedLink = link ? JSON.parse(link) : [];
     const batch = writeBatch(fireStore);
@@ -48,7 +50,8 @@ export const useArticleSubmit = ({
         content: markdown,
         updatedAt: serverTimestamp(),
         link: parsedLink,
-        tags: finalTagIds
+        tags: finalTagIds,
+        imgUrls
       });
     } else {
       articleRef = doc(collection(fireStore, "studyRooms", studyRoomId, "articles"));
@@ -60,7 +63,8 @@ export const useArticleSubmit = ({
         creatorId: uid,
         createdAt: serverTimestamp(),
         link: parsedLink,
-        tags: finalTagIds
+        tags: finalTagIds,
+        imgUrls
       });
     }
 
