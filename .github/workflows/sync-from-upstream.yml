@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.SEUNGHYUN }}
+          token: ${{ secrets.SEUNGHYUN_SECRET_NAME }}
           fetch-depth: 0
 
       - name: Set Git Identity
@@ -22,7 +22,7 @@ jobs:
 
       - name: Add Upstream Repository
         run: |
-          git remote add upstream https://x-access-token:${{ secrets.SEUNGHYUN }}@github.com/likelion-ssu/lion-s-study.git
+          git remote add upstream https://x-access-token:${{ secrets.SEUNGHYUN_SECRET_NAME }}@github.com/likelion-ssu/lion-s-study.git
 
       - name: Verify Remotes
         run: git remote -v
