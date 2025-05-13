@@ -80,40 +80,34 @@
 }
 
 .linkBtn {
+  /* 공통 스타일 */
   display: flex;
   padding: 2px 6px;
   align-items: center;
   gap: 0.5rem;
   border-radius: 6px;
   border: 1px solid var(--60, #585858);
-
-  /* Web/Pretendard/Body7(Mobile) */
   font-family: Pretendard;
   font-size: 12px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 20px; /* 166.667% */
-
+  line-height: 20px;
   cursor: pointer;
 }
 
-.icLink > path {
-  stroke: #585858;
-}
-
-#avtiveBtn {
-  color: var(--60, #585858);
-}
-
-#deActiveBtn {
+.activeBtn {
   background: rgba(255, 255, 255, 0.1);
+
   color: var(--30, #9a9a9a);
 }
 
-#activeLink > path {
+.deActiveBtn {
   color: var(--60, #585858);
 }
 
-#deActiveLink > path {
+.activeLink > path {
+  color: var(--60, #9a9a9a);
+}
+
+.deActiveLink > path {
   color: var(--60, #585858);
 }

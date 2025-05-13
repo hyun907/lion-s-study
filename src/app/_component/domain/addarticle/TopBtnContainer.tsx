@@ -23,11 +23,14 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
   const [showEmptyContentToast, setShowEmptyContentToast] = useState(false);
 
   const [showLinkModal, setShowLinkModal] = useState(false);
+  const [linkCount, setLinkCount] = useState(0);
+
   const router = useRouter();
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleOpenLinkModal = () => setShowLinkModal(true);
   const handleCloseLinkModal = () => setShowLinkModal(false);
+
   // 링크 모달 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -67,6 +70,26 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
     router.push(`/studyroom/${studyRoomId}`);
   };
 
+  // 링크 개수
+  useEffect(() => {
+    const updateCount = () => {
+      try {
+        const links = JSON.parse(localStorage.getItem("draft-link") || "[]");
+        if (Array.isArray(links)) {
+          setLinkCount(links.length);
+        }
+      } catch (e) {
+        console.error("❌ draft-link parsing error:", e);
+        setLinkCount(0);
+      }
+    };
+
+    updateCount();
+    const interval = setInterval(updateCount, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const isReady = title.trim() !== "" && markdown.trim() !== "";
 
   return (
@@ -81,9 +104,16 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
           <p>마크다운 언어란?</p>
         </div>
 
-        <div className={styles.linkBtn} onClick={handleOpenLinkModal}>
-          <IcLink className={styles.icLink} />
-          <p>0개</p>
+        <div
+          className={`${styles.linkBtn} ${linkCount > 0 ? styles.activeBtn : styles.deActiveBtn}`}
+          onClick={linkCount > 0 ? handleOpenLinkModal : undefined}
+        >
+          <IcLink
+            className={`${styles.icLink} ${
+              linkCount > 0 ? styles.activeLink : styles.deActiveLink
+            }`}
+          />
+          <p>{linkCount}개</p>
         </div>
       </div>
 
