@@ -21,6 +21,7 @@ import styles from "./AddArticleMain.module.css";
 import { useDraftLoader } from "@/hooks/useDraftLoader";
 import { useArticleSubmit } from "@/hooks/useArticleSubmit";
 import { useTagHandler } from "@/hooks/useTagHandler";
+import { useContentExtract } from "@/hooks/useContentExtract";
 
 const MarkdownEditor = dynamic(() => import("./MarkdownEditor"), {
   ssr: false,
@@ -121,6 +122,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
   const handleOpenDelete = () =>
     open(<DeleteModal studyroomId={studyroomId} articleId={articleId} />);
 
+  const { extractImageUrls } = useContentExtract();
+
   // 작성하기
   const handleSubmit = async () => {
     if (!isLoggedIn || !isUserValid) {
@@ -129,12 +132,15 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     }
 
     const parsedTags = JSON.parse(localStorage.getItem("draft-tags") || "[]");
+    const imageUrls = extractImageUrls(markdown);
+
     await submitArticle({
       articleId,
       title,
       markdown,
       link,
-      tags: parsedTags
+      tags: parsedTags,
+      imgUrls: imageUrls
     });
     clearDraft();
   };
