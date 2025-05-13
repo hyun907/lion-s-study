@@ -16,6 +16,9 @@ interface AddNoticeModalContentProps {
   noticeId?: string;
 }
 
+const TITLE_MAX = 50;
+const CONTENT_MAX = 60;
+
 export default function AddNoticeModalContent({
   initialContent = "",
   noticeId
@@ -30,6 +33,7 @@ export default function AddNoticeModalContent({
 
   const [title, setTitle] = useState(initialContent);
   const [content, setContent] = useState(initialContent);
+
   const isTitleValid = title.trim() !== "";
   const isContentValid = content.trim() != "";
 
@@ -70,23 +74,35 @@ export default function AddNoticeModalContent({
       </div>
 
       <div className={styles.inputContainer}>
-        <div>제목</div>
-        <input
-          className={styles.input}
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          placeholder="공지 제목을 입력해주세요"
-        />
+        <div className={styles.label}>제목</div>
+        <div>
+          <input
+            className={styles.input}
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            maxLength={TITLE_MAX}
+            placeholder="공지 제목을 입력해주세요"
+          />
+          <div className={styles.charCount}>
+            {title.length} / {TITLE_MAX}
+          </div>
+        </div>
       </div>
 
       <div className={styles.inputContainer}>
-        <div>내용</div>
-        <input
-          className={styles.input}
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          placeholder="공지 내용을 입력해주세요"
-        />
+        <div className={styles.label}>내용</div>
+        <div>
+          <input
+            className={styles.input}
+            value={content}
+            onChange={e => setContent(e.target.value)}
+            maxLength={CONTENT_MAX}
+            placeholder="공지 내용을 입력해주세요"
+          />
+          <div className={styles.charCount}>
+            {content.length} / {CONTENT_MAX}
+          </div>
+        </div>
       </div>
 
       <div className={styles.btnWrapper}>
