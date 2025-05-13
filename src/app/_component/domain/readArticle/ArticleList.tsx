@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -13,8 +13,6 @@ import Ic_back from "../../../../assets/icon/arrow_right.svg";
 import Ic_article from "../../../../assets/icon/triangle.svg";
 import BabyLion from "../../../../assets/image/babyLion.png";
 import BigLion from "../../../../assets/image/bigLion.png";
-
-import { useArticlesStore } from "@/store/useArticlesStore";
 
 interface ArticleListProps {
   articleId: string;
@@ -58,7 +56,7 @@ const ArticleItem = React.forwardRef<HTMLDivElement, ArticleItemProps>(
             <div className={styles.year}>{articleProps.creatorYear}기</div>
           </div>
           <div className={styles.contentPreview} id={commonStyles.overflowEllipsisLine1}>
-            {articleProps.content}
+            {articleProps.preview}
           </div>
         </div>
       </div>
@@ -75,15 +73,13 @@ const ArticleList = ({ articleId, studyroomId, articles }: ArticleListProps) => 
 
   const selectedItemRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      selectedItemRef.current?.scrollIntoView({
-        behavior: "smooth",
+  useLayoutEffect(() => {
+    if (selectedItemRef.current) {
+      selectedItemRef.current.scrollIntoView({
+        behavior: "auto",
         block: "center"
       });
-    }, 50); // 0~50ms 사이에서 조정 가능
-
-    return () => clearTimeout(timer);
+    }
   }, [articleId]);
 
   // // 아티클을 클릭한 경우

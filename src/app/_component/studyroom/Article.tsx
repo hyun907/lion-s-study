@@ -38,12 +38,14 @@ interface ArticeItemInterface {
 
 const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterface) => {
   const tagMap = new Map(commonTags.map(tag => [tag.id, tag]));
+  const imageUrl =
+    articleProps.imgUrls && articleProps.imgUrls.length > 0 ? articleProps.imgUrls[0] : ExImg;
 
   return (
     <div className={style.articleSingleContainer} onClick={e => handleRead(e, articleProps.id)}>
       <div className={style.imgWrapper}>
         <Image
-          src={ExImg}
+          src={imageUrl}
           alt="썸네일 이미지"
           style={{ objectFit: "cover", borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
           fill
@@ -94,7 +96,7 @@ const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterfa
           </div>
           <div className={style.contentContainer}>
             <div className={style.content} id={commonStyles.overflowEllipsisLine3}>
-              {articleProps.content}
+              {articleProps.preview}
             </div>
           </div>
         </div>

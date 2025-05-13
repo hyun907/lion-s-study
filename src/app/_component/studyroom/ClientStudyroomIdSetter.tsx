@@ -45,7 +45,8 @@ export default function ClientStudyroomIdSetter({ id, children }: Props) {
           createdAt: data.createdAt,
           creatorName: data.creatorName,
           creatorYear: data.creatorYear,
-          tagIds: data.tags
+          tagIds: data.tags,
+          imgUrls: data.imgUrls
         };
       });
 

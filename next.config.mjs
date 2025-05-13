@@ -4,6 +4,9 @@ import TerserPlugin from "terser-webpack-plugin";
 const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig = {
+  images: {
+    domains: ["firebasestorage.googleapis.com"]
+  },
   webpack: config => {
     config.optimization = {
       ...config.optimization,

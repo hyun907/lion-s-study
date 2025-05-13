@@ -23,4 +23,5 @@ export type ArticleItem = {
   creatorName: string;
   creatorYear: number;
   tagIds: string[];
+  imgUrls: string[];
 };
