@@ -14,8 +14,6 @@ import Ic_article from "../../../../assets/icon/triangle.svg";
 import BabyLion from "../../../../assets/image/babyLion.png";
 import BigLion from "../../../../assets/image/bigLion.png";
 
-import { useArticlesStore } from "@/store/useArticlesStore";
-
 interface ArticleListProps {
   articleId: string;
   studyroomId: string;
