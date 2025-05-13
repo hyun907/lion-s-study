@@ -72,3 +72,48 @@
   font-weight: 400;
   line-height: 16px;
 }
+
+.modalSection {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.linkBtn {
+  display: flex;
+  padding: 2px 6px;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--60, #585858);
+
+  /* Web/Pretendard/Body7(Mobile) */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 166.667% */
+
+  cursor: pointer;
+}
+
+.icLink > path {
+  stroke: #585858;
+}
+
+#avtiveBtn {
+  color: var(--60, #585858);
+}
+
+#deActiveBtn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--30, #9a9a9a);
+}
+
+#activeLink > path {
+  color: var(--60, #585858);
+}
+
+#deActiveLink > path {
+  color: var(--60, #585858);
+}
