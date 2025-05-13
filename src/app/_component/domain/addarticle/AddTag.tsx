@@ -1,10 +1,14 @@
+"use client";
+
 import React, { useRef, useState, useEffect } from "react";
+
+import { useToastStore } from "@/store/useToastStore";
+
+import AddTagModal from "./modal/AddTagModal";
+import Toast from "../../common/Toast";
 
 import IcDelete from "@/assets/icon/delete.svg";
 import IcPlus from "@/assets/icon/plus_tag_add.svg";
-import AddTagModal from "./modal/AddTagModal";
-import Toast from "../../common/Toast";
-import { useToastStore } from "@/store/useToastStore";
 
 import styles from "./AddTag.module.css";
 
