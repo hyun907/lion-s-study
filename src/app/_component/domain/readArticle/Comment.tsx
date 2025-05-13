@@ -179,7 +179,10 @@ const Comment = ({ articleId, studyroomId }: Props) => {
 
   const handleFileDownload = async (fileUrl: string, fileName: string) => {
     try {
-      const response = await fetch(fileUrl);
+      const storageRef = ref(storage, fileUrl);
+      const downloadUrl = await getDownloadURL(storageRef);
+
+      const response = await fetch(downloadUrl);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
