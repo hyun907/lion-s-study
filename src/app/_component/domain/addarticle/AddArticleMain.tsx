@@ -2,26 +2,33 @@
 
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
-import { useModalStore } from "@/store/useModalStore";
-import { useUserStore } from "@/store/useUserStore";
-import { useToastStore } from "@/store/useToastStore";
+
 import { doc, getDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
 
-import { useAuth } from "@/hooks/useAuth";
-import DeleteModal from "./modal/DeleteModal";
-import Toast from "../../common/Toast";
-import IcArrow from "@/assets/icon/arrow_right.svg";
-import Spinner from "@/app/_component/common/Spinner";
-import AddTag from "./AddTag";
-import TopBtnContainer from "./TopBtnContainer";
-import TempSubmitModal from "./modal/TempSubmitModal";
-import Titlebox from "./Titlebox";
-import styles from "./AddArticleMain.module.css";
+import { useModalStore } from "@/store/useModalStore";
+import { useUserStore } from "@/store/useUserStore";
+import { useToastStore } from "@/store/useToastStore";
+
 import { useDraftLoader } from "@/hooks/useDraftLoader";
 import { useArticleSubmit } from "@/hooks/useArticleSubmit";
 import { useTagHandler } from "@/hooks/useTagHandler";
 import { useContentExtract } from "@/hooks/useContentExtract";
+import { useAuth } from "@/hooks/useAuth";
+
+import DeleteModal from "./modal/DeleteModal";
+import TempSubmitModal from "./modal/TempSubmitModal";
+
+import AddTag from "./AddTag";
+import TopBtnContainer from "./TopBtnContainer";
+import Titlebox from "./Titlebox";
+
+import Toast from "../../common/Toast";
+import Spinner from "@/app/_component/common/Spinner";
+
+import IcArrow from "@/assets/icon/arrow_right.svg";
+
+import styles from "./AddArticleMain.module.css";
 
 const MarkdownEditor = dynamic(() => import("./MarkdownEditor"), {
   ssr: false,
