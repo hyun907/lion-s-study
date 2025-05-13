@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -75,15 +75,13 @@ const ArticleList = ({ articleId, studyroomId, articles }: ArticleListProps) => 
 
   const selectedItemRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      selectedItemRef.current?.scrollIntoView({
-        behavior: "smooth",
+  useLayoutEffect(() => {
+    if (selectedItemRef.current) {
+      selectedItemRef.current.scrollIntoView({
+        behavior: "auto",
         block: "center"
       });
-    }, 50); // 0~50ms 사이에서 조정 가능
-
-    return () => clearTimeout(timer);
+    }
   }, [articleId]);
 
   // // 아티클을 클릭한 경우
