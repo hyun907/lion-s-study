@@ -36,7 +36,7 @@ export function useMicrolink(urls: string[]) {
       setLoading(false);
     };
 
-    if (urls.length > 0) {
+    if (Array.isArray(urls) && urls.length > 0) {
       fetchLinkData();
     } else {
       setLoading(false);

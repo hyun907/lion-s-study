@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useMicrolink } from "@/hooks/useMicroLink";
 import Spinner from "@/app/_component/common/Spinner";
-import defaultThumbnail from "@/assets/image/default_thumbnail.png";
 
 import styles from "./LinkModal.module.css";
 
@@ -48,25 +47,26 @@ export default function LinkModal({ onClose }: Props) {
         )}
         {error && <p>{error}</p>}
 
-        {linkPreviews.map((link, index) => {
-          const imageUrl = link.image?.url || "/default_thumbnail.png";
+        {Array.isArray(linkPreviews) &&
+          linkPreviews.map((link, index) => {
+            const imageUrl = link.image?.url || "/default_thumbnail.png";
 
-          return (
-            <a
-              key={index}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.referenceBox}
-            >
-              <img className={styles.profileImgContainer} src={imageUrl} alt="썸네일" />
-              <div className={styles.referenceText}>
-                <h1>{link.title}</h1>
-                <h2>{link.url}</h2>
-              </div>
-            </a>
-          );
-        })}
+            return (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.referenceBox}
+              >
+                <img className={styles.profileImgContainer} src={imageUrl} alt="썸네일" />
+                <div className={styles.referenceText}>
+                  <h1>{link.title}</h1>
+                  <h2>{link.url}</h2>
+                </div>
+              </a>
+            );
+          })}
       </div>
     </div>
   );
