@@ -1,0 +1,39 @@
+name: Sync Fork on Upstream Update
+
+on:
+  repository_dispatch:
+    types: [sync]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.SEUNGHYUN }}
+          fetch-depth: 0
+
+      - name: Set Git Identity
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Add Upstream Repository
+        run: |
+          git remote add upstream https://x-access-token:${{ secrets.SEUNGHYUN }}@github.com/likelion-ssu/lion-s-study.git
+
+      - name: Verify Remotes
+        run: git remote -v
+
+      - name: Fetch Upstream
+        run: git fetch upstream
+
+      - name: Merge Upstream Changes
+        run: |
+          git checkout main
+          git merge upstream/main --no-edit
+
+      - name: Push to Origin
+        run: git push origin main
