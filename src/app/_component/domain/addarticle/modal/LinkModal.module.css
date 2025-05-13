@@ -31,6 +31,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.7rem;
+  width: 100%;
 }
 
 .referenceBox {
@@ -48,6 +49,8 @@
   cursor: pointer;
   white-space: nowrap;
   min-width: 0;
+  max-width: 100%;
+
   flex: 1;
 }
 
@@ -58,7 +61,7 @@
 .referenceText {
   display: flex;
   flex-direction: column;
-  max-width: 35rem;
+  max-width: 80%;
 }
 
 .referenceText > h1 {
