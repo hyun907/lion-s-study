@@ -16,8 +16,8 @@ interface AddNoticeModalContentProps {
   noticeId?: string;
 }
 
-const TITLE_MAX = 50;
-const CONTENT_MAX = 60;
+const TITLE_MAX = 20;
+const CONTENT_MAX = 30;
 
 export default function AddNoticeModalContent({
   initialContent = "",
