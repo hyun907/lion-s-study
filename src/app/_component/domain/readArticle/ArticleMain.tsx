@@ -47,7 +47,7 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
       if (!found) router.replace("/404"); // 바로 404로
       else setSingleArticle(found);
     }
-  }, [isLoading, articles, articleId]);
+  }, [isLoading, articleId]);
 
   if (isLoading || articles.length === 0 || !singleArticle) {
     return <Loading />;
