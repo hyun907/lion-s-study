@@ -45,7 +45,10 @@ export const useArticlesStore = create<ArticleStore>((set, get) => ({
   },
 
   getMarkdownPreview: (markdown, maxLines = 10) => {
-    const plainText = removeMarkdown(markdown);
+    const withoutImage = markdown.replace(/!\[.*?\]\(.*?\)/g, "");
+    // ![alt](url) 패턴을 찾아 없앰.
+
+    const plainText = removeMarkdown(withoutImage);
     const lines = plainText
       .split("\n")
       .map(line => line.trim())

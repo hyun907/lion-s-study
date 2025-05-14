@@ -12,6 +12,7 @@ import { useArticlesStore } from "@/store/useArticlesStore";
 import Loading from "@/app/loading";
 import NotFound from "@/app/not-found";
 import { ArticleItem } from "@/types/studyRoomDetails/article";
+import { useRouter } from "next/navigation";
 
 interface Props {
   articleId: string;
@@ -19,6 +20,8 @@ interface Props {
 }
 
 export default function ArticleMain({ articleId, studyroomId }: Props) {
+  const router = useRouter();
+
   // 토스트 메시지 타입
   const { toastType } = useToastStore();
   // 토스트 표시 여부를 관리하는 로컬 상태
@@ -41,12 +44,10 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
   useEffect(() => {
     if (!isLoading && articles.length > 0) {
       const found = articles.find(article => article.id === articleId);
-      if (!found) return;
+      if (!found) router.replace("/404"); // 바로 404로
       else setSingleArticle(found);
     }
   }, [isLoading, articles, articleId]);
-
-  if (singleArticle === null && articles.length > 0) return <NotFound />;
 
   if (isLoading || articles.length === 0 || !singleArticle) {
     return <Loading />;
