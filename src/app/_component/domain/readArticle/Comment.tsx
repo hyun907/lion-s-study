@@ -52,13 +52,13 @@ const Comment = ({ articleId, studyroomId }: Props) => {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [lastCommentId, setLastCommentId] = useState<string | null>(null);
 
   const { name, year, uid } = useUserStore();
   const showToast = useToastStore(state => state.showToast);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const commentsAreaRef = useRef<HTMLDivElement>(null);
-  const prevCommentsLengthRef = useRef(0);
 
   useEffect(() => {
     const commentsRef = collection(
@@ -79,22 +79,25 @@ const Comment = ({ articleId, studyroomId }: Props) => {
       const sortedComments = sortArrByTime(result, true);
       setComments(sortedComments);
       setIsLoading(false);
+
+      // 마지막 댓글 ID가 있고, 새로운 댓글이 추가된 경우에만 스크롤
+      if (lastCommentId && sortedComments.length > 0) {
+        const lastComment = sortedComments[sortedComments.length - 1];
+        if (lastComment.commentId === lastCommentId) {
+          setTimeout(() => {
+            if (commentsAreaRef.current) {
+              commentsAreaRef.current.scrollTo({
+                top: commentsAreaRef.current.scrollHeight,
+                behavior: "smooth"
+              });
+            }
+          }, 100);
+        }
+      }
     });
 
     return () => unsub();
-  }, [articleId, studyroomId]);
-
-  // 댓글 추가하면 해당 댓글로 스크롤
-  useEffect(() => {
-    if (comments.length > prevCommentsLengthRef.current && commentsAreaRef.current) {
-      const scrollOptions = {
-        top: commentsAreaRef.current.scrollHeight,
-        behavior: "smooth" as const
-      };
-      commentsAreaRef.current.scrollTo(scrollOptions);
-    }
-    prevCommentsLengthRef.current = comments.length;
-  }, [comments]);
+  }, [articleId, studyroomId, lastCommentId]);
 
   const handleSubmit = async () => {
     if (!commentText.trim() && !selectedFile) {
@@ -131,13 +134,10 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         imageUrl: imageUrl
       };
 
-      await addDoc(commentsRef, commentData);
+      const docRef = await addDoc(commentsRef, commentData);
       setCommentText("");
       setSelectedFile(null);
-
-      if (commentsAreaRef.current) {
-        commentsAreaRef.current.scrollTop = commentsAreaRef.current.scrollHeight;
-      }
+      setLastCommentId(docRef.id);
     } catch (error) {
       console.error("댓글 작성 중 오류 발생:", error);
       showToast("fail");
@@ -216,7 +216,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
           </div>
         ) : comments.length > 0 ? (
           <div className={styles.commentsArea} ref={commentsAreaRef}>
-            {comments.map(comment => (
+            {comments.map((comment, index) => (
               <div className={styles.commentWrapper} key={comment.commentId}>
                 <Image
                   className={styles.profileImgContainer}
