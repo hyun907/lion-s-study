@@ -80,24 +80,21 @@ const Comment = ({ articleId, studyroomId }: Props) => {
       setComments(sortedComments);
       setIsLoading(false);
 
-      // 마지막 댓글 ID가 있고, 새로운 댓글이 추가된 경우에만 스크롤
-      if (lastCommentId && sortedComments.length > 0) {
-        const lastComment = sortedComments[sortedComments.length - 1];
-        if (lastComment.commentId === lastCommentId) {
-          setTimeout(() => {
-            if (commentsAreaRef.current) {
-              commentsAreaRef.current.scrollTo({
-                top: commentsAreaRef.current.scrollHeight,
-                behavior: "smooth"
-              });
-            }
-          }, 100);
-        }
+      // 초기 로딩이 완료되거나 새로운 댓글이 추가된 경우 스크롤
+      if (!isLoading || (lastCommentId && sortedComments.length > 0)) {
+        setTimeout(() => {
+          if (commentsAreaRef.current) {
+            commentsAreaRef.current.scrollTo({
+              top: commentsAreaRef.current.scrollHeight,
+              behavior: "smooth"
+            });
+          }
+        }, 100);
       }
     });
 
     return () => unsub();
-  }, [articleId, studyroomId, lastCommentId]);
+  }, [articleId, studyroomId, lastCommentId, isLoading]);
 
   const handleSubmit = async () => {
     if (!commentText.trim() && !selectedFile) {
