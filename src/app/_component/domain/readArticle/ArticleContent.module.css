@@ -33,6 +33,10 @@
   line-height: 20px;
 }
 
+.articleDate {
+  white-space: nowrap;
+}
+
 .topBody {
   display: flex;
   justify-content: space-between;
