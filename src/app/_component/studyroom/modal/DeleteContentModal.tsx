@@ -47,7 +47,7 @@ export default function DeleteContentModal({
 
     // Article일 때만 이동
     if (type === "Article" && studyroomId) {
-      router.push(`/studyroom/${studyroomId}`);
+      router.replace(`/studyroom/${studyroomId}`);
     }
   };
 
