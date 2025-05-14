@@ -53,6 +53,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [lastCommentId, setLastCommentId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { name, year, uid } = useUserStore();
   const showToast = useToastStore(state => state.showToast);
@@ -80,31 +81,33 @@ const Comment = ({ articleId, studyroomId }: Props) => {
       setComments(sortedComments);
       setIsLoading(false);
 
-      // 마지막 댓글 ID가 있고, 새로운 댓글이 추가된 경우에만 스크롤
-      if (lastCommentId && sortedComments.length > 0) {
-        const lastComment = sortedComments[sortedComments.length - 1];
-        if (lastComment.commentId === lastCommentId) {
-          setTimeout(() => {
-            if (commentsAreaRef.current) {
-              commentsAreaRef.current.scrollTo({
-                top: commentsAreaRef.current.scrollHeight,
-                behavior: "smooth"
-              });
-            }
-          }, 100);
-        }
+      // 초기 로딩이 완료되거나 새로운 댓글이 추가된 경우 스크롤
+      if (!isLoading || (lastCommentId && sortedComments.length > 0)) {
+        setTimeout(() => {
+          if (commentsAreaRef.current) {
+            commentsAreaRef.current.scrollTo({
+              top: commentsAreaRef.current.scrollHeight,
+              behavior: "smooth"
+            });
+          }
+        }, 100);
       }
     });
 
     return () => unsub();
-  }, [articleId, studyroomId, lastCommentId]);
+  }, [articleId, studyroomId, lastCommentId, isLoading]);
 
   const handleSubmit = async () => {
     if (!commentText.trim() && !selectedFile) {
       return;
     }
 
+    if (isSubmitting) {
+      return;
+    }
+
     try {
+      setIsSubmitting(true);
       let imageUrl = null;
 
       if (selectedFile) {
@@ -115,6 +118,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
         } catch (uploadError) {
           console.error("파일 업로드 중 오류 발생:", uploadError);
           showToast("fail");
+          setIsSubmitting(false);
           return;
         }
       }
@@ -141,6 +145,8 @@ const Comment = ({ articleId, studyroomId }: Props) => {
     } catch (error) {
       console.error("댓글 작성 중 오류 발생:", error);
       showToast("fail");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -288,6 +294,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
               value={commentText}
               onChange={e => setCommentText(e.target.value)}
               style={{ border: "none", width: "100%", paddingRight: "4rem", outline: "none" }}
+              disabled={isSubmitting}
             />
             <div className={styles.buttonGroup}>
               <label
@@ -300,6 +307,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
                   type="file"
                   onChange={handleFileChange}
                   style={{ display: "none" }}
+                  disabled={isSubmitting}
                 />
                 <ICFile />
               </label>
@@ -308,7 +316,7 @@ const Comment = ({ articleId, studyroomId }: Props) => {
           <button
             className={`${styles.submitBtn} ${isSubmitEnabled ? styles.active : ""}`}
             onClick={handleSubmit}
-            disabled={!isSubmitEnabled}
+            disabled={!isSubmitEnabled || isSubmitting}
             type="button"
           >
             <ICUpload />
