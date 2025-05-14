@@ -81,7 +81,9 @@ const MarkdownEditor = ({ setMarkdown, markdown, setLink }: Props) => {
               <a href={href} target="_blank" rel="noopener noreferrer">
                 {children}
               </a>
-            )
+            ),
+            ul: ({ children }) => <ul style={{ listStyleType: "disc" }}>{children}</ul>,
+            ol: ({ children }) => <ol style={{ listStyleType: "decimal" }}>{children}</ol>
           }
         }}
       />
