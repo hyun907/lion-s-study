@@ -139,7 +139,7 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
         <MDEditor.Markdown source={article.content} />
       </div>
 
-      <Reference articleId={articleId} />
+      <Reference articleId={articleId} studyroomId={studyroomId} />
     </div>
   );
 };
