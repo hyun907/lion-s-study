@@ -81,7 +81,7 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
         <div className={styles.topContainer}>
           <div className={styles.topHeader}>
             <p>{studyroom?.title}</p>
-            <p>
+            <p className={styles.articleDate}>
               {article.createdAt
                 ? new Date(article.createdAt.seconds * 1000).toLocaleDateString("ko-KR")
                 : " "}
@@ -136,7 +136,17 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
           </div>
         </div>
 
-        <MDEditor.Markdown source={article.content} />
+        <MDEditor.Markdown
+          source={article.content}
+          components={{
+            // linkTarget="_blank"
+            a: ({ children, href }) => (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
+            )
+          }}
+        />
       </div>
 
       <Reference articleId={articleId} studyroomId={studyroomId} />

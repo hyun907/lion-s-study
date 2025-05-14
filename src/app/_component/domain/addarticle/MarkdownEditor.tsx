@@ -70,7 +70,21 @@ const MarkdownEditor = ({ setMarkdown, markdown, setLink }: Props) => {
       onDragOver={e => e.preventDefault()}
       onDragLeave={e => e.preventDefault()}
     >
-      <MDEditor height="50rem" value={markdown} onChange={handleChange} preview="live" />
+      <MDEditor
+        height="50rem"
+        value={markdown}
+        onChange={handleChange}
+        preview="live"
+        previewOptions={{
+          components: {
+            a: ({ children, href }) => (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
+            )
+          }
+        }}
+      />
       {toastType && <Toast toastType={toastType} />}
     </div>
   );
