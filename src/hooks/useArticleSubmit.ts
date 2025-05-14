@@ -1,6 +1,5 @@
 import { doc, collection, writeBatch, serverTimestamp, arrayUnion } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
-import { useToastStore } from "@/store/useToastStore";
 import { useTagHandler } from "./useTagHandler";
 import { MicrolinkData } from "@/types/articles/microlink";
 
@@ -9,7 +8,9 @@ export const useArticleSubmit = ({
   name,
   year,
   studyRoomId,
-  closeModal
+  closeModal,
+  showToast,
+  setToastType
 }: {
   uid: string;
   name: string;
@@ -20,7 +21,6 @@ export const useArticleSubmit = ({
   showToast: (type: string) => void;
   setToastType: (type: string) => void;
 }) => {
-  const { showToast } = useToastStore();
   const { fetchAndPrepareTags } = useTagHandler();
 
   const submitArticle = async ({
@@ -37,24 +37,27 @@ export const useArticleSubmit = ({
     link: MicrolinkData[];
     tags: string[];
     imgUrls: string[];
-  }) => {
+  }): Promise<string> => {
     const batch = writeBatch(fireStore);
 
     const finalTagIds = await fetchAndPrepareTags(tags, batch);
 
     let articleRef;
+    let newArticleId = articleId;
+
     if (articleId) {
       articleRef = doc(fireStore, "studyRooms", studyRoomId, "articles", articleId);
       batch.update(articleRef, {
         title,
         content: markdown,
         updatedAt: serverTimestamp(),
-        link: link,
+        link,
         tags: finalTagIds,
         imgUrls
       });
     } else {
       articleRef = doc(collection(fireStore, "studyRooms", studyRoomId, "articles"));
+      newArticleId = articleRef.id;
       batch.set(articleRef, {
         title,
         content: markdown,
@@ -62,7 +65,7 @@ export const useArticleSubmit = ({
         creatorYear: year,
         creatorId: uid,
         createdAt: serverTimestamp(),
-        link: link,
+        link,
         tags: finalTagIds,
         imgUrls
       });
@@ -78,6 +81,8 @@ export const useArticleSubmit = ({
     await batch.commit();
     showToast(articleId ? "editArticle" : "addArticle");
     closeModal();
+
+    return newArticleId!;
   };
 
   return { submitArticle };
