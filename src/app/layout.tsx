@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "./styles/globals.css";
@@ -53,6 +54,7 @@ export default function RootLayout({
         <div id="modal-root" />
         <Modal />
         {children}
+        <Analytics />;
       </body>
     </html>
   );
