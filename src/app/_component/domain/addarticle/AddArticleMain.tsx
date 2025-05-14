@@ -15,7 +15,9 @@ import { useArticleSubmit } from "@/hooks/useArticleSubmit";
 import { useTagHandler } from "@/hooks/useTagHandler";
 import { useContentExtract } from "@/hooks/useContentExtract";
 import { useAuth } from "@/hooks/useAuth";
+import { useFetchMicroLink } from "@/hooks/useFetchMicroLink";
 
+import { MicrolinkData } from "@/types/articles/microlink";
 import DeleteModal from "./modal/DeleteModal";
 import TempSubmitModal from "./modal/TempSubmitModal";
 
@@ -143,12 +145,28 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
 
     const parsedTags = JSON.parse(localStorage.getItem("draft-tags") || "[]");
     const imageUrls = extractImageUrls(markdown);
+    const rawLinks = JSON.parse(localStorage.getItem("draft-link") || "[]");
+
+    const previewResults = await Promise.all(rawLinks.map((url: string) => useFetchMicroLink(url)));
+
+    const cleanedLinks: MicrolinkData[] = previewResults
+      .filter((preview): preview is MicrolinkData =>
+        Boolean(preview && preview.url && preview.title)
+      )
+      .map(preview => {
+        const result: MicrolinkData = {
+          title: preview.title,
+          url: preview.url,
+          image: preview.image?.url ? { url: preview.image.url } : { url: "/default_thumbnail.png" }
+        };
+        return result;
+      });
 
     await submitArticle({
       articleId,
       title,
       markdown,
-      link,
+      link: cleanedLinks,
       tags: parsedTags,
       imgUrls: imageUrls
     });
