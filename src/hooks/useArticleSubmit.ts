@@ -2,6 +2,7 @@ import { doc, collection, writeBatch, serverTimestamp, arrayUnion } from "fireba
 import fireStore from "@/firebase/firestore";
 import { useToastStore } from "@/store/useToastStore";
 import { useTagHandler } from "./useTagHandler";
+import { MicrolinkData } from "@/types/articles/microlink";
 
 export const useArticleSubmit = ({
   uid,
@@ -33,11 +34,10 @@ export const useArticleSubmit = ({
     articleId?: string;
     title: string;
     markdown: string;
-    link: string;
+    link: MicrolinkData[];
     tags: string[];
     imgUrls: string[];
   }) => {
-    const parsedLink = link ? JSON.parse(link) : [];
     const batch = writeBatch(fireStore);
 
     const finalTagIds = await fetchAndPrepareTags(tags, batch);
@@ -49,7 +49,7 @@ export const useArticleSubmit = ({
         title,
         content: markdown,
         updatedAt: serverTimestamp(),
-        link: parsedLink,
+        link: link,
         tags: finalTagIds,
         imgUrls
       });
@@ -62,7 +62,7 @@ export const useArticleSubmit = ({
         creatorYear: year,
         creatorId: uid,
         createdAt: serverTimestamp(),
-        link: parsedLink,
+        link: link,
         tags: finalTagIds,
         imgUrls
       });
