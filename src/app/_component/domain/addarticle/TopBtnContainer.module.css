@@ -72,3 +72,41 @@
   font-weight: 400;
   line-height: 16px;
 }
+
+.modalSection {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.linkBtn {
+  display: flex;
+  padding: 0.2rem 0.6rem;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--60, #585858);
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.activeBtn {
+  background: rgba(255, 255, 255, 0.1);
+
+  color: var(--30, #9a9a9a);
+  cursor: pointer;
+}
+
+.deActiveBtn {
+  color: var(--60, #585858);
+}
+
+.activeLink > path {
+  color: var(--60, #9a9a9a);
+}
+
+.deActiveLink > path {
+  color: var(--60, #585858);
+}

@@ -1,44 +1,71 @@
-import React from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import { useMicrolink } from "@/hooks/useMicroLink";
+import Spinner from "@/app/_component/common/Spinner";
+import fireStore from "@/firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 import styles from "./Reference.module.css";
-import UrlImg from "@/assets/image/urlImage.png";
 
 interface Props {
   articleId: string;
+  studyroomId: string;
 }
 
-export default function Reference({ articleId }: Props) {
+export default function Reference({ articleId, studyroomId }: Props) {
+  const [links, setLinks] = useState<string[]>([]);
+  const { linkPreviews, loading, error } = useMicrolink(links);
+
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        const articleRef = doc(fireStore, `studyRooms/${studyroomId}/articles/${articleId}`);
+        const docSnap = await getDoc(articleRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setLinks(data.link || []);
+        } else {
+          console.warn("No such article document.");
+        }
+      } catch (err) {
+        console.error("Failed to fetch article links:", err);
+      }
+    };
+
+    fetchLinks();
+  }, [articleId, studyroomId]);
+
   return (
     <>
       <div className={styles.wrapper}>
         <h1>레퍼런스(Link)</h1>
         <div className={styles.referenceContainer}>
-          <div className={styles.referenceBox}>
-            <Image
-              className={styles.profileImgContainer}
-              src={UrlImg}
-              alt="url썸네일"
-              unoptimized={true}
-            ></Image>
-            <div className={styles.referenceText}>
-              <h1>[팝업 디자인] 팝업, 토스트 팝업, 스낵바 디자인</h1>
-              <h2>https://potatohands-design.tistory.com/20</h2>
+          {loading && (
+            <div className={styles.loadingContainer}>
+              <Spinner />
             </div>
-          </div>
+          )}
+          {error && <p>{error}</p>}
 
-          <div className={styles.referenceBox}>
-            <Image
-              className={styles.profileImgContainer}
-              src={UrlImg}
-              alt="url썸네일"
-              unoptimized={true}
-            ></Image>
-            <div className={styles.referenceText}>
-              <h1>[팝업 디자인] 팝업, 토스트 팝업, 스낵바 디자인</h1>
-              <h2>https://potatohands-design.tistory.com/20</h2>
-            </div>
-          </div>
+          {linkPreviews.map((link, index) => {
+            const imageUrl = link.image?.url || "/default_thumbnail.png";
+
+            return (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.referenceBox}
+              >
+                <img className={styles.profileImgContainer} src={imageUrl} alt="썸네일" />
+                <div className={styles.referenceText}>
+                  <h1>{link.title}</h1>
+                  <h2>{link.url}</h2>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
     </>

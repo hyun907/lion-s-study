@@ -85,8 +85,11 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
         setTitle(data.title || "");
         setMarkdown(data.content || "");
         setLink(JSON.stringify(data.link || []));
+        localStorage.setItem("draft-link", JSON.stringify(data.link));
+
         setTag(matchedTagNames);
         localStorage.setItem("draft-tags", JSON.stringify(matchedTagNames));
+
         setIsReady(true);
       }
     };
