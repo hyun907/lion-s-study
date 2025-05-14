@@ -76,7 +76,7 @@ const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterfa
               <div className={commonStyles.nameContainer} id={style.fontSize12}>
                 {articleProps.creatorName}
               </div>
-              <span id={style.fontSize08}>{articleProps.creatorYear}기</span>
+              <span id={style.fontSize10}>{articleProps.creatorYear}기</span>
             </div>
           </div>
         </div>

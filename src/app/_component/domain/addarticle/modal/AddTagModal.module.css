@@ -1,6 +1,6 @@
 .modal {
   position: absolute;
-  min-width: 15rem;
+  min-width: 17rem;
   top: 6.5rem;
   display: flex;
   padding: 1rem 1.2rem;
@@ -22,7 +22,7 @@
 .contentsContainer > p {
   color: var(--30, #9a9a9a);
   font-family: Pretendard;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: 14px;
@@ -62,7 +62,7 @@
 
 .tagBtn {
   display: inline-flex;
-  height: 2rem;
+  height: 2.4rem;
   padding: 2.75px 5.499px;
   justify-content: center;
   align-items: center;
@@ -90,10 +90,11 @@
 }
 
 .inputContainer > input {
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
+
 .inputTag {
-  height: 2.2rem;
+  height: 2.8rem;
   width: 100%;
   padding: 0.2rem 0.8rem;
   align-items: center;
