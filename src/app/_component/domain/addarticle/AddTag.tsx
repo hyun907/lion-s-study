@@ -89,7 +89,7 @@ const AddTag = ({ isReady }: { isReady: boolean }) => {
           {isReady &&
             draftTags.map((tag, index) => (
               <div key={index} className={styles.tagBtn}>
-                <div className={styles.tagColor}></div>
+                {/* <div className={styles.tagColor}></div> */}
                 <p>{tag}</p>
                 <IcDelete
                   className={styles.deleteIcn}
