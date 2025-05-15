@@ -11,7 +11,7 @@ export const PartDefaultTags: PartTagGroup = {
     "m4XRq7USeoqnSYrINt4N"
   ],
   디자인: ["EAJ5IoNKG4TN7tKZnRyp", "YoZO0femm2oUMWzkFHkm", "utzYs66qjVGbyPoNItLg"],
-  프론트엔드: ["bZnJmyPsv7i9U3QMQMGP", "ezDtgvWK62pmMNV7dp1N", "CMsymJ0Z5j6JDoDmC0TH"],
+  프론트엔드: ["bZnJmyPsv7i9U3QMQMGP", "ezDtgvWK62pmMNV7dp1N", "eIFf4gHYCPH0GuVUgEao"],
   백엔드: [
     "5WQSaENHpnn3XVwga2di",
     "PqWtYBA5z094YGgxrTTL",
