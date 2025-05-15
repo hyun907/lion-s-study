@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { doc, getDoc } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
@@ -43,6 +44,7 @@ interface Props {
 }
 
 const AddArticleMain = ({ articleId, studyroomId }: Props) => {
+  const router = useRouter();
   const { name, year, uid } = useUserStore();
   const { isLoggedIn } = useAuth();
   const open = useModalStore(state => state.open);
@@ -153,16 +155,13 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
       .filter((preview): preview is MicrolinkData =>
         Boolean(preview && preview.url && preview.title)
       )
-      .map(preview => {
-        const result: MicrolinkData = {
-          title: preview.title,
-          url: preview.url,
-          image: preview.image?.url ? { url: preview.image.url } : { url: "/default_thumbnail.png" }
-        };
-        return result;
-      });
+      .map(preview => ({
+        title: preview.title,
+        url: preview.url,
+        image: preview.image?.url ? { url: preview.image.url } : { url: "/default_thumbnail.png" }
+      }));
 
-    await submitArticle({
+    const newArticleId = await submitArticle({
       articleId,
       title,
       markdown,
@@ -170,7 +169,10 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
       tags: parsedTags,
       imgUrls: imageUrls
     });
+
     clearDraft();
+
+    router.push(`/studyroom/${studyroomId}/article/${newArticleId ?? articleId}`);
   };
 
   return (

@@ -1,11 +1,8 @@
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
-import { TagColors } from "@/constants/TagColors";
-import { Tag } from "@/types/studyRoomDetails/article";
+import { useRandomColor } from "@/hooks/useRandomColor";
 
-const getRandomColor = () => {
-  return TagColors[Math.floor(Math.random() * TagColors.length)];
-};
+import { Tag } from "@/types/studyRoomDetails/article";
 
 export const useTagHandler = () => {
   const fetchAndPrepareTags = async (
@@ -28,7 +25,7 @@ export const useTagHandler = () => {
         finalTagIds.push(existingTagMap[tagName].id);
       } else {
         const newTagRef = doc(collection(fireStore, "commonTags"));
-        const color = getRandomColor();
+        const color = useRandomColor();
         batch.set(newTagRef, { name: tagName, color });
         finalTagIds.push(newTagRef.id);
       }

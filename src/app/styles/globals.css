@@ -68,3 +68,20 @@ a {
 .w-md-editor-preview {
   font-family: "Pretendard", sans-serif !important;
 }
+
+/* .w-md-editor,
+.w-md-editor-toolbar,
+.w-md-editor-text-input,
+.w-md-editor-preview,
+.w-md-editor-preview .wmde-markdown {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.w-md-editor-toolbar svg {
+  fill: #000000 !important;
+}
+
+hr : d0d7de
+
+contrast 19.72, 21 */
