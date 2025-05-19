@@ -17,7 +17,6 @@ import Reference from "./Reference";
 
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { Tag } from "@/types/studyRoomDetails/article";
-import { useTagHandler } from "@/hooks/useTagHandler";
 import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
 import TagItem from "../../common/TagItem";
 
@@ -25,25 +24,15 @@ interface Props {
   article: ArticleItem;
   articleId: string;
   studyroomId: string;
+  tags: Tag[];
 }
 
-const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
+const ArticleContent = ({ article, articleId, studyroomId, tags }: Props) => {
   const { uid } = useUserStore();
 
-  const { fetchAllCommonTags } = useTagHandler();
   const { studyroom } = useStudyroomDetail(studyroomId);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [commonTags, setCommonTags] = useState<Tag[]>([]);
-
-  useEffect(() => {
-    const loadTags = async () => {
-      const fetchedTags = await fetchAllCommonTags();
-      setCommonTags(fetchedTags);
-    };
-
-    loadTags();
-  }, []);
 
   // 메뉴 모달
   const menuRef = useRef<HTMLDivElement>(null);
@@ -73,7 +62,7 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
   }, []);
 
   const isMyArticle = uid === article.creatorId;
-  const tagMap = new Map(commonTags.map(tag => [tag.id, tag]));
+  const tagMap = new Map(tags.map(tag => [tag.id, tag]));
 
   return (
     <div className={styles.wrapper}>

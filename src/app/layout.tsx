@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" style={{ fontFamily: "Pretendard, sans-serif" }}>
+    <html lang="ko" style={{ fontFamily: "Pretendard, sans-serif", height: "100vh" }}>
       <head>
         <meta property="og:title" content="사자의 서재" />
         <meta property="og:description" content="숭실대 멋쟁이사자처럼 사자의 서재 사이트입니다." />

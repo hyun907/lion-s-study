@@ -68,7 +68,6 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     setToastType
   });
 
-  // 수정 페이지 데이터 불러오기
   const { fetchAllCommonTags } = useTagHandler();
 
   useEffect(() => {
