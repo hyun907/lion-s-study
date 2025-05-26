@@ -17,7 +17,7 @@ import Reference from "./Reference";
 
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { Tag } from "@/types/studyRoomDetails/article";
-import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useStudyroomDetail } from "@/hooks/studyroom";
 import TagItem from "../../common/TagItem";
 
 interface Props {

@@ -6,8 +6,8 @@ import ICDelete from "@/assets/icon/delete.svg";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import styles from "./AddContent.module.css";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
-import { useAuth } from "@/hooks/useAuth";
-import { useNotices } from "@/hooks/useNotices";
+import { useAuth } from "@/hooks/auth";
+import { useNotices } from "@/hooks/article";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
 

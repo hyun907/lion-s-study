@@ -25,7 +25,7 @@ import ExImg from "../../../assets/image/default_thumbnail.png";
 import BabyLionImg from "../../../assets/image/babyLion.png";
 import BigLionImg from "../../../assets/image/bigLion.png";
 import Loading from "@/app/loading";
-import { useTagHandler } from "@/hooks/useTagHandler";
+import { useTagHandler } from "@/hooks/ui";
 import { useCommonTagStore } from "@/store/useCommontagStore";
 
 interface ArticeItemInterface {

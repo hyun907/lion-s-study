@@ -4,30 +4,14 @@ import AddBtn from "./AddBtn";
 import StudyBtn from "./StudyBtn";
 import { formatDate } from "@/utils/formatDate";
 import { useToastStore } from "@/store/useToastStore";
-import { useStudyRoomStore } from "@/store/studyRoomStore";
-import { useUserStore } from "@/store/useUserStore";
-import { useEffect } from "react";
+import { useStudyRooms } from "@/hooks/studyroom";
 import styles from "./StudySection.module.css";
-import { sortArrByTime } from "@/utils/sortArrByTime";
 import Toast from "../../common/Toast";
 import Spinner from "../../common/Spinner";
 
 export default function StudySection() {
-  const { studyRooms, isLoading, fetchStudyRooms } = useStudyRoomStore();
-  const { isFavorite } = useUserStore();
+  const { studyRooms, isLoading } = useStudyRooms();
   const { toastType } = useToastStore();
-
-  useEffect(() => {
-    fetchStudyRooms();
-  }, [fetchStudyRooms]);
-
-  const favoriteRooms = studyRooms.filter(room => isFavorite(room.id));
-  const nonFavoriteRooms = studyRooms.filter(room => !isFavorite(room.id));
-
-  const sortedFavoriteRooms = sortArrByTime(favoriteRooms, false);
-  const sortedNonFavoriteRooms = sortArrByTime(nonFavoriteRooms, false);
-
-  const sortedStudyRooms = [...sortedFavoriteRooms, ...sortedNonFavoriteRooms];
 
   return (
     <div className={styles.rootWrapper}>
@@ -46,7 +30,7 @@ export default function StudySection() {
           ) : (
             <>
               <AddBtn />
-              {sortedStudyRooms.map(room => (
+              {studyRooms.map(room => (
                 <StudyBtn
                   key={room.id}
                   id={room.id}

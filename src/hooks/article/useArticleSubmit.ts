@@ -1,6 +1,6 @@
 import { doc, collection, writeBatch, serverTimestamp, arrayUnion } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
-import { useTagHandler } from "./useTagHandler";
+import { useTagHandler } from "@/hooks/ui";
 import { MicrolinkData } from "@/types/articles/microlink";
 
 export const useArticleSubmit = ({

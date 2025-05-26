@@ -1,6 +1,6 @@
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
-import { useRandomColor } from "@/hooks/useRandomColor";
+import { useRandomColor } from "@/hooks/ui";
 
 import { Tag } from "@/types/studyRoomDetails/article";
 import { useCommonTagStore } from "@/store/useCommontagStore";

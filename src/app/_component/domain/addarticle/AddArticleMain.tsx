@@ -11,12 +11,12 @@ import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
 
-import { useDraftLoader } from "@/hooks/useDraftLoader";
-import { useArticleSubmit } from "@/hooks/useArticleSubmit";
-import { useTagHandler } from "@/hooks/useTagHandler";
-import { useContentExtract } from "@/hooks/useContentExtract";
-import { useAuth } from "@/hooks/useAuth";
-import { useFetchMicroLink } from "@/hooks/useFetchMicroLink";
+import { useDraftLoader } from "@/hooks/article";
+import { useArticleSubmit } from "@/hooks/article";
+import { useTagHandler } from "@/hooks/ui";
+import { useContentExtract } from "@/hooks/microLink";
+import { useAuth } from "@/hooks/auth";
+import { useFetchMicroLink } from "@/hooks/microLink";
 
 import { MicrolinkData } from "@/types/articles/microlink";
 import DeleteModal from "./modal/DeleteModal";

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useContentExtract } from "@/hooks/useContentExtract";
+import { useContentExtract } from "@/hooks/microLink";
 
 import storage from "@/firebase/firebaseStorage";
 import Toast from "@/app/_component/common/Toast";

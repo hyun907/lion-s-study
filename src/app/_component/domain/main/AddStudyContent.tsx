@@ -5,7 +5,7 @@ import { useState, useRef } from "react";
 import { useModalStore } from "@/store/useModalStore";
 import { useStudyRoomStore } from "@/store/studyRoomStore";
 import { useUserStore } from "@/store/useUserStore";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/auth";
 
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
