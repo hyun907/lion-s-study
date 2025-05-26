@@ -3,7 +3,7 @@
 import React from "react";
 import LoginBtn from "./LoginBtn";
 import NameBtn from "./NameBtn";
-import { useHydration } from "@/hooks/useHydration";
+import { useHydration } from "@/hooks/auth";
 import { useUserStore } from "@/store/useUserStore";
 import styles from "./UserBtn.module.css";
 

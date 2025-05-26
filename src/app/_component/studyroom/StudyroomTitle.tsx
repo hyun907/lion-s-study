@@ -6,9 +6,9 @@ import styles from "./StudyroomTitle.module.css";
 import commonStyles from "./CommonStyles.module.css";
 import Ic_Clip from "../../../assets/icon/clip.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
-import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useStudyroomDetail } from "@/hooks/studyroom";
 import { useUserStore } from "@/store/useUserStore";
-import { useFavorite } from "@/hooks/useFavorite";
+import { useFavorite } from "@/hooks/studyroom";
 import { useToastStore } from "@/store/useToastStore";
 
 import BabyLionImg from "../../../assets/image/babyLion.png";

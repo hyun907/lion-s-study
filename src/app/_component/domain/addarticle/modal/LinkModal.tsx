@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useMicrolink } from "@/hooks/useMicroLink";
+import { useMicrolink } from "@/hooks/microLink";
 import Spinner from "@/app/_component/common/Spinner";
 
 import styles from "./LinkModal.module.css";

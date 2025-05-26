@@ -2,7 +2,7 @@
 
 import { signInWithGoogle } from "@/firebase/firebaseAuth";
 import { useUserStore } from "@/store/useUserStore";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/auth";
 import { useModalStore } from "@/store/useModalStore";
 import SignUpModalContent from "./modal/SignUpModalContent";
 import styles from "./GoogleLogin.module.css";

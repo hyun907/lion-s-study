@@ -12,7 +12,7 @@ import styles from "./StudyroomMain.module.css";
 import Ic_ArrowRight from "../../../assets/icon/arrow_right.svg";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useToastStore } from "@/store/useToastStore";
-import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useStudyroomDetail } from "@/hooks/studyroom";
 import Loading from "@/app/loading";
 import NotFound from "@/app/not-found";
 import { useArticlesStore } from "@/store/useArticlesStore";
