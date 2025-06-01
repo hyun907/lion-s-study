@@ -66,7 +66,7 @@ const ArticleContent = ({ article, articleId, studyroomId, tags }: Props) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.bodyContainer}>
+      <div className={styles.bodyContainer} data-color-mode="light">
         <div className={styles.topContainer}>
           <div className={styles.topHeader}>
             <p>{studyroom?.title}</p>
