@@ -113,7 +113,7 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
               linkCount > 0 ? styles.activeLink : styles.deActiveLink
             }`}
           />
-          <p>{linkCount}개</p>
+          <p>Reference({linkCount})</p>
         </div>
       </div>
 
