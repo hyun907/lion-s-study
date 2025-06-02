@@ -94,6 +94,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
         setTag(matchedTagNames);
         localStorage.setItem("draft-tags", JSON.stringify(matchedTagNames));
 
+        const fileData = data.files || [];
+        localStorage.setItem("draft-files", JSON.stringify(fileData));
         setIsReady(true);
       }
     };

@@ -60,36 +60,38 @@ export default function LinkModal({ onClose }: Props) {
 
   return (
     <div className={styles.modal}>
-      <h1 className={styles.modalText}>레퍼런스(Link)</h1>
-      <div className={styles.referenceContainer}>
-        {loading && (
-          <div className={styles.loadingContainer}>
-            <Spinner />
+      {Array.isArray(linkPreviews) && linkPreviews.length > 0 && (
+        <>
+          <h1 className={styles.modalText}>레퍼런스(Link)</h1>
+          <div className={styles.referenceContainer}>
+            {loading && (
+              <div className={styles.loadingContainer}>
+                <Spinner />
+              </div>
+            )}
+            {error && <p>{error}</p>}
+
+            {linkPreviews.map((link, index) => {
+              const imageUrl = link.image?.url || "/default_thumbnail.png";
+              return (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.referenceBox}
+                >
+                  <img className={styles.profileImgContainer} src={imageUrl} alt="썸네일" />
+                  <div className={styles.referenceText}>
+                    <h1>{link.title}</h1>
+                    <h2>{link.url}</h2>
+                  </div>
+                </a>
+              );
+            })}
           </div>
-        )}
-        {error && <p>{error}</p>}
-
-        {Array.isArray(linkPreviews) &&
-          linkPreviews.map((link, index) => {
-            const imageUrl = link.image?.url || "/default_thumbnail.png";
-
-            return (
-              <a
-                key={index}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.referenceBox}
-              >
-                <img className={styles.profileImgContainer} src={imageUrl} alt="썸네일" />
-                <div className={styles.referenceText}>
-                  <h1>{link.title}</h1>
-                  <h2>{link.url}</h2>
-                </div>
-              </a>
-            );
-          })}
-      </div>
+        </>
+      )}
       {attachedFiles.length > 0 ? (
         <>
           <h1 className={styles.modalText}>첨부 파일</h1>
