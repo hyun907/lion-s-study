@@ -4,7 +4,8 @@ export const useDraftLoader = () => {
       title: localStorage.getItem("draft-title") || "",
       markdown: localStorage.getItem("draft-markdown") || "",
       link: localStorage.getItem("draft-link") || "",
-      tags: localStorage.getItem("draft-tags") || ""
+      tags: localStorage.getItem("draft-tags") || "",
+      files: localStorage.getItem("draft-files") || "[]"
     };
   };
 
@@ -14,6 +15,7 @@ export const useDraftLoader = () => {
     localStorage.removeItem("draft-link");
     localStorage.removeItem("draft-tags");
     localStorage.removeItem("draft-modal-tags");
+    localStorage.removeItem("draft-files");
   };
 
   return { loadDraft, clearDraft };

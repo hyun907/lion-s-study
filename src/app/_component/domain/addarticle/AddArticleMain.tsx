@@ -150,6 +150,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     const rawLinks = JSON.parse(localStorage.getItem("draft-link") || "[]");
 
     const previewResults = await Promise.all(rawLinks.map((url: string) => useFetchMicroLink(url)));
+    const fileAttachments = JSON.parse(localStorage.getItem("draft-files") || "[]");
 
     const cleanedLinks: MicrolinkData[] = previewResults
       .filter((preview): preview is MicrolinkData =>
@@ -167,7 +168,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
       markdown,
       link: cleanedLinks,
       tags: parsedTags,
-      imgUrls: imageUrls
+      imgUrls: imageUrls,
+      files: fileAttachments
     });
 
     clearDraft();
