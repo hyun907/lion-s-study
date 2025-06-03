@@ -193,6 +193,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
           onSubmit={handleSubmit}
           articleId={articleId}
           studyRoomId={studyroomId}
+          setMarkdown={setMarkdown}
         />
         <div className={styles.topSection}>
           <Titlebox title={title} setTitle={setTitle} />

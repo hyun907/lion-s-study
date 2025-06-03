@@ -20,9 +20,17 @@ interface Props {
   onSubmit: () => void;
   articleId?: string;
   studyRoomId: string;
+  setMarkdown: (val: string) => void;
 }
 
-const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: Props) => {
+const TopBtnContainer = ({
+  title,
+  markdown,
+  onSubmit,
+  articleId,
+  studyRoomId,
+  setMarkdown
+}: Props) => {
   const [showEmptyTitleToast, setShowEmptyTitleToast] = useState(false);
   const [showEmptyContentToast, setShowEmptyContentToast] = useState(false);
 
@@ -53,6 +61,16 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
       await uploadBytes(fileRef, file);
       const downloadUrl = await getDownloadURL(fileRef);
 
+      // 이미지일 경우
+      if (file.type.startsWith("image/")) {
+        const imageMarkdown = `![${file.name}](${downloadUrl})\n`;
+        const updatedMarkdown = `${markdown}\n${imageMarkdown}`;
+        setMarkdown(updatedMarkdown);
+        localStorage.setItem("draft-markdown", updatedMarkdown);
+        return;
+      }
+
+      // 이미지 외의 파일일 경우
       const newFile = { fileName: file.name, fileUrl: downloadUrl };
 
       // 기존 로컬스토리지 값 가져오기
