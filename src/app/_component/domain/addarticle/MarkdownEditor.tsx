@@ -69,6 +69,7 @@ const MarkdownEditor = ({ setMarkdown, markdown, setLink }: Props) => {
       onDrop={handleDrop}
       onDragOver={e => e.preventDefault()}
       onDragLeave={e => e.preventDefault()}
+      data-color-mode="light"
     >
       <MDEditor
         height="50rem"

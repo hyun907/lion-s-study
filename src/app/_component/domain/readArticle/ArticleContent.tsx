@@ -14,7 +14,7 @@ import MenuModal from "./MenuModal";
 
 import styles from "./ArticleContent.module.css";
 import Reference from "./Reference";
-
+import File from "./File";
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { Tag } from "@/types/studyRoomDetails/article";
 import { useStudyroomDetail } from "@/hooks/studyroom";
@@ -66,7 +66,7 @@ const ArticleContent = ({ article, articleId, studyroomId, tags }: Props) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.bodyContainer}>
+      <div className={styles.bodyContainer} data-color-mode="light">
         <div className={styles.topContainer}>
           <div className={styles.topHeader}>
             <p>{studyroom?.title}</p>
@@ -139,8 +139,10 @@ const ArticleContent = ({ article, articleId, studyroomId, tags }: Props) => {
           }}
         />
       </div>
-
-      <Reference articleId={articleId} studyroomId={studyroomId} />
+      <div className={styles.bottomContainer}>
+        <File articleId={articleId} studyroomId={studyroomId} />
+        <Reference articleId={articleId} studyroomId={studyroomId} />
+      </div>
     </div>
   );
 };
