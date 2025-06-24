@@ -4,6 +4,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "./styles/globals.css";
 import "./styles/reset.css";
 import Modal from "./_component/common/Modal";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "사자의 서재",
@@ -49,6 +50,18 @@ export default function RootLayout({
         <meta property="og:image:height" content="400" />
         <meta property="og:url" content="https://lion-s-study.vercel.app/" />
         <meta property="og:type" content="website" />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-WVQRZ7YXGX"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){ dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-WVQRZ7YXGX');
+          `}
+        </Script>
       </head>
       <body>
         <div id="modal-root" />
