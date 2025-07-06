@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { StudyBtnProps } from "@/types/studyRooms/studyRoom";
-import { useFavorite } from "@/hooks/useFavorite";
+import { useFavorite } from "@/hooks/studyroom";
 import { useToastStore } from "@/store/useToastStore";
 import { checkAuth } from "@/utils/checkAuth";
 

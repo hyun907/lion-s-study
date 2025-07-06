@@ -1,0 +1,61 @@
+.wrapper {
+  width: 100%;
+  /* border-top: 0.5px solid #c6c6c6;
+  padding-bottom: 2.4rem; */
+}
+
+.wrapper > h1 {
+  margin: 1rem 0;
+  color: var(--60, #585858);
+
+  font-family: Pretendard;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.fileContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.fileBtn {
+  display: flex;
+  width: 16.5rem;
+  height: 2.6rem;
+  padding: 0.2rem 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 4px;
+  border: 0.5px solid var(--10, #c6c6c6);
+  background: var(--BG_White, #f3f5f7);
+
+  color: var(--Basic-Black, #000);
+
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 160% */
+}
+
+.fileBtn > p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90%;
+}
+.icdownload {
+  width: 2rem;
+  height: 2rem;
+}
+.icdownload > path {
+  stroke: #9a9a9a;
+}
+
+.downloadBtn {
+  cursor: pointer;
+}

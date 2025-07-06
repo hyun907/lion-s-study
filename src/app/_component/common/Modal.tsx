@@ -4,9 +4,9 @@ import { useEffect, useRef, MouseEvent } from "react";
 import modalStyles from "@/app/_component/common/Modal.module.css";
 import { useModalStore } from "@/store/useModalStore";
 import { createPortal } from "react-dom";
-import { useIsMounted } from "@/hooks/useIsMounted";
+import { useIsMounted } from "@/hooks/ui";
 import { useToastStore } from "@/store/useToastStore";
-import { useConfirmBeforeRefresh } from "@/hooks/useConfirmBeforeRefresh";
+import { useConfirmBeforeRefresh } from "@/hooks/common";
 
 export default function Modal() {
   useConfirmBeforeRefresh(); // 새로고침 방지

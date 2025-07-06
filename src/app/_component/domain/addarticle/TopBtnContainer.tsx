@@ -1,12 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import storage from "@/firebase/firebaseStorage";
+
 import Toast from "../../common/Toast";
 import InfoModal from "./modal/InfoModal";
 import LinkModal from "./modal/LinkModal";
 
 import IcInfo from "@/assets/icon/info.svg";
 import IcLink from "@/assets/icon/link.svg";
+import Icfile from "@/assets/icon/file.svg";
 
 import styles from "./TopBtnContainer.module.css";
 
@@ -16,9 +20,17 @@ interface Props {
   onSubmit: () => void;
   articleId?: string;
   studyRoomId: string;
+  setMarkdown: (val: string) => void;
 }
 
-const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: Props) => {
+const TopBtnContainer = ({
+  title,
+  markdown,
+  onSubmit,
+  articleId,
+  studyRoomId,
+  setMarkdown
+}: Props) => {
   const [showEmptyTitleToast, setShowEmptyTitleToast] = useState(false);
   const [showEmptyContentToast, setShowEmptyContentToast] = useState(false);
 
@@ -30,6 +42,49 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
 
   const handleOpenLinkModal = () => setShowLinkModal(true);
   const handleCloseLinkModal = () => setShowLinkModal(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // 파일 업로드
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const fileRef = ref(storage, `articles/${Date.now()}_${file.name}`);
+      await uploadBytes(fileRef, file);
+      const downloadUrl = await getDownloadURL(fileRef);
+
+      // 이미지일 경우
+      if (file.type.startsWith("image/")) {
+        const imageMarkdown = `![${file.name}](${downloadUrl})\n`;
+        const updatedMarkdown = `${markdown}\n${imageMarkdown}`;
+        setMarkdown(updatedMarkdown);
+        localStorage.setItem("draft-markdown", updatedMarkdown);
+        return;
+      }
+
+      // 이미지 외의 파일일 경우
+      const newFile = { fileName: file.name, fileUrl: downloadUrl };
+
+      // 기존 로컬스토리지 값 가져오기
+      const stored = JSON.parse(localStorage.getItem("draft-files") || "[]");
+
+      const updated = [...stored, newFile];
+
+      localStorage.setItem("draft-files", JSON.stringify(updated));
+
+      console.log("파일 업로드 성공", newFile);
+    } catch (err) {
+      console.error("파일 업로드 실패", err);
+    }
+  };
 
   // 링크 모달 외부 클릭 감지
   useEffect(() => {
@@ -75,11 +130,14 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
     const updateCount = () => {
       try {
         const links = JSON.parse(localStorage.getItem("draft-link") || "[]");
-        if (Array.isArray(links)) {
-          setLinkCount(links.length);
-        }
+        const files = JSON.parse(localStorage.getItem("draft-files") || "[]");
+
+        const linkCount = Array.isArray(links) ? links.length : 0;
+        const fileCount = Array.isArray(files) ? files.length : 0;
+
+        setLinkCount(linkCount + fileCount);
       } catch (e) {
-        console.error("❌ draft-link parsing error:", e);
+        console.error("❌ draft-link or draft-files parsing error:", e);
         setLinkCount(0);
       }
     };
@@ -104,6 +162,17 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
           <p>마크다운 언어란?</p>
         </div>
 
+        <div className={styles.fileBtn} onClick={handleFileSelect}>
+          <Icfile width="2.5rem" height="2.5rem" viewBox="0 0 31 31" />
+          <p>파일(이미지) 첨부</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
+          />
+        </div>
+
         <div
           className={`${styles.linkBtn} ${linkCount > 0 ? styles.activeBtn : styles.deActiveBtn}`}
           onClick={linkCount > 0 ? handleOpenLinkModal : undefined}
@@ -113,7 +182,7 @@ const TopBtnContainer = ({ title, markdown, onSubmit, articleId, studyRoomId }: 
               linkCount > 0 ? styles.activeLink : styles.deActiveLink
             }`}
           />
-          <p>{linkCount}개</p>
+          <p>Reference({linkCount})</p>
         </div>
       </div>
 

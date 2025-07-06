@@ -1,7 +1,7 @@
 import Image from "next/image";
 import backgroundImg from "@/assets/image/background_mask.png";
 import styles from "./page.module.css";
-import StudySection from "../../_component/domain/main/StudySection";
+import StudySection from "../_component/domain/main/StudySection";
 
 export default function Main() {
   return (

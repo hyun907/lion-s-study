@@ -4,7 +4,7 @@ import AddSubContentBtn from "./AddSubContentBtn";
 import { SUB_CONTENT_TYPE } from "@/constants/StudyroomContentType";
 
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
-import { useNotices } from "@/hooks/useNotices";
+import { useNotices } from "@/hooks/article";
 import { useUserStore } from "@/store/useUserStore";
 
 import { NoticeItem as NoticeItemProp } from "@/types/studyRoomDetails/notice";

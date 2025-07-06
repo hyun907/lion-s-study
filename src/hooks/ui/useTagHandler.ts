@@ -1,10 +1,13 @@
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
-import { useRandomColor } from "@/hooks/useRandomColor";
+import { useRandomColor } from "@/hooks/ui";
 
 import { Tag } from "@/types/studyRoomDetails/article";
+import { useCommonTagStore } from "@/store/useCommontagStore";
 
 export const useTagHandler = () => {
+  const { fetchCommonTags } = useCommonTagStore();
+
   const fetchAndPrepareTags = async (
     parsedTags: string[],
     batch: ReturnType<typeof writeBatch>
@@ -31,6 +34,7 @@ export const useTagHandler = () => {
       }
     }
 
+    fetchCommonTags(); // tag가 업데이트됐으므로 다시 store 해줌
     return finalTagIds;
   };
 

@@ -98,3 +98,11 @@
   font-weight: 400;
   line-height: normal;
 }
+
+.bottomContainer {
+  border-top: 0.5px solid #c6c6c6;
+  padding-bottom: 10rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}

@@ -10,9 +10,9 @@ import styles from "./ArticleMain.module.css";
 import { useToastStore } from "@/store/useToastStore";
 import { useArticlesStore } from "@/store/useArticlesStore";
 import Loading from "@/app/loading";
-import NotFound from "@/app/not-found";
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { useRouter } from "next/navigation";
+import { useCommonTagStore } from "@/store/useCommontagStore";
 
 interface Props {
   articleId: string;
@@ -30,6 +30,7 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
 
   // 상위 컴포넌트에서 loading 여부를 한번에 확인
   const { isLoading, articles } = useArticlesStore();
+  const { isTagLoading, tags } = useCommonTagStore();
 
   // toastType이 변경될 때마다 토스트를 표시
   React.useEffect(() => {
@@ -49,7 +50,7 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
     }
   }, [isLoading, articleId]);
 
-  if (isLoading || articles.length === 0 || !singleArticle) {
+  if (isLoading || articles.length === 0 || !singleArticle || isTagLoading) {
     return <Loading />;
   }
 
@@ -60,7 +61,12 @@ export default function ArticleMain({ articleId, studyroomId }: Props) {
         <ArticleList articleId={articleId} studyroomId={studyroomId} articles={articles} />
         <div className={styles.rightContainer}>
           {/* 아티클 컨텐트에는 단일 아티클 아이템만 전달 */}
-          <ArticleContent articleId={articleId} studyroomId={studyroomId} article={singleArticle} />
+          <ArticleContent
+            articleId={articleId}
+            studyroomId={studyroomId}
+            article={singleArticle}
+            tags={tags}
+          />
           <Comment articleId={articleId} studyroomId={studyroomId} />
         </div>
       </div>
