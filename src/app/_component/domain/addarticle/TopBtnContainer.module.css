@@ -82,10 +82,10 @@
 .linkBtn {
   display: flex;
   padding: 0.2rem 0.6rem;
+  height: 3rem;
   align-items: center;
   gap: 0.5rem;
   border-radius: 6px;
-  border: 1px solid var(--60, #585858);
   font-family: Pretendard;
   font-size: 1.2rem;
   font-weight: 400;
@@ -94,6 +94,7 @@
 
 .activeBtn {
   background: rgba(255, 255, 255, 0.1);
+  height: 3.2rem;
 
   color: var(--30, #9a9a9a);
   cursor: pointer;
@@ -101,6 +102,7 @@
 
 .deActiveBtn {
   color: var(--60, #585858);
+  border: 1px solid var(--60, #585858);
 }
 
 .activeLink > path {
@@ -109,4 +111,23 @@
 
 .deActiveLink > path {
   color: var(--60, #585858);
+}
+
+.fileBtn {
+  display: flex;
+  padding: 0.2rem 0.6rem;
+  height: 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--60, #585858);
+  background: var(--Basic-White, #fff);
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 20px;
+
+  color: #000;
+
+  cursor: pointer;
 }

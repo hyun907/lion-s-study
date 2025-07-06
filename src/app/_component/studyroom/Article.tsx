@@ -25,7 +25,8 @@ import ExImg from "../../../assets/image/default_thumbnail.png";
 import BabyLionImg from "../../../assets/image/babyLion.png";
 import BigLionImg from "../../../assets/image/bigLion.png";
 import Loading from "@/app/loading";
-import { useTagHandler } from "@/hooks/useTagHandler";
+import { useTagHandler } from "@/hooks/ui";
+import { useCommonTagStore } from "@/store/useCommontagStore";
 
 interface ArticeItemInterface {
   articleProps: ArticleItemProp;
@@ -49,6 +50,7 @@ const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterfa
           alt="썸네일 이미지"
           style={{ objectFit: "cover", borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}
           fill
+          sizes="(max-width: 768px) 100px, 260px"
         />
       </div>
       <div className={style.mainContentWrapper}>
@@ -70,6 +72,7 @@ const ArticleItem = ({ articleProps, handleRead, commonTags }: ArticeItemInterfa
               src={articleProps.creatorYear == 13 ? BabyLionImg : BigLionImg}
               alt="프로필 사진"
               unoptimized={true}
+              priority={false}
               style={{ width: 28, height: 28 }}
             ></Image>
             <div className={commonStyles.subTextContainer} id={style.creatorInfoContainer}>
@@ -112,13 +115,12 @@ const Article = () => {
   const id = useStudyroomIdStore(state => state.studyroomId);
   const { articles } = useArticlesStore();
   const open = useModalStore(state => state.open);
-  const { fetchAllCommonTags } = useTagHandler();
+  const { tags, isTagLoading } = useCommonTagStore();
 
   const ITEMS_PER_PAGE = 5;
   const [currentPage, setCurrentPage] = useState(1);
-  const [commonTags, setCommonTags] = useState<Tag[]>([]);
 
-  if (!articles) return <Loading />;
+  if (!articles || isTagLoading) return <Loading />;
 
   const totalPages = Math.ceil(articles.length / ITEMS_PER_PAGE);
   const paginatedArticles = articles.slice(
@@ -152,15 +154,6 @@ const Article = () => {
     router.push(`/studyroom/${id}/article/${articleId}`);
   };
 
-  useEffect(() => {
-    const loadTags = async () => {
-      const fetchedTags = await fetchAllCommonTags();
-      setCommonTags(fetchedTags);
-    };
-
-    loadTags();
-  }, []);
-
   return (
     <div className={style.articleContainer}>
       <div className={commonStyles.titleContainer}>
@@ -183,7 +176,7 @@ const Article = () => {
               handleUpdate={handleUpdate}
               handleRead={handleRead}
               isMyArticle={item.creatorId === user.uid}
-              commonTags={commonTags}
+              commonTags={tags}
             />
           ))
         ) : (

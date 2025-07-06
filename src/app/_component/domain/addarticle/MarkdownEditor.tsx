@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useContentExtract } from "@/hooks/useContentExtract";
+import { useContentExtract } from "@/hooks/microLink";
 
 import storage from "@/firebase/firebaseStorage";
 import Toast from "@/app/_component/common/Toast";
@@ -23,18 +23,32 @@ const MarkdownEditor = ({ setMarkdown, markdown, setLink }: Props) => {
 
   const { extractLinks } = useContentExtract();
 
-  const handleChange = (value?: string) => {
-    const updatedMarkdown = value || "";
-    setMarkdown(updatedMarkdown);
-    localStorage.setItem("draft-markdown", updatedMarkdown);
+  const insertAtCursor = (insertStr: string) => {
+    const textarea = document.querySelector<HTMLTextAreaElement>('textarea[data-editor="md"]');
+    if (!textarea) return;
 
-    const links = extractLinks(markdown);
+    const { selectionStart: start, selectionEnd: end, value } = textarea;
+    const next = value.slice(0, start) + insertStr + value.slice(end);
+
+    textarea.value = next;
+    textarea.selectionStart = textarea.selectionEnd = start + insertStr.length;
+
+    setMarkdown(next);
+    localStorage.setItem("draft-markdown", next);
+
+    const links = extractLinks(next);
     localStorage.setItem("draft-link", JSON.stringify(links));
-    console.log("추출된 링크:", links);
+    setLink?.(JSON.stringify(links));
+  };
 
-    if (setLink) {
-      setLink(JSON.stringify(links));
-    }
+  const handleChange = (value?: string) => {
+    const updated = value || "";
+    setMarkdown(updated);
+    localStorage.setItem("draft-markdown", updated);
+
+    const links = extractLinks(updated);
+    localStorage.setItem("draft-link", JSON.stringify(links));
+    setLink?.(JSON.stringify(links));
   };
 
   // 이미지 드롭다운
@@ -51,10 +65,7 @@ const MarkdownEditor = ({ setMarkdown, markdown, setLink }: Props) => {
       await uploadBytes(storageRef, file);
       const imageUrl = await getDownloadURL(storageRef);
 
-      const imageMarkdown = `![${file.name}](${imageUrl})\n`;
-      const updatedMarkdown = `${markdown}\n${imageMarkdown}`;
-      setMarkdown(updatedMarkdown);
-      localStorage.setItem("draft-markdown", updatedMarkdown);
+      insertAtCursor(`![${file.name}](${imageUrl})\n`);
     } catch (error) {
       console.error("이미지 업로드 실패:", error);
       setToastType("fail_add_image");
@@ -69,12 +80,14 @@ const MarkdownEditor = ({ setMarkdown, markdown, setLink }: Props) => {
       onDrop={handleDrop}
       onDragOver={e => e.preventDefault()}
       onDragLeave={e => e.preventDefault()}
+      data-color-mode="light"
     >
       <MDEditor
         height="50rem"
         value={markdown}
         onChange={handleChange}
         preview="live"
+        textareaProps={{ "data-editor": "md" } as any}
         previewOptions={{
           components: {
             a: ({ children, href }) => (

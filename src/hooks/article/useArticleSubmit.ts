@@ -1,6 +1,6 @@
 import { doc, collection, writeBatch, serverTimestamp, arrayUnion } from "firebase/firestore";
 import fireStore from "@/firebase/firestore";
-import { useTagHandler } from "./useTagHandler";
+import { useTagHandler } from "@/hooks/ui";
 import { MicrolinkData } from "@/types/articles/microlink";
 
 export const useArticleSubmit = ({
@@ -29,7 +29,8 @@ export const useArticleSubmit = ({
     markdown,
     link,
     tags,
-    imgUrls
+    imgUrls,
+    files
   }: {
     articleId?: string;
     title: string;
@@ -37,6 +38,7 @@ export const useArticleSubmit = ({
     link: MicrolinkData[];
     tags: string[];
     imgUrls: string[];
+    files: string[];
   }): Promise<string> => {
     const batch = writeBatch(fireStore);
 
@@ -53,7 +55,8 @@ export const useArticleSubmit = ({
         updatedAt: serverTimestamp(),
         link,
         tags: finalTagIds,
-        imgUrls
+        imgUrls,
+        files
       });
     } else {
       articleRef = doc(collection(fireStore, "studyRooms", studyRoomId, "articles"));
@@ -67,7 +70,8 @@ export const useArticleSubmit = ({
         createdAt: serverTimestamp(),
         link,
         tags: finalTagIds,
-        imgUrls
+        imgUrls,
+        files
       });
     }
 

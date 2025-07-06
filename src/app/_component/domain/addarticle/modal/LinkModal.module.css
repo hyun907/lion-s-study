@@ -2,7 +2,6 @@
   position: absolute;
   min-width: 15rem;
   max-width: 50rem;
-
   top: 2rem;
   display: flex;
   padding: 1rem 1.2rem;
@@ -36,7 +35,8 @@
 
 .referenceBox {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
+  width: 36rem;
   height: 5.7rem;
   padding: 0.6rem;
   align-items: center;
@@ -47,7 +47,7 @@
   background: var(--BG_White, #f3f5f7);
 
   cursor: pointer;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   min-width: 0;
   max-width: 100%;
 
@@ -72,12 +72,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
-
-  /* ellipsis 적용 */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
 }
 
 .referenceText > h2 {
@@ -108,4 +102,48 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+}
+
+.fileContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  /* justify-content: center; */
+}
+
+.fileBtn {
+  display: flex;
+  width: 17.7rem;
+  height: 2.6rem;
+  padding: 0.2rem 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 4px;
+  border: 0.5px solid var(--10, #c6c6c6);
+  background: var(--BG_White, #f3f5f7);
+
+  color: var(--Basic-Black, #000);
+
+  font-family: Pretendard;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 160% */
+}
+
+.fileBtn > p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 90%;
+}
+.icdelete {
+  width: 0.6rem;
+  height: 0.6rem;
+  cursor: pointer;
+}
+.icdelete > path {
+  stroke: #9a9a9a;
 }

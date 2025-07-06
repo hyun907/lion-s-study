@@ -10,6 +10,7 @@ import { useArticlesStore } from "@/store/useArticlesStore";
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { sortArrByTime } from "@/utils/sortArrByTime";
 import Loading from "@/app/loading";
+import { useCommonTagStore } from "@/store/useCommontagStore";
 
 interface Props {
   id: string;
@@ -20,16 +21,20 @@ interface Props {
 
 // 1. 스터디룸의 유효성이 확인되면 studyroomId store
 // 2. 스터디룸의 유효성이 확인됐으므로 articles를 불러와 전역상태로 저장
+// 3. tag가 없다면 tag를 fetch함
 
 export default function ClientStudyroomIdSetter({ id, children }: Props) {
   const setStudyroomId = useStudyroomIdStore(state => state.setStudyroomId);
   const { setArticles, clearArticles, setLoading, isLoading, getMarkdownPreview } =
     useArticlesStore();
+  const { tags, fetchCommonTags, isTagLoading } = useCommonTagStore();
 
   useEffect(() => {
     setStudyroomId(id);
     setLoading(true);
 
+    // tag load
+    if (tags.length == 0) fetchCommonTags();
     const articlesRef = collection(fireStore, `studyRooms/${id}/articles`);
     const unsub = onSnapshot(articlesRef, snap => {
       const result: ArticleItem[] = snap.docs.map(docSnap => {
@@ -62,6 +67,6 @@ export default function ClientStudyroomIdSetter({ id, children }: Props) {
     };
   }, [id]);
 
-  if (isLoading) return <Loading />;
+  if (isLoading || isTagLoading) return <Loading />;
   return <>{children}</>;
 }

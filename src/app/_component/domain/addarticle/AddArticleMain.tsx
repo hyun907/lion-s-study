@@ -11,12 +11,12 @@ import { useModalStore } from "@/store/useModalStore";
 import { useUserStore } from "@/store/useUserStore";
 import { useToastStore } from "@/store/useToastStore";
 
-import { useDraftLoader } from "@/hooks/useDraftLoader";
-import { useArticleSubmit } from "@/hooks/useArticleSubmit";
-import { useTagHandler } from "@/hooks/useTagHandler";
-import { useContentExtract } from "@/hooks/useContentExtract";
-import { useAuth } from "@/hooks/useAuth";
-import { useFetchMicroLink } from "@/hooks/useFetchMicroLink";
+import { useDraftLoader } from "@/hooks/article";
+import { useArticleSubmit } from "@/hooks/article";
+import { useTagHandler } from "@/hooks/ui";
+import { useContentExtract } from "@/hooks/microLink";
+import { useAuth } from "@/hooks/auth";
+import { useFetchMicroLink } from "@/hooks/microLink";
 
 import { MicrolinkData } from "@/types/articles/microlink";
 import DeleteModal from "./modal/DeleteModal";
@@ -94,6 +94,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
         setTag(matchedTagNames);
         localStorage.setItem("draft-tags", JSON.stringify(matchedTagNames));
 
+        const fileData = data.files || [];
+        localStorage.setItem("draft-files", JSON.stringify(fileData));
         setIsReady(true);
       }
     };
@@ -150,6 +152,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
     const rawLinks = JSON.parse(localStorage.getItem("draft-link") || "[]");
 
     const previewResults = await Promise.all(rawLinks.map((url: string) => useFetchMicroLink(url)));
+    const fileAttachments = JSON.parse(localStorage.getItem("draft-files") || "[]");
 
     const cleanedLinks: MicrolinkData[] = previewResults
       .filter((preview): preview is MicrolinkData =>
@@ -167,7 +170,8 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
       markdown,
       link: cleanedLinks,
       tags: parsedTags,
-      imgUrls: imageUrls
+      imgUrls: imageUrls,
+      files: fileAttachments
     });
 
     clearDraft();
@@ -189,6 +193,7 @@ const AddArticleMain = ({ articleId, studyroomId }: Props) => {
           onSubmit={handleSubmit}
           articleId={articleId}
           studyRoomId={studyroomId}
+          setMarkdown={setMarkdown}
         />
         <div className={styles.topSection}>
           <Titlebox title={title} setTitle={setTitle} />

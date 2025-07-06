@@ -14,36 +14,25 @@ import MenuModal from "./MenuModal";
 
 import styles from "./ArticleContent.module.css";
 import Reference from "./Reference";
-
+import File from "./File";
 import { ArticleItem } from "@/types/studyRoomDetails/article";
 import { Tag } from "@/types/studyRoomDetails/article";
-import { useTagHandler } from "@/hooks/useTagHandler";
-import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useStudyroomDetail } from "@/hooks/studyroom";
 import TagItem from "../../common/TagItem";
 
 interface Props {
   article: ArticleItem;
   articleId: string;
   studyroomId: string;
+  tags: Tag[];
 }
 
-const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
+const ArticleContent = ({ article, articleId, studyroomId, tags }: Props) => {
   const { uid } = useUserStore();
 
-  const { fetchAllCommonTags } = useTagHandler();
   const { studyroom } = useStudyroomDetail(studyroomId);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [commonTags, setCommonTags] = useState<Tag[]>([]);
-
-  useEffect(() => {
-    const loadTags = async () => {
-      const fetchedTags = await fetchAllCommonTags();
-      setCommonTags(fetchedTags);
-    };
-
-    loadTags();
-  }, []);
 
   // 메뉴 모달
   const menuRef = useRef<HTMLDivElement>(null);
@@ -73,11 +62,11 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
   }, []);
 
   const isMyArticle = uid === article.creatorId;
-  const tagMap = new Map(commonTags.map(tag => [tag.id, tag]));
+  const tagMap = new Map(tags.map(tag => [tag.id, tag]));
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.bodyContainer}>
+      <div className={styles.bodyContainer} data-color-mode="light">
         <div className={styles.topContainer}>
           <div className={styles.topHeader}>
             <p>{studyroom?.title}</p>
@@ -150,8 +139,10 @@ const ArticleContent = ({ article, articleId, studyroomId }: Props) => {
           }}
         />
       </div>
-
-      <Reference articleId={articleId} studyroomId={studyroomId} />
+      <div className={styles.bottomContainer}>
+        <File articleId={articleId} studyroomId={studyroomId} />
+        <Reference articleId={articleId} studyroomId={studyroomId} />
+      </div>
     </div>
   );
 };

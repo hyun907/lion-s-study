@@ -7,7 +7,7 @@ import Image from "next/image";
 import commonStyles from "../../studyroom/CommonStyles.module.css";
 import styles from "./ArticleList.module.css";
 import { ArticleItem as ArticleItemProp } from "@/types/studyRoomDetails/article";
-import { useStudyroomDetail } from "@/hooks/useStudyroomDetail";
+import { useStudyroomDetail } from "@/hooks/studyroom";
 
 import Ic_back from "../../../../assets/icon/arrow_right.svg";
 import Ic_article from "../../../../assets/icon/triangle.svg";

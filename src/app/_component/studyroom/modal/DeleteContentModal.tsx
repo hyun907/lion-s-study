@@ -5,7 +5,7 @@ import styles from "./DeleteContentModal.module.css";
 import ICDelete from "@/assets/icon/delete.svg";
 import { useRouter } from "next/navigation";
 
-import { useNotices } from "@/hooks/useNotices";
+import { useNotices } from "@/hooks/article";
 import { useModalStore } from "@/store/useModalStore";
 import { useStudyroomIdStore } from "@/store/useStudyroomIdStore";
 import { useToastStore } from "@/store/useToastStore";
