@@ -3,9 +3,12 @@
 숭실대학교 멋쟁이사자처럼 동아리 자료와 일정을 효율적으로 관리하고, 사자들의 인사이트를 공유하는 공간입니다. 🦁
 
 ## 📝 프로젝트 소개
-
 사자의 서재는 동아리 활동을 더욱 효율적으로 만들기 위한 웹 애플리케이션입니다. 
 기존의 불편하고 파트 별로 일관되지 않은 자료 전달과 관리 방식을 개선하고, 동아리원들의 지식 공유를 돕는 것을 목표로 합니다.
+![Frame 1](https://github.com/user-attachments/assets/2b256b61-8178-4d8c-a094-ce79acb19463)
+![Frame 2](https://github.com/user-attachments/assets/9e1bd29d-a499-4207-9631-28d21f792b1d)
+![Frame 3](https://github.com/user-attachments/assets/9b0a0998-8306-4a20-8700-5f2b4c5326d1)
+
 
 ### 주요 목표
 - 동아리 자료와 일정의 효율적인 관리
