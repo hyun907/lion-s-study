@@ -148,6 +148,63 @@ const TopBtnContainer = ({
     return () => clearInterval(interval);
   }, []);
 
+  // 겨울잠 템플릿 적용 함수
+  const handleWinterTemplate = () => {
+    const template = `# 겨울잠 N주차 보고서
+
+- **팀명 :**
+- **회의 참석 :**
+- **회의 일시 :**
+- **회의 장소 :**
+
+---
+
+**사진**
+
+---
+
+
+**회의 내용**
+
+**액션 아이템 (지난 주차)**
+
+- 기획 :
+- 디자인 :
+- 프론트 :
+- 백 :
+
+---
+
+### 1️⃣ 회의 안건 1
+
+1. 
+
+### 2️⃣ 회의 안건 2
+
+1. 
+
+### 3️⃣ 회의 안건 3
+
+2. 
+
+### 파트별 진행상황
+
+- 기획 :
+- 디자인 :
+- 프론트 :
+- 백 :
+
+### 액션 아이템 (이번 주차)
+
+- 기획 :
+- 디자인 :
+- 프론트 :
+- 백 :`;
+
+    setMarkdown(template);
+    localStorage.setItem("draft-markdown", template);
+  };
+
   const isReady = title.trim() !== "" && markdown.trim() !== "";
 
   return (
@@ -183,6 +240,10 @@ const TopBtnContainer = ({
             }`}
           />
           <p>Reference({linkCount})</p>
+        </div>
+        {/* 겨울잠 템플릿 버튼 추가 */}
+        <div className={styles.templateBtn} onClick={handleWinterTemplate}>
+          <p>겨울잠 템플릿</p>
         </div>
       </div>
 
