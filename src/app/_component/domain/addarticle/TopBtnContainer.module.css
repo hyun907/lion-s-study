@@ -113,6 +113,31 @@
   color: var(--60, #585858);
 }
 
+.templateBtn {
+  display: flex;
+  padding: 0.2rem 0.6rem;
+  height: 3rem;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #4a90e2;
+  background: #4a90e2;
+  font-family: Pretendard;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 20px;
+
+  color: var(--Basic-White, #fff);
+
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.templateBtn:hover {
+  background: #357abd;
+  border-color: #357abd;
+}
+
 .fileBtn {
   display: flex;
   padding: 0.2rem 0.6rem;
