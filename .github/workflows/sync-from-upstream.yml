@@ -26,9 +26,7 @@ jobs:
       - name: Add Upstream Repository
         run: |
           git remote add upstream https://github.com/likelion-ssu/lion-s-study.git
-
-      - name: Verify Remotes
-        run: git remote -v
+          git remote -v
 
       - name: Fetch Upstream
         run: git fetch upstream
@@ -49,6 +47,13 @@ jobs:
               fi
             done
             git commit -m "Resolve conflicts preferring fork (ours)"
+          fi
+
+      - name: Remove upstream workflow files to avoid permission errors
+        run: |
+          git rm -f --ignore-unmatch .github/workflows/dispatch.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: remove upstream workflow (dispatch.yml) to avoid workflow permission error"
           fi
 
       - name: Push to Origin
