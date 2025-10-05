@@ -67,7 +67,7 @@ export default function RootLayout({
         <div id="modal-root" />
         <Modal />
         {children}
-        <Analytics />;
+        <Analytics />
       </body>
     </html>
   );
