@@ -22,8 +22,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git config merge.ours.driver true
-          
+
       - name: Add Upstream Repository
         run: |
           git remote add upstream https://github.com/likelion-ssu/lion-s-study.git
@@ -34,15 +33,23 @@ jobs:
       - name: Fetch Upstream
         run: git fetch upstream
 
-      - name: Merge Upstream Changes
+      - name: Merge Upstream Changes (prefer fork on conflicts)
         run: |
           git checkout main
           git merge -X ours upstream/main --no-edit || true
-          if git ls-files -u | grep -q .; then
-            git checkout --ours .
-            git add -A
+
+          conflicts=$(git diff --name-only --diff-filter=U || true)
+          if [ -n "$conflicts" ]; then
+            for f in $conflicts; do
+              if [ ! -e "$f" ]; then
+                git rm -- "$f" || true
+              else
+                git checkout --ours -- "$f" || true
+                git add -- "$f" || true
+              fi
+            done
             git commit -m "Resolve conflicts preferring fork (ours)"
           fi
-          
+
       - name: Push to Origin
         run: git push origin main
