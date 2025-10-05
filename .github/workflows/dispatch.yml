@@ -1,0 +1,25 @@
+name: Dispatch Sync to Fork
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    environment: seunghyun
+    steps:
+      - name: Send Dispatch to Fork
+        run: |
+          response=$(curl -X POST \
+            "https://api.github.com/repos/hyun907/lion-s-study/dispatches" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.SEUNGHYUN_SECRET_NAME }}" \
+            -H "Content-Type: application/json" \
+            -d '{"event_type":"sync"}' \
+            -v \
+            -w "\n%{http_code}" \
+            -s)
+          echo "Full Response Headers and Body:"
+          echo "$response"
