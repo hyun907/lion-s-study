@@ -3,6 +3,7 @@ name: Sync Fork on Upstream Update
 on:
   repository_dispatch:
     types: [sync]
+  workflow_dispatch: {}
 
 jobs:
   sync:
